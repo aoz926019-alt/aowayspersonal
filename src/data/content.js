@@ -36,7 +36,7 @@ export const about = {
     { k: "语言", v: "中文 / English" },
     { k: "工具", v: "SQL · R · Power BI · SPSS · Python" },
     { k: "竞赛", v: "CFA 研究挑战赛 · 千模百炼 AI 开发者赛" },
-    { k: "认证", v: "Google BI Foundations · 华为认证" },
+    { k: "Google BI Foundations", v: "华为认证" },
   ],
 };
 
@@ -65,7 +65,7 @@ export const experience = [
   },
   {
     period: "2025.06 – 2025.08",
-    company: "道石堂企业管理咨询",
+    company: "道师堂企业管理咨询",
     sub: "四川",
     role: "项目实习生",
     desc: "开展细分市场与竞品分析,将行业数据整合为市场洞察报告支撑咨询提案;识别客户潜在市场与经营风险,协助撰写与打磨营销方案。",
