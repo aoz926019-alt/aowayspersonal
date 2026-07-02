@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { capabilities } from "../data/content.js";
 import SpotlightCard from "../reactbits/SpotlightCard.jsx";
 
@@ -33,7 +34,15 @@ export default function Strengths() {
     <section className="section" id="skills" ref={ref}>
       <div className="shell">
         <div className="section-rule">
-          <span className="idx">04 — CAPABILITIES / 个人优势</span>
+          <span className="idx">
+            <DecryptedText
+              text="04 — CAPABILITIES / 个人优势"
+              animateOn="view"
+              sequential
+              speed={34}
+              encryptedClassName="decrypt-scramble"
+            />
+          </span>
         </div>
 
         <h2 className="section-title cap-head" style={{ marginBottom: "90px" }}>

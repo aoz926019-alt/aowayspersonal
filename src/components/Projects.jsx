@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { projects } from "../data/content.js";
 
 export default function Projects() {
@@ -73,7 +74,15 @@ export default function Projects() {
     <section className="section" id="work" ref={ref}>
       <div className="shell">
         <div className="section-rule">
-          <span className="idx">02 — SELECTED WORK / 精选项目</span>
+          <span className="idx">
+            <DecryptedText
+              text="02 — SELECTED WORK / 精选项目"
+              animateOn="view"
+              sequential
+              speed={32}
+              encryptedClassName="decrypt-scramble"
+            />
+          </span>
         </div>
 
         <h2 className="section-title work-title" style={{ marginBottom: "110px" }}>

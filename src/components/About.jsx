@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import { about, profile } from "../data/content.js";
 import ProfileCard from "../reactbits/ProfileCard.jsx";
+import DecryptedText from "../reactbits/DecryptedText.jsx";
 
 export default function About() {
   const ref = useRef(null);
@@ -49,7 +50,15 @@ export default function About() {
     <section className="section" id="profile" ref={ref}>
       <div className="shell">
         <div className="section-rule">
-          <span className="idx">01 — PROFILE / 关于</span>
+          <span className="idx">
+            <DecryptedText
+              text="01 — PROFILE / 关于"
+              animateOn="view"
+              sequential
+              speed={38}
+              encryptedClassName="decrypt-scramble"
+            />
+          </span>
         </div>
 
         <h2 className="section-title about-title" style={{ marginBottom: "90px" }}>

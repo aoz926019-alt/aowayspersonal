@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { profile } from "../data/content.js";
 
 export default function Contact() {
@@ -31,7 +32,15 @@ export default function Contact() {
   return (
     <section className="contact" id="contact" ref={ref}>
       <div className="shell">
-        <span className="eyebrow">05 — CONTACT / 联系</span>
+        <span className="eyebrow">
+          <DecryptedText
+            text="05 — CONTACT / 联系"
+            animateOn="view"
+            sequential
+            speed={34}
+            encryptedClassName="decrypt-scramble"
+          />
+        </span>
         <h2 className="contact-title">
           <span className="mask">
             <span className="line">Let's</span>

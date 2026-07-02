@@ -140,6 +140,12 @@ body::after {
   color: var(--slate);
 }
 
+/* DecryptedText: tint the still-scrambling characters with the pine accent
+   so the eyebrows read as a live "terminal decrypt" before settling */
+.decrypt-scramble {
+  color: var(--accent-soft);
+}
+
 /* Nav is now PillNav (see src/reactbits/PillNav.jsx + PillNav.css) */
 
 /* ============================================================

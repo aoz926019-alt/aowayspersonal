@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { experience } from "../data/content.js";
 
 export default function Experience() {
@@ -32,7 +33,15 @@ export default function Experience() {
     <section className="section" id="experience" ref={ref}>
       <div className="shell">
         <div className="section-rule">
-          <span className="idx">03 — EXPERIENCE / 实习经历</span>
+          <span className="idx">
+            <DecryptedText
+              text="03 — EXPERIENCE / 实习经历"
+              animateOn="view"
+              sequential
+              speed={34}
+              encryptedClassName="decrypt-scramble"
+            />
+          </span>
         </div>
 
         <h2 className="section-title exp-head-title" style={{ marginBottom: "90px" }}>
