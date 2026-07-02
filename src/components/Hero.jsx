@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import { profile, stats } from "../data/content.js";
-import RippleGrid from "../reactbits/RippleGrid.jsx";
+import FloatingLines from "../reactbits/FloatingLines.jsx";
 import CountUp from "../reactbits/CountUp.jsx";
 import ShinyText from "../reactbits/ShinyText.jsx";
 
@@ -47,19 +47,15 @@ export default function Hero() {
 
   return (
     <header className="hero" id="top" ref={ref}>
-      {/* React Bits — RippleGrid (restrained pine grid, ripples on pointer) */}
+      {/* React Bits — FloatingLines (green → white flowing lines on dark) */}
       <div className="hero-bg">
-        <RippleGrid
-          gridColor="#1f5d44"
-          rippleIntensity={0.025}
-          gridSize={12}
-          gridThickness={22}
-          fadeDistance={1.4}
-          vignetteStrength={2.2}
-          glowIntensity={0.12}
-          opacity={0.45}
-          mouseInteraction
-          mouseInteractionRadius={0.8}
+        <FloatingLines
+          linesGradient={["#1f5d44", "#4ade80", "#ffffff"]}
+          animationSpeed={0.8}
+          interactive
+          parallax
+          parallaxStrength={0.15}
+          mixBlendMode="screen"
         />
       </div>
 
@@ -71,7 +67,7 @@ export default function Hero() {
             <ShinyText
               text={profile.available}
               color="#9aa0a6"
-              shineColor="#1f5d44"
+              shineColor="#7ef2b8"
               speed={3.2}
               spread={100}
               disabled={prefersReducedMotion}

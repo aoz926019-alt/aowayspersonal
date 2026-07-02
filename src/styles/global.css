@@ -158,21 +158,21 @@ body::after {
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  background: #090b0e; /* dark so the green→white lines read as glow */
+  color: var(--paper);
 }
 .hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
-/* soft center glow so the dot field stays calm behind the headline */
+/* gentle edge vignette so the flowing lines settle toward the corners */
 .hero-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(70% 55% at 30% 42%, rgba(236, 238, 240, 0.78), transparent 70%),
-    radial-gradient(120% 90% at 85% 8%, rgba(31, 93, 68, 0.06), transparent 55%);
+  background: radial-gradient(100% 100% at 50% 48%, transparent 52%, rgba(5, 6, 9, 0.6) 100%);
 }
 .hero-shell {
   position: relative;
@@ -183,10 +183,10 @@ body::after {
   font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--slate);
+  color: rgba(236, 238, 240, 0.55);
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 1px solid rgba(236, 238, 240, 0.14);
   padding-bottom: 18px;
   margin-bottom: 56px;
 }
@@ -198,12 +198,17 @@ body::after {
   font-size: clamp(70px, 14vw, 250px);
   margin: 0;
   text-transform: uppercase;
+  color: var(--paper);
 }
 .hero-title .line {
   display: block;
 }
 .hero-title .accent {
-  color: var(--accent);
+  background: linear-gradient(120deg, #4ade80 0%, #eafff4 60%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #4ade80; /* fallback */
 }
 .hero-sub {
   display: flex;
@@ -216,11 +221,11 @@ body::after {
 .hero-tagline {
   max-width: 520px;
   font-size: 18px;
-  color: var(--ink-2);
+  color: rgba(236, 238, 240, 0.7);
   line-height: 1.55;
 }
 .hero-tagline strong {
-  color: var(--ink);
+  color: var(--paper);
   font-weight: 600;
 }
 .hero-btn {
@@ -228,15 +233,16 @@ body::after {
   font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   border-radius: 999px;
   padding: 16px 30px;
   white-space: nowrap;
-  transition: transform 0.4s var(--ease), background 0.4s var(--ease);
+  transition: transform 0.4s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
 }
 .hero-btn:hover {
-  background: var(--accent);
+  background: #4ade80;
+  color: #06231a;
   transform: translateY(-2px);
 }
 
@@ -245,13 +251,13 @@ body::after {
   position: relative;
   z-index: 2;
   margin-top: 90px;
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid rgba(236, 238, 240, 0.14);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
 .hero-data .cell {
   padding: 26px 0 4px;
-  border-right: 1px solid var(--hairline);
+  border-right: 1px solid rgba(236, 238, 240, 0.1);
 }
 .hero-data .cell:last-child {
   border-right: 0;
@@ -262,13 +268,14 @@ body::after {
   font-size: clamp(30px, 3.4vw, 48px);
   letter-spacing: -0.01em;
   line-height: 1;
+  color: var(--paper);
 }
 .hero-data .lab {
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--slate);
+  color: rgba(236, 238, 240, 0.5);
   margin-top: 12px;
 }
 
@@ -597,6 +604,7 @@ body::after {
    CONTACT (full-screen closing)
    ============================================================ */
 .contact {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -604,8 +612,16 @@ body::after {
   padding: 140px 0 48px;
   background: var(--ink);
   color: var(--paper);
+  overflow: hidden;
+}
+.contact-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 .contact .shell {
+  position: relative;
+  z-index: 1;
   width: 100%;
 }
 .contact .eyebrow {

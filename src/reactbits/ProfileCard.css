@@ -79,19 +79,19 @@
   object-position: center top;
 }
 
-/* pointer-driven diagonal light sweep */
+/* pointer-driven diagonal light sweep — kept subtle so it never washes out the photo */
 .pc-shine {
   position: absolute;
   inset: 0;
   z-index: 2;
   background: linear-gradient(
     115deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.5) calc(var(--pointer-x) - 10%),
-    transparent calc(var(--pointer-x) + 15%)
+    transparent 35%,
+    rgba(255, 255, 255, 0.35) calc(var(--pointer-x) - 8%),
+    transparent calc(var(--pointer-x) + 12%)
   );
   mix-blend-mode: overlay;
-  opacity: calc(0.5 + var(--pointer-from-center) * 0.5);
+  opacity: calc(0.1 + var(--pointer-from-center) * 0.18);
   pointer-events: none;
 }
 
@@ -102,10 +102,10 @@
   z-index: 2;
   background: radial-gradient(
     circle at var(--pointer-x) var(--pointer-y),
-    rgba(255, 255, 255, 0.55),
-    transparent 45%
+    rgba(255, 255, 255, 0.4),
+    transparent 42%
   );
-  opacity: calc(0.35 + var(--pointer-from-center) * 0.35);
+  opacity: calc(0.06 + var(--pointer-from-center) * 0.14);
   pointer-events: none;
 }
 
@@ -115,6 +115,10 @@
 }
 
 .pc-content.pc-avatar-content {
+  /* must re-assert absolute here: `.pc-content { position: relative }` is
+     defined later in source and would otherwise collapse the avatar to 0 height */
+  position: absolute;
+  inset: 0;
   z-index: 1;
 }
 

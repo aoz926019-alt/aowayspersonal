@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
+import FloatingLines from "../reactbits/FloatingLines.jsx";
 import { profile } from "../data/content.js";
 
 export default function Contact() {
@@ -31,6 +32,17 @@ export default function Contact() {
 
   return (
     <section className="contact" id="contact" ref={ref}>
+      <div className="contact-bg">
+        <FloatingLines
+          linesGradient={["#1f5d44", "#4ade80", "#ffffff"]}
+          animationSpeed={0.6}
+          interactive
+          parallax
+          parallaxStrength={0.12}
+          mixBlendMode="screen"
+        />
+      </div>
+
       <div className="shell">
         <span className="eyebrow">
           <DecryptedText
