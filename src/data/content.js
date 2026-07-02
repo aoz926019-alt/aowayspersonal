@@ -105,6 +105,7 @@ export const projects = [
     role: "Multi-Agent / PWA",
     desc: "「千模百炼」全国 AI 开发者学生赛道参赛作品。基于 QwenPaw 平台为澳门独居长者设计主动守护的多智能体系统,覆盖有网、无网、零网络三类场景。负责 AI Prompt 多智能体交互脚本设计与家属端数据可视化 PWA 开发。",
     tags: ["Multi-Agent", "QwenPaw", "PWA", "适老化服务"],
+    fit: "contain",
     tint: "tint-e",
     media: "AI PINGANTONG+ · 多智能体守护",
     image: aiPingAnTongImg,
