@@ -66,9 +66,13 @@ export default function About() {
 
         <div className="about-grid">
           <div className="about-portrait">
-            <div className="ph">
-              <span>PORTRAIT — /public/portrait.jpg</span>
-            </div>
+            {profile.portrait ? (
+              <img className="ph" src={profile.portrait} alt="张敖 · Ao Zhang" />
+            ) : (
+              <div className="ph">
+                <span>PORTRAIT — /public/portrait.jpg</span>
+              </div>
+            )}
             <div className="corner">张敖 · AO ZHANG</div>
           </div>
 

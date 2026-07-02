@@ -372,6 +372,12 @@ body::after {
   text-transform: uppercase;
   color: var(--slate);
 }
+.about-portrait img.ph {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
 .about-portrait .corner {
   position: absolute;
   bottom: 16px;

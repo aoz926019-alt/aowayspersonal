@@ -3,8 +3,11 @@
 import moodspendImg from "../assets/projects/moodspend.webp";
 import supplyChainImg from "../assets/projects/supply-chain.webp";
 import immigrationImg from "../assets/projects/immigration.webp";
+import aiPingAnTongImg from "../assets/projects/ai-pingantong.webp";
+import portraitImg from "../assets/portrait.webp";
 
 export const profile = {
+  portrait: portraitImg,
   nameLines: ["AO", "ZHANG"],
   role: "Business Analytics & Product",
   location: "Macau · Taipa",
@@ -101,6 +104,7 @@ export const projects = [
     tags: ["Multi-Agent", "QwenPaw", "PWA", "适老化服务"],
     tint: "tint-e",
     media: "AI PINGANTONG+ · 多智能体守护",
+    image: aiPingAnTongImg,
   },
   {
     no: "04",
