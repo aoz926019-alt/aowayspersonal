@@ -89,7 +89,11 @@ export default function Projects() {
               key={p.no}
             >
               <div className="work-media">
-                <div className={`img ${p.tint}`}>{p.media}</div>
+                {p.image ? (
+                  <img className="img" src={p.image} alt={p.title} loading="lazy" />
+                ) : (
+                  <div className={`img ${p.tint}`}>{p.media}</div>
+                )}
                 <div className="reveal" />
               </div>
 

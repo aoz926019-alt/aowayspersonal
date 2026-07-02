@@ -1,5 +1,9 @@
 // Single source of truth for site copy. Edit here to update content.
 
+import moodspendImg from "../assets/projects/moodspend.webp";
+import supplyChainImg from "../assets/projects/supply-chain.webp";
+import immigrationImg from "../assets/projects/immigration.webp";
+
 export const profile = {
   nameLines: ["AO", "ZHANG"],
   role: "Business Analytics & Product",
@@ -77,6 +81,7 @@ export const projects = [
     tags: ["PWA", "AI Assistant", "Product / PRD", "情绪分析"],
     tint: "tint-a",
     media: "MOODSPEND · 情绪账本",
+    image: moodspendImg,
   },
   {
     no: "02",
@@ -86,6 +91,7 @@ export const projects = [
     tags: ["Power BI", "Data Modeling", "110K+ records", "Risk Scoring"],
     tint: "tint-b",
     media: "SUPPLY CHAIN · DASHBOARD",
+    image: supplyChainImg,
   },
   {
     no: "03",
@@ -113,6 +119,7 @@ export const projects = [
     tags: ["R / SPSS", "Regression", "n = 11,379", "Adj. R² = .183"],
     tint: "tint-d",
     media: "ESS11 · MLR MODEL",
+    image: immigrationImg,
   },
 ];
 
