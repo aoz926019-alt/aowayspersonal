@@ -67,7 +67,12 @@ export default function About() {
         <div className="about-grid">
           <div className="about-portrait">
             {profile.portrait ? (
-              <img className="ph" src={profile.portrait} alt="张敖 · Ao Zhang" />
+              <img
+                className="ph"
+                src={profile.portrait}
+                alt="张敖 · Ao Zhang"
+                onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+              />
             ) : (
               <div className="ph">
                 <span>PORTRAIT — /public/portrait.jpg</span>
@@ -83,7 +88,7 @@ export default function About() {
 
             <div className="about-meta">
               {about.meta.map((m) => (
-                <div className="row" key={m.k}>
+                <div className={`row ${m.wide ? "row-wide" : ""}`} key={m.k}>
                   <span className="k">{m.k}</span>
                   <span className="v">{m.v}</span>
                 </div>

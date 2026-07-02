@@ -377,6 +377,11 @@ body::after {
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.about-portrait img.ph.is-loaded {
+  opacity: 1;
 }
 .about-portrait .corner {
   position: absolute;
@@ -433,6 +438,14 @@ body::after {
     padding-left: 40px;
   }
 }
+/* full-width row for an odd-numbered trailing item — spans both columns
+   instead of sitting half-empty in the left column alone */
+.about-meta .row.row-wide {
+  grid-column: 1 / -1;
+  border-right: none;
+  padding-right: 0;
+  padding-left: 0;
+}
 
 /* ============================================================
    PROJECTS / SELECTED WORK
@@ -479,6 +492,17 @@ body::after {
 .work-media img.img {
   object-fit: cover;
   object-position: center top;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.work-media img.img.is-loaded {
+  opacity: 1;
+}
+.work-media {
+  transition: border-color 0.4s var(--ease);
+}
+.work-media:hover {
+  border-color: var(--accent);
 }
 .work-media .reveal {
   position: absolute;

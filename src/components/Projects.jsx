@@ -90,7 +90,13 @@ export default function Projects() {
             >
               <div className="work-media">
                 {p.image ? (
-                  <img className="img" src={p.image} alt={p.title} loading="lazy" />
+                  <img
+                    className="img"
+                    src={p.image}
+                    alt={p.title}
+                    loading="lazy"
+                    onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+                  />
                 ) : (
                   <div className={`img ${p.tint}`}>{p.media}</div>
                 )}

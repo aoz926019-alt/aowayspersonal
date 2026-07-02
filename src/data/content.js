@@ -4,6 +4,7 @@ import moodspendImg from "../assets/projects/moodspend.webp";
 import supplyChainImg from "../assets/projects/supply-chain.webp";
 import immigrationImg from "../assets/projects/immigration.webp";
 import aiPingAnTongImg from "../assets/projects/ai-pingantong.webp";
+import bydImg from "../assets/projects/byd.webp";
 import portraitImg from "../assets/portrait.webp";
 
 export const profile = {
@@ -39,7 +40,11 @@ export const about = {
     { k: "语言", v: "中文 / English" },
     { k: "工具", v: "SQL · R · Power BI · SPSS · Python" },
     { k: "竞赛", v: "CFA 研究挑战赛 · 千模百炼 AI 开发者赛" },
-    { k: "Google BI Foundations", v: "华为认证" },
+    {
+      k: "Google BI Foundations · Google IT Automation (Python)",
+      v: "华为开发者认证",
+      wide: true,
+    },
   ],
 };
 
@@ -114,6 +119,7 @@ export const projects = [
     tags: ["Valuation", "Fundamentals", "Equity Research"],
     tint: "tint-c",
     media: "BYD · FUNDAMENTAL ANALYSIS",
+    image: bydImg,
   },
   {
     no: "05",
