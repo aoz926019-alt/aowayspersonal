@@ -140,78 +140,7 @@ body::after {
   color: var(--slate);
 }
 
-/* ============================================================
-   NAV
-   ============================================================ */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  mix-blend-mode: normal;
-}
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 28px var(--gutter);
-  max-width: var(--maxw);
-  margin: 0 auto;
-}
-.nav-logo {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: 0.02em;
-}
-.nav-logo span {
-  color: var(--accent);
-}
-.nav-links {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-}
-.nav-links a {
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  position: relative;
-  transition: color 0.3s var(--ease);
-}
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 0.35s var(--ease);
-}
-.nav-links a:hover {
-  color: var(--ink);
-}
-.nav-links a:hover::after {
-  width: 100%;
-}
-.nav-cta {
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 10px 20px;
-  transition: background 0.35s var(--ease), color 0.35s var(--ease);
-}
-.nav-cta:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
+/* Nav is now PillNav (see src/reactbits/PillNav.jsx + PillNav.css) */
 
 /* ============================================================
    HERO
@@ -342,57 +271,12 @@ body::after {
    ============================================================ */
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(200px, 260px) 1fr;
+  grid-template-columns: minmax(220px, 300px) 1fr;
   gap: 64px;
   align-items: start;
 }
 .about-portrait {
-  position: relative;
-  width: 100%;
-  max-width: 260px;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: var(--paper-2);
-  border: 1px solid var(--hairline);
-}
-.about-portrait .ph {
-  position: absolute;
-  inset: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    linear-gradient(135deg, #d9dde0 0%, #e6e9ec 50%, #cdd2d6 100%);
-  will-change: transform;
-}
-.about-portrait .ph span {
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--slate);
-}
-.about-portrait img.ph {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.about-portrait img.ph.is-loaded {
-  opacity: 1;
-}
-.about-portrait .corner {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--ink-2);
-  background: rgba(236, 238, 240, 0.85);
-  padding: 6px 10px;
 }
 .about-body p {
   font-size: 19px;
@@ -799,7 +683,6 @@ body::after {
 @media (max-width: 640px) {
   :root { --gutter: 22px; }
   .section { padding: 110px 0; }
-  .nav-links { display: none; }
   .hero-top { flex-direction: column; gap: 6px; }
   .contact-links { gap: 32px; }
 }

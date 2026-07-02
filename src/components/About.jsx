@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import { about, profile } from "../data/content.js";
+import ProfileCard from "../reactbits/ProfileCard.jsx";
 
 export default function About() {
   const ref = useRef(null);
@@ -17,22 +18,14 @@ export default function About() {
         scrollTrigger: { trigger: ".about-title", start: "top 82%" },
       });
 
-      // portrait clip reveal + slow parallax on the inner fill
-      gsap.from(".about-portrait .ph", {
-        scale: 1.18,
-        duration: 1.6,
-        ease: EASE,
+      // the portrait card handles its own entrance/tilt animation (ProfileCard) —
+      // just fade the wrapper in on scroll so it doesn't pop
+      gsap.from(".pc-card-wrapper", {
+        opacity: 0,
+        y: 24,
+        duration: 1,
+        ease: "power3.out",
         scrollTrigger: { trigger: ".about-portrait", start: "top 85%" },
-      });
-      gsap.to(".about-portrait .ph", {
-        yPercent: -10,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".about-portrait",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.8, // smoothed lag instead of 1:1 scroll-tied — reads as silky, not jittery
-        },
       });
 
       // body paragraphs + meta rows stagger in
@@ -47,6 +40,10 @@ export default function About() {
     }, ref);
     return () => ctx.revert();
   }, []);
+
+  const scrollToContact = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section className="section" id="profile" ref={ref}>
@@ -66,19 +63,15 @@ export default function About() {
 
         <div className="about-grid">
           <div className="about-portrait">
-            {profile.portrait ? (
-              <img
-                className="ph"
-                src={profile.portrait}
-                alt="张敖 · Ao Zhang"
-                onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
-              />
-            ) : (
-              <div className="ph">
-                <span>PORTRAIT — /public/portrait.jpg</span>
-              </div>
-            )}
-            <div className="corner">张敖 · AO ZHANG</div>
+            <ProfileCard
+              avatarUrl={profile.portrait}
+              name="张敖"
+              title={profile.role}
+              handle="aoz926019-alt"
+              status={profile.available}
+              contactText="联系我"
+              onContactClick={scrollToContact}
+            />
           </div>
 
           <div className="about-body">
