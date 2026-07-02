@@ -36,21 +36,24 @@ export default function Projects() {
           }
         );
 
-        // slow parallax drift on the image fill
-        gsap.fromTo(
-          img,
-          { yPercent: -6 },
-          {
-            yPercent: 6,
-            ease: "none",
-            scrollTrigger: {
-              trigger: media,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 0.8, // smoothed lag instead of 1:1 scroll-tied — reads as silky, not jittery
-            },
-          }
-        );
+        // slow parallax drift on the image fill — skipped for contain-fit images
+        // (they're not oversized to cover, so a translate would clip them at the extremes)
+        if (!img.classList.contains("img-contain")) {
+          gsap.fromTo(
+            img,
+            { yPercent: -6 },
+            {
+              yPercent: 6,
+              ease: "none",
+              scrollTrigger: {
+                trigger: media,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.8, // smoothed lag instead of 1:1 scroll-tied — reads as silky, not jittery
+              },
+            }
+          );
+        }
 
         // info column staggers in
         gsap.from(info, {
@@ -91,7 +94,7 @@ export default function Projects() {
               <div className="work-media">
                 {p.image ? (
                   <img
-                    className="img"
+                    className={`img ${p.fit === "contain" ? "img-contain" : ""}`}
                     src={p.image}
                     alt={p.title}
                     loading="lazy"

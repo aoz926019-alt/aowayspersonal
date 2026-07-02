@@ -40,11 +40,8 @@ export const about = {
     { k: "语言", v: "中文 / English" },
     { k: "工具", v: "SQL · R · Power BI · SPSS · Python" },
     { k: "竞赛", v: "CFA 研究挑战赛 · 千模百炼 AI 开发者赛" },
-    {
-      k: "Google BI Foundations · Google IT Automation (Python)",
-      v: "华为开发者认证",
-      wide: true,
-    },
+    { k: "Google", v: "BI Foundations · IT Automation (Python)" },
+    { k: "华为", v: "开发者认证" },
   ],
 };
 
@@ -97,6 +94,7 @@ export const projects = [
     role: "Data / Power BI",
     desc: "供应链风险分析与辅助决策面板。处理 110,000+ 条运单记录,构建 Risk Score、Supplier Performance Index 等自定义 KPI,定位高风险供应商与延误根因,以咨询式叙事呈现可量化的商业价值。",
     tags: ["Power BI", "Data Modeling", "110K+ records", "Risk Scoring"],
+    fit: "contain",
     tint: "tint-b",
     media: "SUPPLY CHAIN · DASHBOARD",
     image: supplyChainImg,
@@ -117,6 +115,7 @@ export const projects = [
     role: "Finance / Research",
     desc: "CFA 协会投资分析大赛(香港赛区)。对比亚迪做基本面分析、行业对标与风险评估,撰写完整研究报告并路演展示。",
     tags: ["Valuation", "Fundamentals", "Equity Research"],
+    fit: "contain",
     tint: "tint-c",
     media: "BYD · FUNDAMENTAL ANALYSIS",
     image: bydImg,
@@ -127,6 +126,7 @@ export const projects = [
     role: "Quantitative Research",
     desc: "KU Leuven 计量研究(6 人团队)。基于 ESS11 的 11,379 个西欧受访者样本,用多元线性回归识别移民态度的经济与文化驱动因素——政治立场与人际信任的解释力显著强于收入(调整 R² = .183),含完整异方差与共线性诊断。",
     tags: ["R / SPSS", "Regression", "n = 11,379", "Adj. R² = .183"],
+    fit: "contain",
     tint: "tint-d",
     media: "ESS11 · MLR MODEL",
     image: immigrationImg,

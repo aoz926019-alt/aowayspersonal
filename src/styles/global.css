@@ -438,14 +438,6 @@ body::after {
     padding-left: 40px;
   }
 }
-/* full-width row for an odd-numbered trailing item — spans both columns
-   instead of sitting half-empty in the left column alone */
-.about-meta .row.row-wide {
-  grid-column: 1 / -1;
-  border-right: none;
-  padding-right: 0;
-  padding-left: 0;
-}
 
 /* ============================================================
    PROJECTS / SELECTED WORK
@@ -497,6 +489,13 @@ body::after {
 }
 .work-media img.img.is-loaded {
   opacity: 1;
+}
+/* dashboard/table screenshots: show the whole image, no cropping, no oversize/parallax buffer */
+.work-media img.img.img-contain {
+  inset: 0;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 .work-media {
   transition: border-color 0.4s var(--ease);

@@ -88,7 +88,7 @@ export default function About() {
 
             <div className="about-meta">
               {about.meta.map((m) => (
-                <div className={`row ${m.wide ? "row-wide" : ""}`} key={m.k}>
+                <div className="row" key={m.k}>
                   <span className="k">{m.k}</span>
                   <span className="v">{m.v}</span>
                 </div>
