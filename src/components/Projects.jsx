@@ -37,9 +37,9 @@ export default function Projects() {
           }
         );
 
-        // slow parallax drift on the image fill — skipped for contain-fit images
-        // (they're not oversized to cover, so a translate would clip them at the extremes)
-        if (!img.classList.contains("img-contain")) {
+        // parallax only on placeholder gradient fills — real screenshots render at
+        // their natural ratio (in flow), so a translate would open gaps / clip edges
+        if (img && img.tagName !== "IMG") {
           gsap.fromTo(
             img,
             { yPercent: -6 },
@@ -100,12 +100,14 @@ export default function Projects() {
               className={`work-card ${i % 2 === 1 ? "reverse" : ""}`}
               key={p.no}
             >
-              <div className="work-media">
+              <div className={`work-media ${p.image ? "has-image" : ""}`}>
                 {p.image ? (
                   <img
-                    className={`img ${p.fit === "contain" ? "img-contain" : ""}`}
+                    className="img"
                     src={p.image}
                     alt={p.title}
+                    width={p.w}
+                    height={p.h}
                     loading="lazy"
                     onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
                   />

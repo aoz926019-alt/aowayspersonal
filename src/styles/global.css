@@ -351,11 +351,24 @@ body::after {
 }
 .work-media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 3; /* placeholder cards keep the fixed frame */
   overflow: hidden;
   border: 1px solid var(--hairline);
   background: var(--paper-2);
+  transition: border-color 0.4s var(--ease);
 }
+.work-media:hover {
+  border-color: var(--accent);
+}
+
+/* real screenshots: the frame takes the image's own aspect ratio, so there is
+   no letterbox margin around it and no cropped edges — the border hugs the image */
+.work-media.has-image {
+  aspect-ratio: auto;
+  background: transparent;
+}
+
+/* placeholder gradient fill (absolute, oversized for the parallax buffer) */
 .work-media .img {
   position: absolute;
   inset: -8% 0;
@@ -371,27 +384,19 @@ body::after {
   text-transform: uppercase;
   color: rgba(23, 25, 29, 0.45);
 }
+
+/* real image: in flow at natural ratio */
 .work-media img.img {
-  object-fit: cover;
-  object-position: center top;
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  display: block;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.6s ease;
 }
 .work-media img.img.is-loaded {
   opacity: 1;
-}
-/* dashboard/table screenshots: show the whole image, no cropping, no oversize/parallax buffer */
-.work-media img.img.img-contain {
-  inset: 0;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-}
-.work-media {
-  transition: border-color 0.4s var(--ease);
-}
-.work-media:hover {
-  border-color: var(--accent);
 }
 .work-media .reveal {
   position: absolute;

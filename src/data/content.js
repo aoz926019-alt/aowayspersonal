@@ -30,7 +30,7 @@ export const stats = [
 
 export const about = {
   body: [
-    "我是张敖,澳门大学环球商业管理专业本科生(GPA 3.66,专业排名第一),目前在比利时鲁汶大学交换。",
+    "我是张敖,澳门大学环球商业管理专业本科生(GPA 3.66,专业排名第一),并完成了在比利时鲁汶大学的交换学期。",
     "我的方法是数据先行:用 SQL、R、Power BI、SPSS 把杂乱的数据变成可读的结论,再用生成式 AI 把想法快速做成能用的看板、工具和 Web 应用。商业分析、战略与财务的训练让我能把数字接回真实的商业决策。",
   ],
   meta: [
@@ -87,6 +87,8 @@ export const projects = [
     tint: "tint-a",
     media: "MOODSPEND · 情绪账本",
     image: moodspendImg,
+    w: 864,
+    h: 987,
   },
   {
     no: "02",
@@ -94,10 +96,11 @@ export const projects = [
     role: "Data / Power BI",
     desc: "供应链风险分析与辅助决策面板。处理 110,000+ 条运单记录,构建 Risk Score、Supplier Performance Index 等自定义 KPI,定位高风险供应商与延误根因,以咨询式叙事呈现可量化的商业价值。",
     tags: ["Power BI", "Data Modeling", "110K+ records", "Risk Scoring"],
-    fit: "contain",
     tint: "tint-b",
     media: "SUPPLY CHAIN · DASHBOARD",
     image: supplyChainImg,
+    w: 1400,
+    h: 809,
   },
   {
     no: "03",
@@ -105,10 +108,11 @@ export const projects = [
     role: "Multi-Agent / PWA",
     desc: "「千模百炼」全国 AI 开发者学生赛道参赛作品。基于 QwenPaw 平台为澳门独居长者设计主动守护的多智能体系统,覆盖有网、无网、零网络三类场景。负责 AI Prompt 多智能体交互脚本设计与家属端数据可视化 PWA 开发。",
     tags: ["Multi-Agent", "QwenPaw", "PWA", "适老化服务"],
-    fit: "contain",
     tint: "tint-e",
     media: "AI PINGANTONG+ · 多智能体守护",
     image: aiPingAnTongImg,
+    w: 1300,
+    h: 824,
   },
   {
     no: "04",
@@ -116,10 +120,11 @@ export const projects = [
     role: "Finance / Research",
     desc: "CFA 协会投资分析大赛(香港赛区)。对比亚迪做基本面分析、行业对标与风险评估,撰写完整研究报告并路演展示。",
     tags: ["Valuation", "Fundamentals", "Equity Research"],
-    fit: "contain",
     tint: "tint-c",
     media: "BYD · FUNDAMENTAL ANALYSIS",
     image: bydImg,
+    w: 1400,
+    h: 789,
   },
   {
     no: "05",
@@ -127,10 +132,11 @@ export const projects = [
     role: "Quantitative Research",
     desc: "KU Leuven 计量研究(6 人团队)。基于 ESS11 的 11,379 个西欧受访者样本,用多元线性回归识别移民态度的经济与文化驱动因素——政治立场与人际信任的解释力显著强于收入(调整 R² = .183),含完整异方差与共线性诊断。",
     tags: ["R / SPSS", "Regression", "n = 11,379", "Adj. R² = .183"],
-    fit: "contain",
     tint: "tint-d",
     media: "ESS11 · MLR MODEL",
     image: immigrationImg,
+    w: 853,
+    h: 503,
   },
 ];
 
