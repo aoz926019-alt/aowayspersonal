@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import { profile, stats } from "../data/content.js";
-import DotGrid from "../reactbits/DotGrid.jsx";
+import RippleGrid from "../reactbits/RippleGrid.jsx";
 import CountUp from "../reactbits/CountUp.jsx";
 import ShinyText from "../reactbits/ShinyText.jsx";
 
@@ -47,17 +47,19 @@ export default function Hero() {
 
   return (
     <header className="hero" id="top" ref={ref}>
-      {/* React Bits — DotGrid (cool gray dots, pine on proximity) */}
+      {/* React Bits — RippleGrid (restrained pine grid, ripples on pointer) */}
       <div className="hero-bg">
-        <DotGrid
-          dotSize={4}
-          gap={30}
-          baseColor="#cfd3d8"
-          activeColor="#1f5d44"
-          proximity={130}
-          shockRadius={220}
-          shockStrength={4}
-          returnDuration={1.4}
+        <RippleGrid
+          gridColor="#1f5d44"
+          rippleIntensity={0.025}
+          gridSize={12}
+          gridThickness={22}
+          fadeDistance={1.4}
+          vignetteStrength={2.2}
+          glowIntensity={0.12}
+          opacity={0.45}
+          mouseInteraction
+          mouseInteractionRadius={0.8}
         />
       </div>
 
