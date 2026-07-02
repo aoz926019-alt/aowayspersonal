@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import { about, profile } from "../data/content.js";
+import { scrollToId } from "../hooks/smoothScroll";
 import ProfileCard from "../reactbits/ProfileCard.jsx";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 
@@ -42,9 +43,7 @@ export default function About() {
     return () => ctx.revert();
   }, []);
 
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () => scrollToId("contact");
 
   return (
     <section className="section" id="profile" ref={ref}>
