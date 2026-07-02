@@ -31,7 +31,6 @@ export const about = {
     { k: "方向", v: "商业分析 · 产品" },
     { k: "语言", v: "中文 / English" },
     { k: "工具", v: "SQL · R · Power BI · SPSS · Python" },
-    { k: "状态", v: "27 Fall 港硕申请中" },
     { k: "竞赛", v: "CFA 研究挑战赛 · 千模百炼 AI 开发者赛" },
     { k: "认证", v: "Google BI Foundations · 华为认证" },
   ],
