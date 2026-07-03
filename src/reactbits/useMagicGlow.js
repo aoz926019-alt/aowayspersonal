@@ -1,16 +1,15 @@
 /*
- * useMagicGlow — the interactive behavior lifted from React Bits' MagicBento
- * (GlobalSpotlight proximity glow + ParticleCard particles + click ripple),
- * scoped onto existing cards instead of MagicBento's own grid. Pine-tinted,
- * disabled for reduced-motion and small screens.
+ * useMagicGlow — the interactive glow lifted from React Bits' MagicBento
+ * (GlobalSpotlight proximity glow + click ripple), scoped onto existing cards
+ * instead of MagicBento's own grid. Pine-tinted, disabled for reduced-motion
+ * and small screens. (Hover particles were intentionally removed.)
  */
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import "./MagicBento.css";
 
-const PROXIMITY = 170; // px from card edge where the glow is full strength
-const FADE = 360; // px where the glow fully fades out
-const PARTICLE_COUNT = 7;
+const PROXIMITY = 220; // px from card edge where the glow is full strength
+const FADE = 460; // px where the glow fully fades out
 
 export function useMagicGlow(rootRef, cardSelector = ".work-media") {
   useEffect(() => {
@@ -21,7 +20,7 @@ export function useMagicGlow(rootRef, cardSelector = ".work-media") {
 
     const getCards = () => Array.from(root.querySelectorAll(cardSelector));
 
-    // --- cursor-proximity border glow (rAF-batched pointer reads) ---
+    // --- cursor-proximity border + outer glow (rAF-batched pointer reads) ---
     let lastEvent = null;
     let rafId = null;
 
@@ -59,51 +58,9 @@ export function useMagicGlow(rootRef, cardSelector = ".work-media") {
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerout", onOut);
 
-    // --- per-card hover particles + click ripple ---
+    // --- click ripple ---
     const cleanups = [];
     getCards().forEach((card) => {
-      let particles = [];
-
-      const spawn = () => {
-        const r = card.getBoundingClientRect();
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          const p = document.createElement("div");
-          p.className = "magic-particle";
-          p.style.left = `${Math.random() * r.width}px`;
-          p.style.top = `${Math.random() * r.height}px`;
-          card.appendChild(p);
-          particles.push(p);
-          gsap.fromTo(
-            p,
-            { scale: 0, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" }
-          );
-          gsap.to(p, {
-            x: (Math.random() - 0.5) * 80,
-            y: (Math.random() - 0.5) * 80,
-            duration: 2 + Math.random() * 2,
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true,
-          });
-        }
-      };
-
-      const clear = () => {
-        particles.forEach((p) => {
-          gsap.killTweensOf(p);
-          gsap.to(p, {
-            scale: 0,
-            opacity: 0,
-            duration: 0.3,
-            onComplete: () => p.remove(),
-          });
-        });
-        particles = [];
-      };
-
-      const onEnter = () => spawn();
-      const onLeave = () => clear();
       const onClick = (e) => {
         const r = card.getBoundingClientRect();
         const x = e.clientX - r.left;
@@ -133,16 +90,8 @@ export function useMagicGlow(rootRef, cardSelector = ".work-media") {
           }
         );
       };
-
-      card.addEventListener("pointerenter", onEnter);
-      card.addEventListener("pointerleave", onLeave);
       card.addEventListener("click", onClick);
-      cleanups.push(() => {
-        card.removeEventListener("pointerenter", onEnter);
-        card.removeEventListener("pointerleave", onLeave);
-        card.removeEventListener("click", onClick);
-        clear();
-      });
+      cleanups.push(() => card.removeEventListener("click", onClick));
     });
 
     return () => {
