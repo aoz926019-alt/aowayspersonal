@@ -369,10 +369,24 @@ body::after {
 }
 
 /* real screenshots: the frame takes the image's own aspect ratio, so there is
-   no letterbox margin around it and no cropped edges — the border hugs the image */
+   no letterbox margin around it and no cropped edges — the border hugs the image.
+   BorderGlow now supplies the frame + light, so the media itself is a bare,
+   overflow-visible slot (so the outer glow isn't clipped). */
 .work-media.has-image {
   aspect-ratio: auto;
   background: transparent;
+  border: none;
+  overflow: visible;
+}
+
+/* BorderGlow wrapper takes the image's ratio; its inner clips the screenshot to
+   the rounded frame while the card itself stays overflow-visible for the glow */
+.work-media .work-glow {
+  width: 100%;
+}
+.work-media .work-glow .border-glow-inner {
+  overflow: hidden;
+  border-radius: inherit;
 }
 
 /* placeholder gradient fill (absolute, oversized for the parallax buffer) */

@@ -1,0 +1,16 @@
+/* the pills keep the site's existing .work-tags span styling; these rules just
+   make them scale cleanly (transform-origin at the baseline, like a dock) */
+.dock-tags {
+  align-items: flex-end;
+}
+.dock-tags .dock-tag {
+  display: inline-flex;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock-tags .dock-tag {
+    transform: none !important;
+  }
+}

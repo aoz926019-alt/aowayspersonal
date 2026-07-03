@@ -1,14 +1,12 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import { useMagicGlow } from "../reactbits/useMagicGlow";
+import BorderGlow from "../reactbits/BorderGlow.jsx";
+import DockTags from "../reactbits/DockTags.jsx";
 import { projects } from "../data/content.js";
 
 export default function Projects() {
   const ref = useRef(null);
-
-  // MagicBento-style cursor glow + hover particles + click ripple on each image frame
-  useMagicGlow(ref, ".work-media");
 
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
@@ -106,19 +104,34 @@ export default function Projects() {
             >
               <div className={`work-media ${p.image ? "has-image" : ""}`}>
                 {p.image ? (
-                  <img
-                    className="img"
-                    src={p.image}
-                    alt={p.title}
-                    width={p.w}
-                    height={p.h}
-                    loading="lazy"
-                    onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
-                  />
+                  <BorderGlow
+                    className="work-glow"
+                    borderRadius={10}
+                    backgroundColor="#0b0e13"
+                    glowColor="158 42% 82%"
+                    glowRadius={38}
+                    glowIntensity={1}
+                    coneSpread={22}
+                    fillOpacity={0.32}
+                    colors={["#5eead4", "#6ea8ff", "#34d399"]}
+                  >
+                    <img
+                      className="img"
+                      src={p.image}
+                      alt={p.title}
+                      width={p.w}
+                      height={p.h}
+                      loading="lazy"
+                      onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+                    />
+                    <div className="reveal" />
+                  </BorderGlow>
                 ) : (
-                  <div className={`img ${p.tint}`}>{p.media}</div>
+                  <>
+                    <div className={`img ${p.tint}`}>{p.media}</div>
+                    <div className="reveal" />
+                  </>
                 )}
-                <div className="reveal" />
               </div>
 
               <div className="work-info">
@@ -126,11 +139,7 @@ export default function Projects() {
                 <h3>{p.title}</h3>
                 <div className="role">{p.role}</div>
                 <p>{p.desc}</p>
-                <div className="work-tags">
-                  {p.tags.map((t) => (
-                    <span key={t}>{t}</span>
-                  ))}
-                </div>
+                <DockTags tags={p.tags} />
               </div>
             </article>
           ))}
