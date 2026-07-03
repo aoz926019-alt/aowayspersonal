@@ -1,10 +1,14 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
+import { useMagicGlow } from "../reactbits/useMagicGlow";
 import { projects } from "../data/content.js";
 
 export default function Projects() {
   const ref = useRef(null);
+
+  // MagicBento-style cursor glow + hover particles + click ripple on each image frame
+  useMagicGlow(ref, ".work-media");
 
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;

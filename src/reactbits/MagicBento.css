@@ -1,0 +1,79 @@
+/*
+ * MagicBento effects — adapted from React Bits (https://reactbits.dev) by David Haz.
+ * License: MIT + Commons Clause · https://github.com/DavidHDev/react-bits
+ * The bento grid itself is not used; only its interactive card effects are lifted
+ * onto this site's existing project image frames, re-tinted from purple to the
+ * pine accent and tuned to read on the light "Instrument" palette.
+ */
+
+.work-media {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+  --glow-color: 31, 93, 68; /* pine accent */
+}
+
+/* cursor-tracked glowing border (gradient-border via mask) */
+.work-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(
+    260px circle at var(--glow-x) var(--glow-y),
+    rgba(var(--glow-color), 0.9),
+    rgba(var(--glow-color), 0.35) 40%,
+    transparent 72%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: var(--glow-intensity);
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* soft outer glow that swells with proximity */
+.work-media.has-image {
+  box-shadow: 0 0 calc(var(--glow-intensity) * 26px)
+    rgba(var(--glow-color), calc(var(--glow-intensity) * 0.3));
+  transition: box-shadow 0.3s ease, border-color 0.4s var(--ease);
+}
+
+/* floating hover particles */
+.magic-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(31, 93, 68, 0.9);
+  box-shadow: 0 0 6px rgba(31, 93, 68, 0.55);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* click ripple */
+.magic-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(31, 93, 68, 0.35) 0%,
+    rgba(31, 93, 68, 0.15) 30%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-media::after,
+  .magic-particle,
+  .magic-ripple {
+    display: none;
+  }
+}
