@@ -1,14 +1,15 @@
 /*
- * useBorderGlowProximity — drives BorderGlow's --edge-proximity / --cursor-angle
- * from cursor PROXIMITY (not just direct hover), so the edge light appears as the
- * pointer APPROACHES each card. It toggles the component's own `sweep-active`
- * class, which lifts BorderGlow's `:not(:hover)` opacity gate.
+ * useEdgeGlowProximity — drives a light-friendly edge glow from cursor proximity.
+ * Sets --edge-proximity (0–100) and --cursor-angle on each frame so a bright
+ * "light blade" on the border follows the cursor and a soft halo swells as the
+ * pointer APPROACHES (not only on direct hover). Built to read on a LIGHT card,
+ * so it uses plain bright colors instead of dark-only blend modes.
  */
 import { useEffect } from "react";
 
-const ZONE = 90; // px around the card where the glow starts responding
+const ZONE = 100; // px around the frame where the glow starts responding
 
-export function useBorderGlowProximity(rootRef, cardSelector = ".border-glow-card") {
+export function useBorderGlowProximity(rootRef, cardSelector = ".work-frame") {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -34,7 +35,6 @@ export function useBorderGlowProximity(rootRef, cardSelector = ".border-glow-car
           my < r.bottom + ZONE;
 
         if (!near) {
-          card.classList.remove("sweep-active");
           card.style.setProperty("--edge-proximity", "0");
           return;
         }
@@ -44,18 +44,16 @@ export function useBorderGlowProximity(rootRef, cardSelector = ".border-glow-car
         const dx = mx - cx;
         const dy = my - cy;
 
-        // BorderGlow's edge-proximity: ~1 at/beyond the edge, → 0 at the center
-        let kx = Infinity;
-        let ky = Infinity;
-        if (dx !== 0) kx = r.width / 2 / Math.abs(dx);
-        if (dy !== 0) ky = r.height / 2 / Math.abs(dy);
-        const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+        // proximity: 1 at/inside the frame, easing to 0 at the edge of the zone
+        const outX = Math.max(0, Math.abs(dx) - r.width / 2);
+        const outY = Math.max(0, Math.abs(dy) - r.height / 2);
+        const outDist = Math.hypot(outX, outY);
+        const proximity = Math.max(0, 1 - outDist / ZONE);
 
         let deg = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
         if (deg < 0) deg += 360;
 
-        card.classList.add("sweep-active");
-        card.style.setProperty("--edge-proximity", (edge * 100).toFixed(2));
+        card.style.setProperty("--edge-proximity", (proximity * 100).toFixed(2));
         card.style.setProperty("--cursor-angle", `${deg.toFixed(2)}deg`);
       });
     };

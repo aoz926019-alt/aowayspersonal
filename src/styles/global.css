@@ -370,8 +370,7 @@ body::after {
 
 /* real screenshots: the frame takes the image's own aspect ratio, so there is
    no letterbox margin around it and no cropped edges — the border hugs the image.
-   BorderGlow now supplies the frame + light, so the media itself is a bare,
-   overflow-visible slot (so the outer glow isn't clipped). */
+   The slot is bare + overflow-visible so the soft glow halo isn't clipped. */
 .work-media.has-image {
   aspect-ratio: auto;
   background: transparent;
@@ -385,16 +384,56 @@ body::after {
   width: 100%;
 }
 
-/* BorderGlow frame: a thin dark mat (padding) around the screenshot gives the
-   mint edge-light dark space to actually read against on the light section;
-   the card stays overflow-visible so the outer halo isn't clipped */
-.work-media .work-glow {
+/* light-friendly hover glow — NO dark mat. A soft mint halo swells + a bright
+   "light blade" follows the cursor around the border; both use plain bright
+   colors so they read clearly on the light section. Driven by --edge-proximity
+   and --cursor-angle (set on approach by useBorderGlowProximity). */
+.work-frame {
+  --edge-proximity: 0;
+  --cursor-angle: 0deg;
+  position: relative;
   width: 100%;
-  padding: 10px;
+  border-radius: 8px;
+  box-shadow:
+    0 6px 24px rgba(52, 178, 140, calc(var(--edge-proximity) / 100 * 0.3)),
+    0 2px 10px rgba(52, 178, 140, calc(var(--edge-proximity) / 100 * 0.22));
+  transition: box-shadow 0.35s ease;
 }
-.work-media .work-glow .border-glow-inner {
+.work-frame-clip {
+  position: relative;
+  border-radius: inherit;
   overflow: hidden;
-  border-radius: 5px;
+  border: 1px solid var(--hairline);
+}
+.work-blade {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--cursor-angle),
+    rgba(94, 234, 212, 0.95) 0deg,
+    rgba(94, 234, 212, 0) 42deg,
+    rgba(94, 234, 212, 0) 318deg,
+    rgba(94, 234, 212, 0.95) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: calc(var(--edge-proximity) / 100);
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 4;
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-frame {
+    box-shadow: none;
+  }
+  .work-blade {
+    display: none;
+  }
 }
 
 /* placeholder gradient fill (absolute, oversized for the parallax buffer) */

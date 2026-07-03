@@ -1,7 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import BorderGlow from "../reactbits/BorderGlow.jsx";
 import Magnet from "../reactbits/Magnet.jsx";
 import DockTags from "../reactbits/DockTags.jsx";
 import { useBorderGlowProximity } from "../reactbits/useBorderGlowProximity";
@@ -10,8 +9,8 @@ import { projects } from "../data/content.js";
 export default function Projects() {
   const ref = useRef(null);
 
-  // light the BorderGlow edge as the cursor approaches each image (not only on hover)
-  useBorderGlowProximity(ref, ".work-glow");
+  // light-friendly edge glow that lights up as the cursor approaches each image
+  useBorderGlowProximity(ref, ".work-frame");
 
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
@@ -116,28 +115,21 @@ export default function Projects() {
                     innerClassName="work-magnet-inner"
                     style={{ position: "relative", display: "block", width: "100%" }}
                   >
-                    <BorderGlow
-                      className="work-glow"
-                      borderRadius={12}
-                      backgroundColor="#0b0e13"
-                      glowColor="158 55% 80%"
-                      glowRadius={44}
-                      glowIntensity={1}
-                      coneSpread={20}
-                      fillOpacity={0.35}
-                      colors={["#5eead4", "#6ea8ff", "#34d399"]}
-                    >
-                      <img
-                        className="img"
-                        src={p.image}
-                        alt={p.title}
-                        width={p.w}
-                        height={p.h}
-                        loading="lazy"
-                        onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
-                      />
-                      <div className="reveal" />
-                    </BorderGlow>
+                    <div className="work-frame">
+                      <div className="work-frame-clip">
+                        <img
+                          className="img"
+                          src={p.image}
+                          alt={p.title}
+                          width={p.w}
+                          height={p.h}
+                          loading="lazy"
+                          onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+                        />
+                        <div className="reveal" />
+                      </div>
+                      <span className="work-blade" aria-hidden="true" />
+                    </div>
                   </Magnet>
                 ) : (
                   <>
