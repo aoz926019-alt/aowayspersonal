@@ -2,11 +2,16 @@ import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import BorderGlow from "../reactbits/BorderGlow.jsx";
+import Magnet from "../reactbits/Magnet.jsx";
 import DockTags from "../reactbits/DockTags.jsx";
+import { useBorderGlowProximity } from "../reactbits/useBorderGlowProximity";
 import { projects } from "../data/content.js";
 
 export default function Projects() {
   const ref = useRef(null);
+
+  // light the BorderGlow edge as the cursor approaches each image (not only on hover)
+  useBorderGlowProximity(ref, ".work-glow");
 
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
@@ -104,28 +109,36 @@ export default function Projects() {
             >
               <div className={`work-media ${p.image ? "has-image" : ""}`}>
                 {p.image ? (
-                  <BorderGlow
-                    className="work-glow"
-                    borderRadius={10}
-                    backgroundColor="#0b0e13"
-                    glowColor="158 42% 82%"
-                    glowRadius={38}
-                    glowIntensity={1}
-                    coneSpread={22}
-                    fillOpacity={0.32}
-                    colors={["#5eead4", "#6ea8ff", "#34d399"]}
+                  <Magnet
+                    padding={90}
+                    magnetStrength={5}
+                    wrapperClassName="work-magnet"
+                    innerClassName="work-magnet-inner"
+                    style={{ position: "relative", display: "block", width: "100%" }}
                   >
-                    <img
-                      className="img"
-                      src={p.image}
-                      alt={p.title}
-                      width={p.w}
-                      height={p.h}
-                      loading="lazy"
-                      onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
-                    />
-                    <div className="reveal" />
-                  </BorderGlow>
+                    <BorderGlow
+                      className="work-glow"
+                      borderRadius={12}
+                      backgroundColor="#0b0e13"
+                      glowColor="158 55% 80%"
+                      glowRadius={44}
+                      glowIntensity={1}
+                      coneSpread={20}
+                      fillOpacity={0.35}
+                      colors={["#5eead4", "#6ea8ff", "#34d399"]}
+                    >
+                      <img
+                        className="img"
+                        src={p.image}
+                        alt={p.title}
+                        width={p.w}
+                        height={p.h}
+                        loading="lazy"
+                        onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+                      />
+                      <div className="reveal" />
+                    </BorderGlow>
+                  </Magnet>
                 ) : (
                   <>
                     <div className={`img ${p.tint}`}>{p.media}</div>

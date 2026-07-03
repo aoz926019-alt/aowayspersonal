@@ -379,14 +379,22 @@ body::after {
   overflow: visible;
 }
 
-/* BorderGlow wrapper takes the image's ratio; its inner clips the screenshot to
-   the rounded frame while the card itself stays overflow-visible for the glow */
+/* Magnet wrapper fills the media slot so the framed image sizes correctly */
+.work-media .work-magnet,
+.work-media .work-magnet-inner {
+  width: 100%;
+}
+
+/* BorderGlow frame: a thin dark mat (padding) around the screenshot gives the
+   mint edge-light dark space to actually read against on the light section;
+   the card stays overflow-visible so the outer halo isn't clipped */
 .work-media .work-glow {
   width: 100%;
+  padding: 10px;
 }
 .work-media .work-glow .border-glow-inner {
   overflow: hidden;
-  border-radius: inherit;
+  border-radius: 5px;
 }
 
 /* placeholder gradient fill (absolute, oversized for the parallax buffer) */
