@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import { experience } from "../data/content.js";
+import { experience, leadership } from "../data/content.js";
 
 export default function Experience() {
   const ref = useRef(null);
@@ -70,6 +70,17 @@ export default function Experience() {
               </div>
             </div>
           ))}
+        </div>
+        <div className="leadership-section" aria-labelledby="leadership-title">
+          <h3 id="leadership-title">竞赛与领导经历 <span>COMPETITIONS & LEADERSHIP</span></h3>
+          <div className="leadership-list">
+            {leadership.map((item) => (
+              <article className="leadership-item" key={item.title}>
+                <span className="exp-period">{item.period}</span>
+                <div><h4>{item.title}</h4><span className="exp-role">{item.role}</span><p>{item.desc}</p></div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
-import { about, profile } from "../data/content.js";
+import { about, profile, education } from "../data/content.js";
 import { scrollToId } from "../hooks/smoothScroll";
 import ProfileCard from "../reactbits/ProfileCard.jsx";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
@@ -87,6 +87,16 @@ export default function About() {
             {about.body.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
+
+            <div className="education-list" aria-labelledby="education-title">
+              <h3 id="education-title">教育背景 <span>EDUCATION</span></h3>
+              {education.map((item) => (
+                <div className="education-item" key={item.school}>
+                  <div><h4>{item.school}</h4><span className="education-period">{item.period}</span></div>
+                  <p>{item.program}</p><span className="education-location">{item.location}</span>
+                </div>
+              ))}
+            </div>
 
             <div className="about-meta">
               {about.meta.map((m) => (

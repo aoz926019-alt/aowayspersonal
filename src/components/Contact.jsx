@@ -84,7 +84,7 @@ export default function Contact() {
       <div className="shell">
         <div className="contact-foot">
           <span>© {year} 张敖 · AO ZHANG</span>
-          <span>Business Analytics & Product</span>
+          <span>{profile.role}</span>
           <a href="#top">返回顶部 ↑</a>
         </div>
       </div>

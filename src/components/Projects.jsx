@@ -6,6 +6,23 @@ import DockTags from "../reactbits/DockTags.jsx";
 import { useBorderGlowProximity } from "../reactbits/useBorderGlowProximity";
 import { projects } from "../data/content.js";
 
+function ProjectSummary({ project }) {
+  const summary = project.summary;
+  return (
+    <span className="project-summary">
+      <span className="summary-label">{summary.label} <span>研究概览 / {project.no}</span></span>
+      <span className="summary-title">{summary.title}</span>
+      {summary.metrics && <span className="summary-metrics">{summary.metrics.map((metric) => (
+        <span key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></span>
+      ))}</span>}
+      {summary.steps && <span className="summary-steps">{summary.steps.map((step, index) => (
+        <span key={step}><small>0{index + 1}</small>{step}</span>
+      ))}</span>}
+      <span className="summary-footer">{summary.footer}</span>
+    </span>
+  );
+}
+
 export default function Projects() {
   const ref = useRef(null);
   const dialogRef = useRef(null);
@@ -108,7 +125,7 @@ export default function Projects() {
             <span className="line">Work</span>
           </span>
         </h2>
-        <p className="section-intro">从业务问题出发，以分析、原型与研究呈现思考。点击项目，可查看完整截图与项目概览。</p>
+        <p className="section-intro">从招聘与供应链数据，到企业现金流、用户研究和 AI 原型。点击项目，查看研究概览或产品界面。</p>
 
         <div className="work-list">
           {projects.map((p, i) => (
@@ -117,7 +134,7 @@ export default function Projects() {
               key={p.no}
               id={`project-${p.no}`}
             >
-              <div className={`work-media ${p.image ? "has-image" : ""}`}>
+              <div className={`work-media ${p.image ? "has-image" : "has-summary"} ${p.h > p.w ? "portrait-media" : ""}`}>
                 {p.image ? (
                   <Magnet
                     padding={90}
@@ -145,10 +162,10 @@ export default function Projects() {
                     </button>
                   </Magnet>
                 ) : (
-                  <>
-                    <div className={`img ${p.tint}`}>{p.media}</div>
-                    <div className="reveal" />
-                  </>
+                  <button className="work-frame" type="button" onClick={() => setSelected(p)} aria-label={`查看 ${p.title} 研究概览`}>
+                    <ProjectSummary project={p} />
+                    <span className="work-zoom" aria-hidden="true">查看项目 ↗</span>
+                  </button>
                 )}
               </div>
 
@@ -157,11 +174,14 @@ export default function Projects() {
                 <h3>{p.title}</h3>
                 <div className="work-subtitle">{p.subtitle}</div>
                 <div className="role">{p.role}</div>
+                <div className="work-context">{p.context}</div>
                 <p>{p.desc}</p>
+                {p.note && <p className="work-note">{p.note}</p>}
                 <div className="work-deliverable"><span>项目内容</span>{p.deliverable}</div>
                 <DockTags tags={p.tags} />
                 <div className="work-actions">
                   <button type="button" className="text-link" onClick={() => setSelected(p)} aria-label={`查看 ${p.title} 项目概览`}>项目概览 <span aria-hidden="true">↗</span></button>
+                  {p.demo && <a className="text-link" href={p.demo} target="_blank" rel="noreferrer">体验原型 <span aria-hidden="true">↗</span></a>}
                   {p.source && <a className="text-link muted" href={p.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
                 </div>
               </div>
@@ -173,11 +193,12 @@ export default function Projects() {
         onClose={() => setSelected(null)} onClick={(event) => { if (event.target === event.currentTarget) dialogRef.current.close(); }}>
         {selected && <div className="project-dialog-content">
           <div className="project-dialog-head">
-            <div><span className="eyebrow">PROJECT {selected.no} / 05</span><h2 id="project-dialog-title">{selected.title}</h2><p>{selected.subtitle}</p></div>
+            <div><span className="eyebrow">PROJECT {selected.no} / {String(projects.length).padStart(2, "0")}</span><h2 id="project-dialog-title">{selected.title}</h2><p>{selected.subtitle}</p></div>
             <button className="dialog-close" type="button" aria-label="关闭项目概览" onClick={() => dialogRef.current.close()} autoFocus>×</button>
           </div>
-          <div className="project-dialog-image"><img src={selected.image} alt={`${selected.subtitle} — 完整项目截图`} width={selected.w} height={selected.h} /></div>
-          <div className="project-dialog-info"><span className="eyebrow">{selected.role}</span><p>{selected.desc}</p><p className="dialog-deliverable">{selected.deliverable}</p>
+          <div className="project-dialog-image">{selected.image ? <img src={selected.image} alt={`${selected.subtitle} — 完整项目截图`} width={selected.w} height={selected.h} /> : <ProjectSummary project={selected} />}</div>
+          <div className="project-dialog-info"><span className="eyebrow">{selected.role}</span><p className="work-context">{selected.context}</p><p>{selected.desc}</p>{selected.note && <p className="work-note">{selected.note}</p>}<p className="dialog-deliverable">{selected.deliverable}</p>
+            {selected.demo && <a className="text-link dialog-demo" href={selected.demo} target="_blank" rel="noreferrer">体验 PWA 原型 ↗</a>}
             {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">在 GitHub 查看项目 ↗</a>}
           </div>
         </div>}
