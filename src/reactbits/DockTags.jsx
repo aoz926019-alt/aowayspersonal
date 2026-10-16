@@ -4,7 +4,7 @@
  * (macOS-dock style) via a spring, without reflowing its neighbours.
  */
 import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 import "./DockTags.css";
 
 const SPRING = { mass: 0.1, stiffness: 170, damping: 14 };
@@ -13,6 +13,7 @@ const PEAK = 1.32; // magnification at the cursor
 
 function DockTag({ label, mouseX }) {
   const ref = useRef(null);
+  const reducedMotion = useReducedMotion();
 
   const distance = useTransform(mouseX, (val) => {
     const rect = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
@@ -23,7 +24,7 @@ function DockTag({ label, mouseX }) {
   const scale = useSpring(targetScale, SPRING);
 
   return (
-    <motion.span ref={ref} className="dock-tag" style={{ scale }}>
+    <motion.span ref={ref} className="dock-tag" style={{ scale: reducedMotion ? 1 : scale }}>
       {label}
     </motion.span>
   );

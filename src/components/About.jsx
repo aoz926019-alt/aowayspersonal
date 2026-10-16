@@ -60,7 +60,7 @@ export default function About() {
           </span>
         </div>
 
-        <h2 className="section-title about-title" style={{ marginBottom: "90px" }}>
+        <h2 className="section-title about-title">
           <span className="mask">
             <span className="line">Data first.</span>
           </span>
@@ -79,6 +79,7 @@ export default function About() {
               status={profile.available}
               contactText="联系我"
               onContactClick={scrollToContact}
+              enableTilt={!prefersReducedMotion}
             />
           </div>
 
@@ -99,11 +100,11 @@ export default function About() {
             <div className="about-meta" style={{ marginTop: 0, borderTop: 0 }}>
               <div className="row" style={{ borderRight: 0 }}>
                 <span className="k">Email</span>
-                <span className="v">{profile.email}</span>
+                <a className="v" href={`mailto:${profile.email}`}>{profile.email}</a>
               </div>
               <div className="row">
                 <span className="k">Phone</span>
-                <span className="v">{profile.phone}</span>
+                <a className="v" href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
               </div>
             </div>
           </div>

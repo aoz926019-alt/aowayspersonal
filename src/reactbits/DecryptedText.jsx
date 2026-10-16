@@ -4,7 +4,7 @@
  * Used as-is. Requires the `motion` package (already a dependency here).
  */
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 
 const styles = {
   wrapper: {
@@ -38,6 +38,7 @@ export default function DecryptedText({
   clickMode = 'once',
   ...props
 }) {
+  const reducedMotion = useReducedMotion();
   const [displayText, setDisplayText] = useState(text);
   const [isAnimating, setIsAnimating] = useState(false);
   const [revealedIndices, setRevealedIndices] = useState(new Set());
@@ -149,7 +150,7 @@ export default function DecryptedText({
   }, [sequential, computeOrder, fillAllIndices, shuffleText, text]);
 
   useEffect(() => {
-    if (!isAnimating) return;
+    if (!isAnimating || reducedMotion) return;
 
     let currentIteration = 0;
 
@@ -254,6 +255,7 @@ export default function DecryptedText({
     return () => clearInterval(intervalRef.current);
   }, [
     isAnimating,
+    reducedMotion,
     text,
     speed,
     maxIterations,
@@ -361,10 +363,10 @@ export default function DecryptedText({
 
   return (
     <motion.span className={parentClassName} ref={containerRef} style={styles.wrapper} {...animateProps} {...props}>
-      <span style={styles.srOnly}>{displayText}</span>
+      <span style={styles.srOnly}>{text}</span>
 
       <span aria-hidden="true">
-        {displayText.split('').map((char, index) => {
+        {(reducedMotion ? text : displayText).split('').map((char, index) => {
           const isRevealedOrDone = revealedIndices.has(index) || (!isAnimating && isDecrypted);
 
           return (

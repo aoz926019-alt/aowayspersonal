@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect, useEffect, useState } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import Magnet from "../reactbits/Magnet.jsx";
@@ -8,6 +8,15 @@ import { projects } from "../data/content.js";
 
 export default function Projects() {
   const ref = useRef(null);
+  const dialogRef = useRef(null);
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    if (selected && dialogRef.current) {
+      dialogRef.current.showModal();
+      dialogRef.current.scrollTop = 0;
+    }
+  }, [selected]);
 
   // light-friendly edge glow that lights up as the cursor approaches each image
   useBorderGlowProximity(ref, ".work-frame");
@@ -91,7 +100,7 @@ export default function Projects() {
           </span>
         </div>
 
-        <h2 className="section-title work-title" style={{ marginBottom: "110px" }}>
+        <h2 className="section-title work-title">
           <span className="mask">
             <span className="line">Selected</span>
           </span>
@@ -99,37 +108,41 @@ export default function Projects() {
             <span className="line">Work</span>
           </span>
         </h2>
+        <p className="section-intro">从业务问题出发，以分析、原型与研究呈现思考。点击项目，可查看完整截图与项目概览。</p>
 
         <div className="work-list">
           {projects.map((p, i) => (
             <article
               className={`work-card ${i % 2 === 1 ? "reverse" : ""}`}
               key={p.no}
+              id={`project-${p.no}`}
             >
               <div className={`work-media ${p.image ? "has-image" : ""}`}>
                 {p.image ? (
                   <Magnet
                     padding={90}
                     magnetStrength={5}
+                    disabled={prefersReducedMotion}
                     wrapperClassName="work-magnet"
                     innerClassName="work-magnet-inner"
                     style={{ position: "relative", display: "block", width: "100%" }}
                   >
-                    <div className="work-frame">
-                      <div className="work-frame-clip">
+                    <button className="work-frame" type="button" onClick={() => setSelected(p)} aria-label={`查看 ${p.title} 项目截图与概览`}>
+                      <span className="work-frame-clip">
                         <img
                           className="img"
                           src={p.image}
-                          alt={p.title}
+                          alt={`${p.subtitle} — 项目界面`}
                           width={p.w}
                           height={p.h}
                           loading="lazy"
-                          onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+                          decoding="async"
                         />
-                        <div className="reveal" />
-                      </div>
+                        <span className="reveal" />
+                      </span>
                       <span className="work-blade" aria-hidden="true" />
-                    </div>
+                      <span className="work-zoom" aria-hidden="true">查看项目 ↗</span>
+                    </button>
                   </Magnet>
                 ) : (
                   <>
@@ -142,14 +155,33 @@ export default function Projects() {
               <div className="work-info">
                 <div className="num">{p.no} / {String(projects.length).padStart(2, "0")}</div>
                 <h3>{p.title}</h3>
+                <div className="work-subtitle">{p.subtitle}</div>
                 <div className="role">{p.role}</div>
                 <p>{p.desc}</p>
+                <div className="work-deliverable"><span>项目内容</span>{p.deliverable}</div>
                 <DockTags tags={p.tags} />
+                <div className="work-actions">
+                  <button type="button" className="text-link" onClick={() => setSelected(p)} aria-label={`查看 ${p.title} 项目概览`}>项目概览 <span aria-hidden="true">↗</span></button>
+                  {p.source && <a className="text-link muted" href={p.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
+                </div>
               </div>
             </article>
           ))}
         </div>
       </div>
+      <dialog className="project-dialog" ref={dialogRef} aria-labelledby="project-dialog-title" data-lenis-prevent
+        onClose={() => setSelected(null)} onClick={(event) => { if (event.target === event.currentTarget) dialogRef.current.close(); }}>
+        {selected && <div className="project-dialog-content">
+          <div className="project-dialog-head">
+            <div><span className="eyebrow">PROJECT {selected.no} / 05</span><h2 id="project-dialog-title">{selected.title}</h2><p>{selected.subtitle}</p></div>
+            <button className="dialog-close" type="button" aria-label="关闭项目概览" onClick={() => dialogRef.current.close()} autoFocus>×</button>
+          </div>
+          <div className="project-dialog-image"><img src={selected.image} alt={`${selected.subtitle} — 完整项目截图`} width={selected.w} height={selected.h} /></div>
+          <div className="project-dialog-info"><span className="eyebrow">{selected.role}</span><p>{selected.desc}</p><p className="dialog-deliverable">{selected.deliverable}</p>
+            {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">在 GitHub 查看项目 ↗</a>}
+          </div>
+        </div>}
+      </dialog>
     </section>
   );
 }

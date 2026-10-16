@@ -1,66 +1,38 @@
-# AO ZHANG — Portfolio (React + Vite + GSAP)
+# 张敖 AO ZHANG · Portfolio
 
-个人作品集基础版。冷调灰纸 + 墨黑 + 深松绿点缀,等宽数据读数为签名元素。
-动效用 GSAP + ScrollTrigger:首屏遮罩揭开式开场、滚动时英文大标题进场、卡片
-stagger、图片 reveal 与缓慢 parallax,全部 transform/opacity 实现,尊重
-`prefers-reduced-motion`。
+个人作品集，展示商业分析、AI 产品、金融与计量研究实践。使用 React、Vite、GSAP 与 React Bits，部署至 GitHub Pages。
 
-## 运行
+线上地址：https://aoz926019-alt.github.io/aowayspersonal/
+
+## 本地开发
+
+需要 Node.js 20+。
 
 ```bash
-npm install
-npm run dev      # 本地预览 http://localhost:5173
-npm run build    # 生产构建 → dist/
-npm run preview  # 预览构建产物
+npm ci
+npm run dev
+npm run check
+npm run preview
 ```
 
-需要 Node 18+。
+`npm run check` 生成生产构建，并核对项目素材、必需文案、统计字段、经历日期顺序与页面资源引用。
 
-## 目录
+## 内容与结构
 
-```
-src/
-  data/content.js        ← 所有文案集中在这里,改文字只动这一个文件
-  styles/global.css      ← 设计 token(颜色/字体/间距)与全部样式
-  hooks/gsap.js          ← 注册 ScrollTrigger、缓动常量、reduced-motion 判定
-  components/
-    Nav.jsx Hero.jsx About.jsx Projects.jsx Strengths.jsx Contact.jsx
-```
+- `src/data/content.js`：个人介绍、统计、经历、项目与导航文案。
+- `src/assets/`：头像与项目 WebP 图片；项目宽高填写原始尺寸。
+- `src/components/`：首页、关于、项目、经历、能力、联系及导航。
+- `src/styles/global.css`：配色、排版、断点、导航与项目弹窗样式。
+- `src/reactbits/`：保留原有组件的授权说明及交互效果。
+- `public/favicon.svg`：站点图标。
+- `index.html`：页面标题、搜索摘要与社交分享元信息。
 
-## 替换素材(占位中)
+项目截图与“项目概览”按钮打开原生对话框。支持 Escape 关闭、键盘焦点管理及触屏浏览；只有已公开的项目配置 GitHub 链接。邮箱和电话可直接点击。
 
-- **首屏视频**:放到 `public/hero.mp4`(建议静音、缓慢、低饱和的抽象画面)。
-  当前有半透明纸色蒙版,没有视频也能正常显示。
-- **头像**:`public/portrait.jpg`,然后在 `About.jsx` 把 `.ph` 占位块换成
-  `<img className="ph" src="/portrait.jpg" />`。
-- **项目图**:`public/projects/*.jpg`,在 `Projects.jsx` 把 `.img` 占位块换成
-  对应 `<img>`(parallax 类名保留即可)。
+动效遵循 `prefers-reduced-motion`；关闭动效时，核心内容和统计仍完整显示。WebGL 背景按需加载，设备不支持 WebGL 时保留 CSS 背景。手机导航支持选中后收起、Escape 关闭及点击外部关闭。
 
-## 改设计的入口
+## 发布
 
-- 颜色 / 字体 / 版心宽度(`--maxw: 1700px`):`src/styles/global.css` 顶部 `:root`。
-- 动效节奏:`hooks/gsap.js` 的 `EASE`,以及各组件里的 `duration` / `stagger`。
+推送至 `main` 后，`.github/workflows/deploy.yml` 运行检查并发布 `dist/` 到 GitHub Pages。`vite.config.js` 使用相对资源路径，可适配项目子目录。
 
-## React Bits 组件(`src/reactbits/`)
-
-挑了 4 个并配成冷灰 + 深松绿:
-
-| 组件 | 类别 | 用在哪 |
-| --- | --- | --- |
-| `DotGrid` | Backgrounds | 首屏点阵背景(冷灰点,靠近指针变松绿) |
-| `CountUp` | Text Animations | 首屏数据条数字滚动 |
-| `SpotlightCard` | Components | 个人优势卡片的松绿光斑 |
-| `ShinyText` | Text Animations | 首屏「Open to roles」状态微光 |
-
-依赖:`CountUp` / `ShinyText` 基于 `motion`(framer-motion),已加入 `package.json`。
-`SpotlightCard` 纯 CSS,`DotGrid` 用 GSAP。
-
-> **DotGrid 说明**:官方版用了 `gsap/InertiaPlugin`(GSAP 付费插件)。本项目里把它
-> 改成了免费 GSAP 实现(短促 push + elastic 回弹),手感一致、props 保持不变。
-> 想换回官方原版:`npx jsrepo add https://reactbits.dev/default/Backgrounds/DotGrid`
-> 并安装 Club GSAP 的 InertiaPlugin 即可。
-
-想加更多组件,直接 `npx jsrepo add https://reactbits.dev/<variant>/<Category>/<Name>`
-(variant 如 `default` / `tailwind`)。比如把段落标题换成 `DecryptedText` 会很贴「仪表」主题。
-
-> 这是基础版本,占位素材已标注清楚。后续按参考继续迭代。
+发布前应在桌面、平板和手机宽度检查导航、项目弹窗及联系区域；确认图片完整、内容无横向溢出，并复核个人信息及经历日期。

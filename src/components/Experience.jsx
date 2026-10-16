@@ -44,7 +44,7 @@ export default function Experience() {
           </span>
         </div>
 
-        <h2 className="section-title exp-head-title" style={{ marginBottom: "90px" }}>
+        <h2 className="section-title exp-head-title">
           <span className="mask">
             <span className="line">Where I've</span>
           </span>

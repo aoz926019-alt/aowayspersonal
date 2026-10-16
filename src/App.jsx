@@ -22,8 +22,9 @@ export default function App() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">跳到正文</a>
       <Nav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero />
         <About />
         <Projects />

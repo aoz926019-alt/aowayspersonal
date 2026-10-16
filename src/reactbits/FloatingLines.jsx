@@ -11,7 +11,6 @@
  */
 import { useEffect, useRef } from 'react';
 import {
-  Clock,
   Mesh,
   OrthographicCamera,
   PlaneGeometry,
@@ -290,6 +289,7 @@ export default function FloatingLines({
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let active = true;
 
@@ -298,7 +298,13 @@ export default function FloatingLines({
     const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
     camera.position.z = 1;
 
-    const renderer = new WebGLRenderer({ antialias: true, alpha: false });
+    let renderer;
+    try {
+      renderer = new WebGLRenderer({ antialias: true, alpha: false });
+    } catch {
+      // The CSS background remains visible on devices without WebGL.
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
@@ -375,7 +381,7 @@ export default function FloatingLines({
     const mesh = new Mesh(geometry, material);
     scene.add(mesh);
 
-    const clock = new Clock();
+    const startedAt = performance.now();
 
     const setSize = () => {
       if (!active) return;
@@ -438,7 +444,7 @@ export default function FloatingLines({
     const renderLoop = () => {
       if (!active || !running) return;
 
-      uniforms.iTime.value = clock.getElapsedTime();
+      uniforms.iTime.value = (performance.now() - startedAt) / 1000;
 
       if (interactive) {
         currentMouseRef.current.lerp(targetMouseRef.current, mouseDamping);

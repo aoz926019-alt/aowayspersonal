@@ -1,7 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import FloatingLines from "../reactbits/FloatingLines.jsx";
 import { profile } from "../data/content.js";
 
 export default function Contact() {
@@ -16,7 +15,7 @@ export default function Contact() {
         duration: 1.4,
         ease: EASE,
         stagger: 0.1,
-        scrollTrigger: { trigger: ".contact", start: "top 70%" },
+        scrollTrigger: { trigger: ref.current, start: "top 70%" },
       });
       gsap.from(".contact-mail, .contact-links .item", {
         y: 30,
@@ -32,16 +31,7 @@ export default function Contact() {
 
   return (
     <section className="contact" id="contact" ref={ref}>
-      <div className="contact-bg">
-        <FloatingLines
-          linesGradient={["#1f5d44", "#4ade80", "#ffffff"]}
-          animationSpeed={0.6}
-          interactive
-          parallax
-          parallaxStrength={0.12}
-          mixBlendMode="screen"
-        />
-      </div>
+      <div className="contact-bg" aria-hidden="true" />
 
       <div className="shell">
         <span className="eyebrow">
@@ -61,6 +51,7 @@ export default function Contact() {
             <span className="line">talk.</span>
           </span>
         </h2>
+        <p className="contact-intro">欢迎交流商业分析、AI 产品与项目合作。</p>
 
         <a className="contact-mail" href={`mailto:${profile.email}`}>
           {profile.email}
@@ -69,16 +60,16 @@ export default function Contact() {
         <div className="contact-links">
           <div className="item">
             <span className="k">Phone</span>
-            <span className="v">{profile.phone}</span>
+            <a className="v" href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
           </div>
           <div className="item">
             <span className="k">Location</span>
             <span className="v">{profile.location}</span>
           </div>
           <div className="item">
-            <span className="k">Website</span>
-            <a className="v" href={profile.website} target="_blank" rel="noreferrer">
-              Personal site ↗
+            <span className="k">Explore</span>
+            <a className="v" href="#work">
+              精选项目 ↗
             </a>
           </div>
           <div className="item">
@@ -94,6 +85,7 @@ export default function Contact() {
         <div className="contact-foot">
           <span>© {year} 张敖 · AO ZHANG</span>
           <span>Business Analytics & Product</span>
+          <a href="#top">返回顶部 ↑</a>
         </div>
       </div>
     </section>

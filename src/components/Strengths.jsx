@@ -45,7 +45,7 @@ export default function Strengths() {
           </span>
         </div>
 
-        <h2 className="section-title cap-head" style={{ marginBottom: "90px" }}>
+        <h2 className="section-title cap-head">
           <span className="mask">
             <span className="line">What I</span>
           </span>
@@ -63,7 +63,7 @@ export default function Strengths() {
             >
               <div className="cap-inner">
                 <div className="no">{c.no}</div>
-                <h4>{c.title}</h4>
+                <h3>{c.title}</h3>
                 <div className="h-cn">{c.cn}</div>
                 <p>{c.desc}</p>
                 <div className="stack">

@@ -48,5 +48,5 @@ export function scrollToId(id) {
   const el = document.getElementById(id);
   if (!el) return;
   if (lenis) lenis.scrollTo(el, { offset: NAV_OFFSET });
-  else el.scrollIntoView({ behavior: "smooth" });
+  else el.scrollIntoView({ behavior: prefersReducedMotion ? "instant" : "smooth" });
 }
