@@ -12,10 +12,13 @@ import Contact from "./components/Contact.jsx";
 export default function App() {
   useEffect(() => {
     startSmoothScroll();
-    // recalc trigger positions once fonts / layout settle
-    const t = setTimeout(() => ScrollTrigger.refresh(), 300);
+    // Font swaps can change line wrapping after the first layout.
+    let active = true;
+    document.fonts.ready.then(() => {
+      if (active) ScrollTrigger.refresh();
+    });
     return () => {
-      clearTimeout(t);
+      active = false;
       stopSmoothScroll();
     };
   }, []);

@@ -16,9 +16,9 @@
   --accent-soft: #2c7a5b;
 
   /* type */
-  --display: "Space Grotesk", system-ui, sans-serif;
-  --body: "Inter", system-ui, sans-serif;
-  --mono: "Space Mono", ui-monospace, monospace;
+  --display: "Manrope", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --body: "Manrope", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "IBM Plex Mono", "Noto Sans SC", ui-monospace, monospace;
 
   /* layout */
   --maxw: 1440px;
@@ -48,6 +48,15 @@ body {
   font-size: 17px;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--mono);
+}
+
+.hero-data .num, .work-info .num, .exp-period, .education-period,
+.project-filters button > span, .project-pager > span, .disclosure-count {
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 a {
@@ -501,7 +510,7 @@ body::after {
   font-family: var(--display);
   font-weight: 600;
   font-size: clamp(30px, 3.2vw, 46px);
-  line-height: 1.08;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   margin: 16px 0 8px;
   overflow-wrap: anywhere;
@@ -609,7 +618,7 @@ body::after {
 }
 .exp-body p {
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.85;
   color: var(--ink-2);
   margin: 14px 0 0;
   max-width: 640px;
@@ -648,7 +657,7 @@ body::after {
   font-family: var(--display);
   font-weight: 600;
   font-size: clamp(24px, 2.4vw, 32px);
-  line-height: 1.05;
+  line-height: 1.15;
   letter-spacing: -0.01em;
   margin: 22px 0 6px;
 }
@@ -821,7 +830,7 @@ main:focus { outline: none; }
 .nav-toggle { display: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--ink); color: white; font-size: 22px; cursor: pointer; }
 .hero-composition { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 64px; }
 .hero-role { color: #9dd8b7; font: 12px/1.7 var(--mono); letter-spacing: .12em; }
-.hero-headline { margin: 20px 0 18px; font-size: clamp(25px, 2.8vw, 38px); letter-spacing: -.04em; line-height: 1.4; }
+.hero-headline { margin: 20px 0 18px; font-size: clamp(25px, 2.8vw, 38px); font-weight: 600; letter-spacing: 0; line-height: 1.45; }
 .hero-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
 .hero-btn { display: inline-flex; align-items: center; gap: 24px; font-family: var(--body); font-weight: 600; font-size: 14px; letter-spacing: 0; }
 .hero-secondary { font-size: 14px; padding: 12px 0; color: #d7e4dc; border-bottom: 1px solid #697f72; }

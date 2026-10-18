@@ -35,6 +35,8 @@ npm run preview
 
 ## 发布
 
+字体使用自托管的 Noto Sans SC、Manrope 与 IBM Plex Mono，按需导入实际字重，均设置 `font-display: swap`。选型、依赖、授权与排版规则见 [字体规范](docs/typography.md)；完整许可随网站发布于 `public/licenses/fonts/`。
+
 推送至 `main` 后，`.github/workflows/deploy.yml` 运行检查并发布 `dist/` 到 GitHub Pages。`vite.config.js` 使用相对资源路径，可适配项目子目录。
 
 发布前应在桌面、平板和手机宽度检查导航、项目弹窗及联系区域；确认图片完整、内容无横向溢出，并复核个人信息及经历日期。
