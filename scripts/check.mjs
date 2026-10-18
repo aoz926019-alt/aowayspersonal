@@ -14,10 +14,14 @@ for (const [, asset] of html.matchAll(/(?:src|href)="(\.\/[^"#]+)"/g)) {
 
 const server = await createServer({ logLevel: "silent", server: { middlewareMode: true } });
 try {
-  const { projects, stats, nav, experience, profile, education, leadership } = await server.ssrLoadModule("/src/data/content.js");
+  const { projects, projectCategories, stats, nav, experience, profile, education, leadership } = await server.ssrLoadModule("/src/data/content.js");
   assert.equal(new Set(projects.map((p) => p.no)).size, projects.length, "Project IDs must be unique.");
+  const categoryIds = new Set(projectCategories.map((category) => category.id));
+  assert.equal(categoryIds.size, projectCategories.length, "Project categories must be unique.");
+  assert.ok(categoryIds.has("all"), "The full project list must remain accessible.");
   for (const project of projects) {
-    assert.ok(project.title && project.subtitle && project.desc && project.deliverable, `Incomplete project: ${project.no}`);
+    assert.ok(project.title && project.subtitle && project.teaser && project.desc && project.deliverable, `Incomplete project: ${project.no}`);
+    assert.ok(categoryIds.has(project.category) && project.category !== "all", `Invalid project category: ${project.title}`);
     if (project.image) {
       assert.ok(project.w > 0 && project.h > 0, `Missing image dimensions: ${project.title}`);
       assert.ok(existsSync(resolve(root, project.image.replace(/^\//, ""))), `Missing project image: ${project.title}`);
@@ -27,6 +31,9 @@ try {
     }
     if (project.source) assert.equal(new URL(project.source).protocol, "https:");
     if (project.demo) assert.equal(new URL(project.demo).protocol, "https:");
+  }
+  for (const category of projectCategories.filter((item) => item.id !== "all")) {
+    assert.ok(projects.some((project) => project.category === category.id), `Empty project category: ${category.label}`);
   }
   assert.ok(stats.every((stat) => Number.isFinite(stat.value) && stat.value > 0), "Profile statistics must be positive numbers.");
   assert.match(profile.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid contact email.");

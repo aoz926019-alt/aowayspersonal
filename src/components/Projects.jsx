@@ -1,10 +1,10 @@
 import { useRef, useLayoutEffect, useEffect, useState } from "react";
-import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import Magnet from "../reactbits/Magnet.jsx";
 import DockTags from "../reactbits/DockTags.jsx";
 import { useBorderGlowProximity } from "../reactbits/useBorderGlowProximity";
-import { projects } from "../data/content.js";
+import { projects, projectCategories } from "../data/content.js";
 
 function ProjectSummary({ project }) {
   const summary = project.summary;
@@ -27,10 +27,14 @@ export default function Projects() {
   const ref = useRef(null);
   const dialogRef = useRef(null);
   const [selected, setSelected] = useState(null);
+  const [category, setCategory] = useState("all");
+  const visibleProjects = projects.filter((project) => category === "all" || project.category === category);
+  const selectedIndex = visibleProjects.findIndex((project) => project.no === selected?.no);
 
   useEffect(() => {
     if (selected && dialogRef.current) {
-      dialogRef.current.showModal();
+      if (!dialogRef.current.open) dialogRef.current.showModal();
+      else document.getElementById("project-dialog-title")?.focus();
       dialogRef.current.scrollTop = 0;
     }
   }, [selected]);
@@ -50,57 +54,13 @@ export default function Projects() {
         scrollTrigger: { trigger: ".work-title", start: "top 82%" },
       });
 
-      const cards = gsap.utils.toArray(".work-card");
-      cards.forEach((card) => {
-        const media = card.querySelector(".work-media");
-        const reveal = card.querySelector(".reveal");
-        const img = card.querySelector(".img");
-        const info = card.querySelectorAll(".work-info > *");
-
-        // image clip-reveal: paper curtain wipes upward
-        gsap.fromTo(
-          reveal,
-          { scaleY: 1 },
-          {
-            scaleY: 0,
-            duration: 1.3,
-            ease: EASE,
-            scrollTrigger: { trigger: media, start: "top 80%" },
-          }
-        );
-
-        // parallax only on placeholder gradient fills — real screenshots render at
-        // their natural ratio (in flow), so a translate would open gaps / clip edges
-        if (img && img.tagName !== "IMG") {
-          gsap.fromTo(
-            img,
-            { yPercent: -6 },
-            {
-              yPercent: 6,
-              ease: "none",
-              scrollTrigger: {
-                trigger: media,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.8, // smoothed lag instead of 1:1 scroll-tied — reads as silky, not jittery
-              },
-            }
-          );
-        }
-
-        // info column staggers in
-        gsap.from(info, {
-          y: 32,
-          opacity: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.09,
-          scrollTrigger: { trigger: card, start: "top 75%" },
-        });
-      });
     }, ref);
     return () => ctx.revert();
   }, []);
+
+  useEffect(() => {
+    ScrollTrigger.refresh();
+  }, [category]);
 
   return (
     <section className="section" id="work" ref={ref}>
@@ -127,8 +87,20 @@ export default function Projects() {
         </h2>
         <p className="section-intro">从招聘与供应链数据，到企业现金流、用户研究和 AI 原型。点击项目，查看研究概览或产品界面。</p>
 
-        <div className="work-list">
-          {projects.map((p, i) => (
+        <div className="work-browse">
+          <div className="project-filters" role="group" aria-label="按项目方向筛选">
+            {projectCategories.map((item) => (
+              <button key={item.id} type="button" aria-pressed={category === item.id}
+                aria-controls="project-list" onClick={() => setCategory(item.id)}>
+                {item.label}<span>{String(projects.filter((project) => item.id === "all" || project.category === item.id).length).padStart(2, "0")}</span>
+              </button>
+            ))}
+          </div>
+          <output className="project-count" aria-live="polite" aria-atomic="true">显示 {visibleProjects.length} 个项目</output>
+        </div>
+
+        <div className="work-list" id="project-list">
+          {visibleProjects.map((p, i) => (
             <article
               className={`work-card ${i % 2 === 1 ? "reverse" : ""}`}
               key={p.no}
@@ -175,7 +147,7 @@ export default function Projects() {
                 <div className="work-subtitle">{p.subtitle}</div>
                 <div className="role">{p.role}</div>
                 <div className="work-context">{p.context}</div>
-                <p>{p.desc}</p>
+                <p>{p.teaser}</p>
                 {p.note && <p className="work-note">{p.note}</p>}
                 <div className="work-deliverable"><span>项目内容</span>{p.deliverable}</div>
                 <DockTags tags={p.tags} />
@@ -193,7 +165,7 @@ export default function Projects() {
         onClose={() => setSelected(null)} onClick={(event) => { if (event.target === event.currentTarget) dialogRef.current.close(); }}>
         {selected && <div className="project-dialog-content">
           <div className="project-dialog-head">
-            <div><span className="eyebrow">PROJECT {selected.no} / {String(projects.length).padStart(2, "0")}</span><h2 id="project-dialog-title">{selected.title}</h2><p>{selected.subtitle}</p></div>
+            <div><span className="eyebrow">PROJECT {selected.no} / {String(projects.length).padStart(2, "0")}</span><h2 id="project-dialog-title" tabIndex={-1}>{selected.title}</h2><p>{selected.subtitle}</p></div>
             <button className="dialog-close" type="button" aria-label="关闭项目概览" onClick={() => dialogRef.current.close()} autoFocus>×</button>
           </div>
           <div className="project-dialog-image">{selected.image ? <img src={selected.image} alt={`${selected.subtitle} — 完整项目截图`} width={selected.w} height={selected.h} /> : <ProjectSummary project={selected} />}</div>
@@ -201,6 +173,11 @@ export default function Projects() {
             {selected.demo && <a className="text-link dialog-demo" href={selected.demo} target="_blank" rel="noreferrer">体验 PWA 原型 ↗</a>}
             {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">在 GitHub 查看项目 ↗</a>}
           </div>
+          <nav className="project-pager" aria-label="项目切换">
+            <button type="button" disabled={selectedIndex <= 0} onClick={() => setSelected(visibleProjects[selectedIndex - 1])}>← 上一个项目</button>
+            <span>{selectedIndex + 1} / {visibleProjects.length}</span>
+            <button type="button" disabled={selectedIndex >= visibleProjects.length - 1} onClick={() => setSelected(visibleProjects[selectedIndex + 1])}>下一个项目 →</button>
+          </nav>
         </div>}
       </dialog>
     </section>

@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect } from "react";
-import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { experience, leadership } from "../data/content.js";
 
@@ -75,10 +75,14 @@ export default function Experience() {
           <h3 id="leadership-title">竞赛与领导经历 <span>COMPETITIONS & LEADERSHIP</span></h3>
           <div className="leadership-list">
             {leadership.map((item) => (
-              <article className="leadership-item" key={item.title}>
-                <span className="exp-period">{item.period}</span>
-                <div><h4>{item.title}</h4><span className="exp-role">{item.role}</span><p>{item.desc}</p></div>
-              </article>
+              <details className="leadership-item" key={item.title} onToggle={() => ScrollTrigger.refresh()}>
+                <summary>
+                  <span className="exp-period">{item.period}</span>
+                  <span className="leadership-label"><span className="leadership-title">{item.title}</span><span className="exp-role">{item.role}</span></span>
+                  <span className="disclosure-icon" aria-hidden="true">+</span>
+                </summary>
+                <p>{item.desc}</p>
+              </details>
             ))}
           </div>
         </div>

@@ -33,10 +33,6 @@ export const about = {
     "我的实践覆盖招聘数据、供应链风险、企业现金流和 AI 产品。习惯先明确业务问题，再通过数据清洗、统计检验与可视化形成判断；也将用户需求整理为 PRD，借助生成式 AI 推进 PWA 与 Web 原型。",
   ],
   meta: [
-    { k: "方向", v: "商业分析 · AI 与产品" },
-    { k: "语言", v: "中文母语 · 英语可作工作语言 · TOEFL 97" },
-    { k: "数据工具", v: "SQL · R · SPSS · Power BI · Excel · Python" },
-    { k: "AI 与产品", v: "生成式 AI · 提示词 · 多 Agent · 用户研究 · PRD" },
     { k: "Google 认证", v: "商业智能基础 · IT Automation with Python（2026）" },
     { k: "华为认证", v: "开发者认证 · 初级（2025）" },
     { k: "学业荣誉", v: "澳门大学奖学金 · 连续四学期院长荣誉榜" },
@@ -81,10 +77,19 @@ export const experience = [
   },
 ];
 
+export const projectCategories = [
+  { id: "all", label: "全部项目" },
+  { id: "data", label: "数据分析" },
+  { id: "finance", label: "财务研究" },
+  { id: "product", label: "用户与产品" },
+];
+
 export const projects = [
   {
     no: "01",
     title: "Auto Cash Flow Analysis",
+    category: "finance",
+    teaser: "对照九份年报，分析三家港股汽车企业的现金转化与流动性风险。",
     subtitle: "港股汽车企业现金流与流动性分析",
     role: "Finance / Risk Analytics",
     context: "个人项目 · 2026.10",
@@ -96,6 +101,8 @@ export const projects = [
   {
     no: "02",
     title: "Supply Chain Risk",
+    category: "data",
+    teaser: "以 113,097 条运输记录，识别供应商、来源国家与交付周期风险。",
     subtitle: "供应链风险分析与决策支持看板",
     role: "Data / Power BI",
     context: "个人项目 · 2026",
@@ -107,6 +114,8 @@ export const projects = [
   {
     no: "03",
     title: "Immigration Attitudes",
+    category: "data",
+    teaser: "基于八国 11,379 名受访者，检验移民态度与经济、文化因素的关联。",
     subtitle: "西欧移民态度影响因素定量研究",
     role: "Quantitative Research / SPSS",
     context: "学术研究 · 六人团队共同作者 · 2026",
@@ -118,6 +127,8 @@ export const projects = [
   {
     no: "04",
     title: "36Kr Campus Research",
+    category: "product",
+    teaser: "从校园问卷设计与用户反馈出发，整理 AI 产品与社区需求。",
     subtitle: "36氪 AI 社区内容与校园研究",
     role: "User Research / Community Insights",
     context: "校园研究项目 · 2026.04 — 2026.07",
@@ -129,6 +140,8 @@ export const projects = [
   {
     no: "05",
     title: "MoodSpend",
+    category: "product",
+    teaser: "将情绪记录、消费洞察与 AI 助手整合为可测试的 PWA 原型。",
     subtitle: "情绪与消费洞察 PWA",
     role: "Founder / Product",
     context: "个人原型 · 2025 — 2026",
@@ -142,6 +155,8 @@ export const projects = [
   {
     no: "06",
     title: "AI PingAnTong Plus",
+    category: "product",
+    teaser: "结合 QwenPaw 与家庭端 PWA，以模拟资料演示长者照护的风险状态。",
     subtitle: "AI 平安通 Plus 长者照护 Agent",
     role: "Multi-Agent / PWA",
     context: "竞赛初赛项目 · 团队成员 · 2026",
@@ -155,6 +170,8 @@ export const projects = [
   {
     no: "07",
     title: "BYD Equity Research",
+    category: "finance",
+    teaser: "通过财务报表、行业对标与风险分析，协作完成比亚迪研究报告。",
     subtitle: "CFA 研究挑战赛比亚迪研究",
     role: "Finance / Equity Research",
     context: "香港区澳门大学校内轮 · 团队成员 · 2024.08",

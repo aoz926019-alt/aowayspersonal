@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect } from "react";
-import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
 import { about, profile, education } from "../data/content.js";
 import { scrollToId } from "../hooks/smoothScroll";
 import ProfileCard from "../reactbits/ProfileCard.jsx";
@@ -98,14 +98,17 @@ export default function About() {
               ))}
             </div>
 
-            <div className="about-meta">
+            <details className="profile-credentials" onToggle={() => ScrollTrigger.refresh()}>
+              <summary>证书与荣誉 <span className="disclosure-count">{about.meta.length} 项</span><span className="disclosure-icon" aria-hidden="true">+</span></summary>
+              <div className="about-meta">
               {about.meta.map((m) => (
                 <div className="row" key={m.k}>
                   <span className="k">{m.k}</span>
                   <span className="v">{m.v}</span>
                 </div>
               ))}
-            </div>
+              </div>
+            </details>
 
             <div className="about-meta" style={{ marginTop: 0, borderTop: 0 }}>
               <div className="row" style={{ borderRight: 0 }}>
