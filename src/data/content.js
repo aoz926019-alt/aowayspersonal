@@ -5,6 +5,8 @@ import immigrationImg from "../assets/projects/immigration.webp";
 import aiPingAnTongImg from "../assets/projects/ai-pingantong.webp";
 import bydImg from "../assets/projects/byd.webp";
 import portraitImg from "../assets/portrait.webp";
+import campusResearchImg from "../assets/projects/36kr-campus-research.png";
+import cashflowImg from "../assets/projects/auto-cashflow.png";
 
 export const profile = {
   portrait: portraitImg,
@@ -96,7 +98,7 @@ export const projects = [
     desc: "整理比亚迪、吉利汽车、长城汽车 2023—2025 年共九份年报，建立财务数据与原页索引，统一单位及报告口径。分析现金转化、营运资金与债务到期，设置财务勾稽检查，测算周转天数对资金占用的敏感性，并将交互看板中的结论关联至年报原页。",
     deliverable: "三家公司 · 九份年报 · 交互看板与原页索引",
     tags: ["现金流", "营运资金", "财务勾稽", "敏感性分析"],
-    summary: { label: "FINANCIAL RESEARCH", title: "从财务数据到风险核查", metrics: [{ value: "03", label: "港股汽车企业" }, { value: "09", label: "公司年报" }], footer: "2023—2025 · 现金转化 / 营运资金 / 债务到期" },
+    image: cashflowImg, w: 1889, h: 1035,
   },
   {
     no: "02",
@@ -135,7 +137,7 @@ export const projects = [
     desc: "围绕校园用户的 AI 产品采用与需求设计问卷，规划校园渠道分发路径；整理用户反馈，形成产品与社区需求洞察摘要，支持团队讨论。",
     deliverable: "问卷设计 · 校园分发路径 · 用户洞察摘要",
     tags: ["用户研究", "问卷设计", "AI 产品", "社区需求"],
-    summary: { label: "USER RESEARCH", title: "理解校园用户的 AI 需求", steps: ["问卷设计", "渠道规划", "反馈整理", "需求洞察"], footer: "产品采用 / 使用需求 / 社区反馈" },
+    image: campusResearchImg, w: 1674, h: 945,
   },
   {
     no: "05",
