@@ -137,7 +137,7 @@ export const projects = [
     desc: "围绕校园用户的 AI 产品采用与需求设计问卷，规划校园渠道分发路径；整理用户反馈，形成产品与社区需求洞察摘要，支持团队讨论。",
     deliverable: "问卷设计 · 校园分发路径 · 用户洞察摘要",
     tags: ["用户研究", "问卷设计", "AI 产品", "社区需求"],
-    image: campusResearchImg, w: 1674, h: 945,
+    image: campusResearchImg, w: 961, h: 905,
   },
   {
     no: "05",
