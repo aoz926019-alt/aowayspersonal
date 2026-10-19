@@ -100,7 +100,7 @@ export default function Projects() {
             <span className="line">Work</span>
           </span>
         </h2>
-        <p className="section-intro" id="project-carousel-help">从企业现金流、供应链风险到用户研究与 AI 产品。左右拖动、滚轮或方向键浏览，点击图片聚焦，打开项目概览查看详情。</p>
+        <p className="section-intro" id="project-carousel-help">从企业现金流、供应链风险到用户研究与 AI 产品。左右拖动、滚轮或方向键浏览，点击任意项目图片，查看完整图片与项目详情。</p>
 
         <div className="work-browse">
           <div className="project-filters" role="group" aria-label="按项目方向筛选">
@@ -128,7 +128,7 @@ export default function Projects() {
               cardHeight={0.5}
               gap={12}
               squeeze={0.2}
-              focusOnClick
+              focusOnClick={false}
               captions
               fit="natural"
               radius={0}
@@ -146,6 +146,7 @@ export default function Projects() {
               interval={4}
               captureWheel
               onChange={(_, item) => item && setActiveNo(item.projectNo)}
+              onSelect={(_, item) => openProject(visibleProjects.find((project) => project.no === item.projectNo))}
             />
           </div>
           <nav className="project-carousel-controls" aria-label="浏览项目">
@@ -187,13 +188,29 @@ export default function Projects() {
         onClose={() => setSelected(null)} onClick={(event) => { if (event.target === event.currentTarget) dialogRef.current.close(); }}>
         {selected && <div className="project-dialog-content">
           <div className="project-dialog-head">
-            <div><span className="eyebrow">PROJECT {selected.no} / {String(projects.length).padStart(2, "0")}</span><h2 id="project-dialog-title" tabIndex={-1}>{selected.title}</h2><p>{selected.subtitle}</p></div>
+            <span className="eyebrow">PROJECT {selected.no} / {String(projects.length).padStart(2, "0")} — {selected.title}</span>
             <button className="dialog-close" type="button" aria-label="关闭项目概览" onClick={() => dialogRef.current.close()} autoFocus>×</button>
           </div>
-          <div className="project-dialog-image">{selected.image ? <img src={selected.image} alt={`${selected.subtitle} — 完整项目截图`} width={selected.w} height={selected.h} /> : <ProjectSummary project={selected} />}</div>
-          <div className="project-dialog-info"><span className="eyebrow">{selected.role}</span><p className="work-context">{selected.context}</p><p>{selected.desc}</p>{selected.note && <p className="work-note">{selected.note}</p>}<p className="dialog-deliverable">{selected.deliverable}</p>
-            {selected.demo && <a className="text-link dialog-demo" href={selected.demo} target="_blank" rel="noreferrer">体验 PWA 原型 ↗</a>}
-            {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">在 GitHub 查看项目 ↗</a>}
+          <div className="project-dialog-layout">
+            <div className="project-dialog-image">{selected.image ? <>
+              <a href={selected.image} target="_blank" rel="noreferrer" aria-label={`查看 ${selected.title} 原尺寸图片`}><img src={selected.image} alt={`${selected.subtitle} — 完整项目截图`} width={selected.w} height={selected.h} /></a>
+              <span className="project-image-hint">完整项目画面 · 点击查看原图 ↗</span>
+            </> : <ProjectSummary project={selected} />}</div>
+            <div className="project-dialog-info work-info">
+              <div className="num">{selected.no} / {String(projects.length).padStart(2, "0")}</div>
+              <h2 id="project-dialog-title" tabIndex={-1}>{selected.title}</h2>
+              <div className="work-subtitle">{selected.subtitle}</div>
+              <div className="role">{selected.role}</div>
+              <div className="work-context">{selected.context}</div>
+              <p>{selected.desc}</p>
+              {selected.note && <p className="work-note">{selected.note}</p>}
+              <div className="work-deliverable"><span>项目内容</span>{selected.deliverable}</div>
+              <DockTags tags={selected.tags} />
+              <div className="work-actions">
+                {selected.demo && <a className="text-link" href={selected.demo} target="_blank" rel="noreferrer">体验原型 <span aria-hidden="true">↗</span></a>}
+                {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
+              </div>
+            </div>
           </div>
           <nav className="project-pager" aria-label="项目切换">
             <button type="button" disabled={selectedIndex <= 0} onClick={() => openProject(visibleProjects[selectedIndex - 1])}>← 上一个项目</button>

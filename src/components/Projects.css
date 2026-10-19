@@ -1,8 +1,10 @@
 .project-carousel-stage {
   position: relative;
-  height: 560px;
-  border: 1px solid var(--hairline);
-  background: linear-gradient(160deg, #f2f4f3, #e2e8e4);
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  height: clamp(520px, 72svh, 740px);
+  border: 0;
+  background: transparent;
 }
 
 .project-carousel-stage .flex-carousel__title {
@@ -81,7 +83,8 @@
 .project-spotlight-copy > p:first-child { margin-top: 0; }
 
 .flex-carousel__fallback { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-.flex-carousel__fallback img { max-width: 92%; max-height: 50%; width: auto; height: auto; object-fit: contain; }
+.flex-carousel__fallback button { display: flex; align-items: center; justify-content: center; width: 92%; height: 70%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+.flex-carousel__fallback img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 
 @media (max-width: 900px) {
   .project-spotlight { grid-template-columns: 1fr; gap: 28px; }

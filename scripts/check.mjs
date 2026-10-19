@@ -25,6 +25,7 @@ try {
   assert.ok(carouselMarkup.includes(projects[0].title) && carouselMarkup.includes(`共 ${projects.length} 个项目`), "The carousel must announce the current project and total.");
   assert.equal(renderToStaticMarkup(createElement(FlexCarousel, { items: [] })), "", "An empty carousel must not substitute stock images.");
   assert.ok(existsSync(resolve(root, "dist/licenses/React-Bits-FlexCarousel.txt")), "The carousel license must ship with the website.");
+  assert.ok(existsSync(resolve(root, "dist/licenses/React-Bits.txt")), "The decorative effects license must ship with the website.");
   assert.equal(new Set(projects.map((p) => p.no)).size, projects.length, "Project IDs must be unique.");
   const categoryIds = new Set(projectCategories.map((category) => category.id));
   assert.equal(categoryIds.size, projectCategories.length, "Project categories must be unique.");

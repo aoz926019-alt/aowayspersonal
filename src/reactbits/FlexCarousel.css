@@ -25,7 +25,13 @@
 }
 
 .flex-carousel:focus-visible {
-  box-shadow: inset 0 0 0 2px rgba(128, 128, 140, 0.55);
+  outline: none;
+}
+
+.flex-carousel:focus-visible .flex-carousel__title {
+  text-decoration: underline;
+  text-decoration-color: var(--accent, #1f5d44);
+  text-underline-offset: 6px;
 }
 
 .flex-carousel__caption {

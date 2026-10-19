@@ -117,7 +117,6 @@ void main() {
   float cardAspect = uSize.x / uSize.y;
   float imageAspect = uImage.x / max(uImage.y, 1.0);
   vec2 scale = imageAspect > cardAspect ? vec2(cardAspect / imageAspect, 1.0) : vec2(1.0, imageAspect / cardAspect);
-  scale /= 1.08;
   vec2 uv = vec2(local.x, 1.0 - local.y);
   uv = (uv - 0.5) * scale + 0.5;
   uv.x += uShift * (1.0 - scale.x) * 0.5;
@@ -1083,6 +1082,11 @@ const FlexCarousel = forwardRef(({
       const [x, y] = localPoint(e);
       const hit = instances.find(inst => x >= inst.x0 && x <= inst.x1 && y >= inst.y0 && y <= inst.y1);
       if (!hit) return;
+      // Every visible project opens its own full-image detail view, including side cards.
+      if (callbacksRef.current.onSelect) {
+        callbacksRef.current.onSelect(hit.index, itemsRef.current[hit.index]);
+        return;
+      }
       if (hit.index === activeIndex && Math.abs(goal - pos) < 2) {
         callbacksRef.current.onSelect?.(hit.index, itemsRef.current[hit.index]);
         if (s.focusOnClick) openFocus(hit.index);
@@ -1266,10 +1270,13 @@ const FlexCarousel = forwardRef(({
         } else if (event.key === 'Home' || event.key === 'End') {
           event.preventDefault();
           navigate(event.key === 'Home' ? 0 : list.length - 1);
+        } else if ((event.key === 'Enter' || event.key === ' ') && event.target === event.currentTarget) {
+          event.preventDefault();
+          callbacksRef.current.onSelect?.(active, current);
         }
       }}
     >
-      {unavailable && <div className="flex-carousel__fallback"><img src={current.src} alt={current.alt} /></div>}
+      {unavailable && <div className="flex-carousel__fallback"><button type="button" aria-label={`查看 ${label} 项目概览`} onClick={() => callbacksRef.current.onSelect?.(active, current)}><img src={current.src} alt={current.alt} /></button></div>}
       {captions && current && (revealed || unavailable) && (
         <div className="flex-carousel__caption" aria-hidden="true">
           <span key={active} className="flex-carousel__title">

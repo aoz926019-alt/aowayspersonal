@@ -1,0 +1,18 @@
+/* React Bits by David Haz; MIT + Commons Clause.
+ * Source: https://github.com/DavidHDev/react-bits/blob/e12c22192ac7b4b452c5e2feb9b586d74765d696/src/content/Backgrounds/RippleGrid/RippleGrid.css
+ * Full license: public/licenses/React-Bits.txt
+ */
+.ripple-grid-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ripple-grid-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}

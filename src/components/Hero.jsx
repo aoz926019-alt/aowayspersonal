@@ -3,7 +3,7 @@ import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import { profile, stats } from "../data/content.js";
 import ShinyText from "../reactbits/ShinyText.jsx";
 
-const FloatingLines = lazy(() => import("../reactbits/FloatingLines.jsx"));
+const RippleGrid = lazy(() => import("../reactbits/RippleGrid.jsx"));
 const canAnimateBackground = !prefersReducedMotion && typeof window !== "undefined" &&
   window.matchMedia("(min-width: 901px) and (hover: hover) and (pointer: fine)").matches;
 
@@ -51,13 +51,16 @@ export default function Hero() {
     <header className="hero" id="top" ref={ref}>
       {/* Keep the decorative background out of the critical content bundle. */}
       <div className="hero-bg" aria-hidden="true">
-        {canAnimateBackground && <Suspense fallback={null}><FloatingLines
-          linesGradient={["#1f5d44", "#5cba8d", "#a9dbbf"]}
-          animationSpeed={0.8}
-          interactive
-          parallax
-          parallaxStrength={0.15}
-          mixBlendMode="screen"
+        {canAnimateBackground && <Suspense fallback={null}><RippleGrid
+          color="#86d6ac"
+          cellSize={48}
+          glow={0.4}
+          rippleStrength={0.8}
+          autoRipple="none"
+          intro={false}
+          fade={0.65}
+          opacity={0.7}
+          dpr={1.5}
         /></Suspense>}
       </div>
 
