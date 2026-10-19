@@ -114,7 +114,7 @@ export default function Projects() {
             <span className="line">Work</span>
           </span>
         </h2>
-        <p className="section-intro" id="project-carousel-help">从企业现金流、供应链风险到用户研究与 AI 产品。左右拖动、滚轮或方向键浏览，点击任意项目图片，查看完整图片与项目详情。</p>
+        <p className="section-intro" id="project-carousel-help">从企业现金流、供应链风险到用户研究与 AI 产品。左右拖动、横向滚动或方向键浏览，点击项目图片查看完整画面与详情。</p>
 
         <div className="work-browse">
           <div className="project-filters" role="group" aria-label="按项目方向筛选">
@@ -132,7 +132,7 @@ export default function Projects() {
         </div>
 
         <div className="project-showcase" id="project-list">
-          <div className="project-carousel-stage" data-lenis-prevent-wheel>
+          <div className="project-carousel-stage">
             <FlexCarousel
               ref={carouselRef}
               key={category}
@@ -158,12 +158,12 @@ export default function Projects() {
               followCursor={false}
               autoplay={false}
               interval={4}
-              captureWheel
+              captureWheel={false}
               onChange={(_, item) => item && setActiveNo(item.projectNo)}
               onSelect={(_, item) => openProject(visibleProjects.find((project) => project.no === item.projectNo))}
             />
             <div className="project-rail">
-              <div className="project-rail-copy" aria-live="polite" aria-atomic="true">
+              <div className="project-rail-copy">
                 <h3 id="active-project-title">{activeProject.title}</h3>
                 <p>{activeProject.subtitle}{activeProject.note && <span className="project-demo-note">含模拟数据演示</span>}</p>
               </div>
