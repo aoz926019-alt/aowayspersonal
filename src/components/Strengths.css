@@ -1,7 +1,17 @@
 .skills-section { isolation: isolate; overflow: hidden; }
-.skills-field { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5; mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent); background-image: radial-gradient(#60827328 .7px, transparent .7px); background-size: 42px 42px; }
+.skills-atmosphere { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent); }
+.skills-lightfield { position: absolute; inset: -8%; }
+.skills-glow { position: absolute; display: block; border-radius: 50%; filter: blur(35px); }
+.skills-glow--sage { width: 88%; height: 58%; top: 0; right: -16%; background: radial-gradient(ellipse, transparent 24%, #82aa9580 43%, #b2cec578 55%, transparent 70%); transform: rotate(-24deg); }
+.skills-glow--blue { width: 75%; height: 64%; top: 20%; left: -24%; background: radial-gradient(ellipse, #a2bac366 8%, #b3c9ce88 32%, transparent 67%); transform: rotate(24deg); }
+.skills-glow--pearl { width: 66%; height: 42%; right: -8%; bottom: 9%; background: radial-gradient(ellipse, #f8f4ddaa 6%, #d0ddbe88 36%, transparent 69%); }
 .skills-shell { position: relative; z-index: 1; }
 .skills-section .cap-heading { display: block; }
-.skills-section .cap-card { background: #eceef0f0; }
+.skills-section .cap-card { background: #eceef0dc; }
 .skills-section .cap-head { margin-bottom: 48px; }
-@media (max-width: 640px) { .skills-field { opacity: .35; background-size: 32px 32px; }.skills-section .cap-head { margin-bottom: 36px; } }
+@media (max-width: 640px) {
+  .skills-atmosphere { opacity: .8; }
+  .skills-glow--sage { width: 150%; height: 45%; right: -65%; }
+  .skills-glow--blue { width: 130%; left: -70%; }
+  .skills-section .cap-head { margin-bottom: 36px; }
+}

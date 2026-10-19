@@ -1,22 +1,58 @@
-import { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
+import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { capabilities } from "../data/content.js";
 import SpotlightCard from "../reactbits/SpotlightCard.jsx";
 import "./Strengths.css";
 
-const MagnetLines = lazy(() => import("../reactbits/MagnetLines.jsx"));
-
 export default function Strengths() {
   const ref = useRef(null);
-  const [animateField, setAnimateField] = useState(false);
 
-  useEffect(() => {
-    const media = window.matchMedia("(min-width: 901px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
-    const update = () => setAnimateField(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
+  useLayoutEffect(() => {
+    const media = gsap.matchMedia();
+    media.add({
+      motion: "(prefers-reduced-motion: no-preference)",
+      pointer: "(hover: hover) and (pointer: fine)",
+    }, ({ conditions }) => {
+      if (!conditions.motion) return;
+      const section = ref.current;
+      const drift = gsap.timeline({ paused: true, repeat: -1, yoyo: true, defaults: { ease: "sine.inOut" } })
+        .to(".skills-glow--sage", { xPercent: -14, yPercent: 12, rotation: 18, scale: 1.12, duration: 16 }, 0)
+        .to(".skills-glow--blue", { xPercent: 16, yPercent: -10, rotation: -15, scale: 1.16, duration: 18 }, 0)
+        .to(".skills-glow--pearl", { xPercent: -12, yPercent: -16, scale: .85, duration: 14 }, 0);
+      let visible = false;
+      const update = () => drift.paused(!visible || document.hidden);
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        update();
+      });
+      observer.observe(section);
+      document.addEventListener("visibilitychange", update);
+
+      let move, reset;
+      if (conditions.pointer) {
+        const field = section.querySelector(".skills-lightfield");
+        const xTo = gsap.quickTo(field, "x", { duration: 1.6, ease: "power3.out" });
+        const yTo = gsap.quickTo(field, "y", { duration: 1.6, ease: "power3.out" });
+        move = (event) => {
+          const bounds = section.getBoundingClientRect();
+          xTo((event.clientX - bounds.left - bounds.width / 2) * .045);
+          yTo((event.clientY - bounds.top - bounds.height / 2) * .035);
+        };
+        reset = () => { xTo(0); yTo(0); };
+        section.addEventListener("pointermove", move);
+        section.addEventListener("pointerleave", reset);
+      }
+      return () => {
+        observer.disconnect();
+        document.removeEventListener("visibilitychange", update);
+        if (move) {
+          section.removeEventListener("pointermove", move);
+          section.removeEventListener("pointerleave", reset);
+        }
+      };
+    }, ref);
+    return () => media.revert();
   }, []);
 
   useLayoutEffect(() => {
@@ -44,11 +80,13 @@ export default function Strengths() {
 
   return (
     <section className="section skills-section" id="skills" ref={ref}>
-      <div className="skills-field" aria-hidden="true">{animateField && <Suspense fallback={null}>
-        <MagnetLines lineColor="#7c9687" accentColor="#47785d" spacing={42} lineHeight={14}
-          lineWidth={1} mode="attract" radius={220} edgeFade={.15} fade={.65}
-          intro={false} maxDevicePixelRatio={1.25} />
-      </Suspense>}</div>
+      <div className="skills-atmosphere" aria-hidden="true">
+        <div className="skills-lightfield">
+          <span className="skills-glow skills-glow--sage" />
+          <span className="skills-glow skills-glow--blue" />
+          <span className="skills-glow skills-glow--pearl" />
+        </div>
+      </div>
       <div className="shell skills-shell">
         <div className="section-rule">
           <span className="idx">
