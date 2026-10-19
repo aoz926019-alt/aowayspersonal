@@ -1,9 +1,9 @@
-import { useRef, useLayoutEffect, useEffect, useState } from "react";
+import { useRef, useLayoutEffect, useEffect, useMemo, useState } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import Magnet from "../reactbits/Magnet.jsx";
 import DockTags from "../reactbits/DockTags.jsx";
-import { useBorderGlowProximity } from "../reactbits/useBorderGlowProximity";
+import FlexCarousel from "../reactbits/FlexCarousel.jsx";
+import "./Projects.css";
 import { projects, projectCategories } from "../data/content.js";
 
 function ProjectSummary({ project }) {
@@ -26,10 +26,28 @@ function ProjectSummary({ project }) {
 export default function Projects() {
   const ref = useRef(null);
   const dialogRef = useRef(null);
+  const carouselRef = useRef(null);
   const [selected, setSelected] = useState(null);
   const [category, setCategory] = useState("all");
-  const visibleProjects = projects.filter((project) => category === "all" || project.category === category);
+  const [activeNo, setActiveNo] = useState(projects[0].no);
+  const visibleProjects = useMemo(() => projects.filter((project) => category === "all" || project.category === category), [category]);
+  const carouselItems = useMemo(() => visibleProjects.map((project) => ({
+    src: project.image, alt: `${project.subtitle} — 项目界面`, title: project.title,
+    subtitle: project.subtitle, projectNo: project.no,
+  })), [visibleProjects]);
+  const activeIndex = Math.max(0, visibleProjects.findIndex((project) => project.no === activeNo));
+  const activeProject = visibleProjects[activeIndex];
   const selectedIndex = visibleProjects.findIndex((project) => project.no === selected?.no);
+
+  const focusProject = (index) => {
+    const next = (index + visibleProjects.length) % visibleProjects.length;
+    setActiveNo(visibleProjects[next].no);
+    carouselRef.current?.goTo(next);
+  };
+  const openProject = (project) => {
+    focusProject(visibleProjects.findIndex((item) => item.no === project.no));
+    setSelected(project);
+  };
 
   useEffect(() => {
     if (selected && dialogRef.current) {
@@ -38,9 +56,6 @@ export default function Projects() {
       dialogRef.current.scrollTop = 0;
     }
   }, [selected]);
-
-  // light-friendly edge glow that lights up as the cursor approaches each image
-  useBorderGlowProximity(ref, ".work-frame");
 
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
@@ -60,7 +75,7 @@ export default function Projects() {
 
   useEffect(() => {
     ScrollTrigger.refresh();
-  }, [category]);
+  }, [category, activeNo]);
 
   return (
     <section className="section" id="work" ref={ref}>
@@ -85,13 +100,16 @@ export default function Projects() {
             <span className="line">Work</span>
           </span>
         </h2>
-        <p className="section-intro">从招聘与供应链数据，到企业现金流、用户研究和 AI 原型。点击项目，查看研究概览或产品界面。</p>
+        <p className="section-intro" id="project-carousel-help">从企业现金流、供应链风险到用户研究与 AI 产品。左右拖动、滚轮或方向键浏览，点击图片聚焦，打开项目概览查看详情。</p>
 
         <div className="work-browse">
           <div className="project-filters" role="group" aria-label="按项目方向筛选">
             {projectCategories.map((item) => (
               <button key={item.id} type="button" aria-pressed={category === item.id}
-                aria-controls="project-list" onClick={() => setCategory(item.id)}>
+                aria-controls="project-list" onClick={() => {
+                  setCategory(item.id);
+                  setActiveNo(projects.find((project) => item.id === "all" || project.category === item.id).no);
+                }}>
                 {item.label}<span>{String(projects.filter((project) => item.id === "all" || project.category === item.id).length).padStart(2, "0")}</span>
               </button>
             ))}
@@ -99,66 +117,70 @@ export default function Projects() {
           <output className="project-count" aria-live="polite" aria-atomic="true">显示 {visibleProjects.length} 个项目</output>
         </div>
 
-        <div className="work-list" id="project-list">
-          {visibleProjects.map((p, i) => (
-            <article
-              className={`work-card ${i % 2 === 1 ? "reverse" : ""}`}
-              key={p.no}
-              id={`project-${p.no}`}
-            >
-              <div className={`work-media ${p.image ? "has-image" : "has-summary"} ${p.h > p.w ? "portrait-media" : ""}`}>
-                {p.image ? (
-                  <Magnet
-                    padding={90}
-                    magnetStrength={5}
-                    disabled={prefersReducedMotion}
-                    wrapperClassName="work-magnet"
-                    innerClassName="work-magnet-inner"
-                    style={{ position: "relative", display: "block", width: "100%" }}
-                  >
-                    <button className="work-frame" type="button" onClick={() => setSelected(p)} aria-label={`查看 ${p.title} 项目截图与概览`}>
-                      <span className="work-frame-clip">
-                        <img
-                          className="img"
-                          src={p.image}
-                          alt={`${p.subtitle} — 项目界面`}
-                          width={p.w}
-                          height={p.h}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                        <span className="reveal" />
-                      </span>
-                      <span className="work-blade" aria-hidden="true" />
-                      <span className="work-zoom" aria-hidden="true">查看项目 ↗</span>
-                    </button>
-                  </Magnet>
-                ) : (
-                  <button className="work-frame" type="button" onClick={() => setSelected(p)} aria-label={`查看 ${p.title} 研究概览`}>
-                    <ProjectSummary project={p} />
-                    <span className="work-zoom" aria-hidden="true">查看项目 ↗</span>
-                  </button>
-                )}
+        <div className="project-showcase" id="project-list">
+          <div className="project-carousel-stage" data-lenis-prevent-wheel>
+            <FlexCarousel
+              ref={carouselRef}
+              key={category}
+              items={carouselItems}
+              preset="liquid"
+              intro={prefersReducedMotion ? "none" : "rise"}
+              cardHeight={0.5}
+              gap={12}
+              squeeze={0.2}
+              focusOnClick
+              captions
+              fit="natural"
+              radius={0}
+              lensWidth={0.74}
+              lensHeight={1.18}
+              tilt={62}
+              roundness={1}
+              bend={0.34}
+              reach={0.38}
+              curl="twist"
+              dispersion={0.45}
+              liquid={0}
+              followCursor={false}
+              autoplay={false}
+              interval={4}
+              captureWheel
+              onChange={(_, item) => item && setActiveNo(item.projectNo)}
+            />
+          </div>
+          <nav className="project-carousel-controls" aria-label="浏览项目">
+            <button type="button" onClick={() => focusProject(activeIndex - 1)} aria-label="展示上一个项目">←</button>
+            <span>{String(activeIndex + 1).padStart(2, "0")} <span>/ {String(visibleProjects.length).padStart(2, "0")}</span></span>
+            <button type="button" onClick={() => focusProject(activeIndex + 1)} aria-label="展示下一个项目">→</button>
+          </nav>
+          <div className="project-index" role="group" aria-label="选择项目">
+            {visibleProjects.map((project, index) => (
+              <button key={project.no} type="button" aria-pressed={project.no === activeProject.no}
+                aria-controls="active-project-title" onClick={() => focusProject(index)} aria-label={`展示 ${project.title}`}>
+                <span>{project.no}</span>{project.title}
+              </button>
+            ))}
+          </div>
+          <article className="project-spotlight" id={`project-${activeProject.no}`} aria-labelledby="active-project-title">
+            <div className="work-info">
+              <div className="num">{activeProject.no} / {String(projects.length).padStart(2, "0")}</div>
+              <h3 id="active-project-title">{activeProject.title}</h3>
+              <div className="work-subtitle">{activeProject.subtitle}</div>
+              <div className="role">{activeProject.role}</div>
+              <div className="work-context">{activeProject.context}</div>
+            </div>
+            <div className="work-info project-spotlight-copy">
+              <p>{activeProject.teaser}</p>
+              {activeProject.note && <p className="work-note">{activeProject.note}</p>}
+              <div className="work-deliverable"><span>项目内容</span>{activeProject.deliverable}</div>
+              <DockTags tags={activeProject.tags} />
+              <div className="work-actions">
+                <button type="button" className="text-link" onClick={() => openProject(activeProject)} aria-label={`查看 ${activeProject.title} 项目概览`}>项目概览 <span aria-hidden="true">↗</span></button>
+                {activeProject.demo && <a className="text-link" href={activeProject.demo} target="_blank" rel="noreferrer">体验原型 <span aria-hidden="true">↗</span></a>}
+                {activeProject.source && <a className="text-link muted" href={activeProject.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
               </div>
-
-              <div className="work-info">
-                <div className="num">{p.no} / {String(projects.length).padStart(2, "0")}</div>
-                <h3>{p.title}</h3>
-                <div className="work-subtitle">{p.subtitle}</div>
-                <div className="role">{p.role}</div>
-                <div className="work-context">{p.context}</div>
-                <p>{p.teaser}</p>
-                {p.note && <p className="work-note">{p.note}</p>}
-                <div className="work-deliverable"><span>项目内容</span>{p.deliverable}</div>
-                <DockTags tags={p.tags} />
-                <div className="work-actions">
-                  <button type="button" className="text-link" onClick={() => setSelected(p)} aria-label={`查看 ${p.title} 项目概览`}>项目概览 <span aria-hidden="true">↗</span></button>
-                  {p.demo && <a className="text-link" href={p.demo} target="_blank" rel="noreferrer">体验原型 <span aria-hidden="true">↗</span></a>}
-                  {p.source && <a className="text-link muted" href={p.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
-                </div>
-              </div>
-            </article>
-          ))}
+            </div>
+          </article>
         </div>
       </div>
       <dialog className="project-dialog" ref={dialogRef} aria-labelledby="project-dialog-title" data-lenis-prevent
@@ -174,9 +196,9 @@ export default function Projects() {
             {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">在 GitHub 查看项目 ↗</a>}
           </div>
           <nav className="project-pager" aria-label="项目切换">
-            <button type="button" disabled={selectedIndex <= 0} onClick={() => setSelected(visibleProjects[selectedIndex - 1])}>← 上一个项目</button>
+            <button type="button" disabled={selectedIndex <= 0} onClick={() => openProject(visibleProjects[selectedIndex - 1])}>← 上一个项目</button>
             <span>{selectedIndex + 1} / {visibleProjects.length}</span>
-            <button type="button" disabled={selectedIndex >= visibleProjects.length - 1} onClick={() => setSelected(visibleProjects[selectedIndex + 1])}>下一个项目 →</button>
+            <button type="button" disabled={selectedIndex >= visibleProjects.length - 1} onClick={() => openProject(visibleProjects[selectedIndex + 1])}>下一个项目 →</button>
           </nav>
         </div>}
       </dialog>

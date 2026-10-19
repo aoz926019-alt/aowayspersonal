@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createServer } from "vite";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 // Verify content and asset contracts before a GitHub Pages deployment.
 const root = process.cwd();
@@ -15,6 +17,14 @@ for (const [, asset] of html.matchAll(/(?:src|href)="(\.\/[^"#]+)"/g)) {
 const server = await createServer({ logLevel: "silent", server: { middlewareMode: true } });
 try {
   const { projects, projectCategories, stats, nav, experience, profile, education, leadership } = await server.ssrLoadModule("/src/data/content.js");
+  const { default: FlexCarousel } = await server.ssrLoadModule("/src/reactbits/FlexCarousel.jsx");
+  const carouselMarkup = renderToStaticMarkup(createElement(FlexCarousel, {
+    items: projects.map((project) => ({ src: project.image, alt: project.subtitle, title: project.title })),
+  }));
+  assert.match(carouselMarkup, /aria-roledescription="carousel"/, "The project carousel needs an accessible region.");
+  assert.ok(carouselMarkup.includes(projects[0].title) && carouselMarkup.includes(`共 ${projects.length} 个项目`), "The carousel must announce the current project and total.");
+  assert.equal(renderToStaticMarkup(createElement(FlexCarousel, { items: [] })), "", "An empty carousel must not substitute stock images.");
+  assert.ok(existsSync(resolve(root, "dist/licenses/React-Bits-FlexCarousel.txt")), "The carousel license must ship with the website.");
   assert.equal(new Set(projects.map((p) => p.no)).size, projects.length, "Project IDs must be unique.");
   const categoryIds = new Set(projectCategories.map((category) => category.id));
   assert.equal(categoryIds.size, projectCategories.length, "Project categories must be unique.");
