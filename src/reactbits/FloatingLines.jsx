@@ -254,7 +254,8 @@ export default function FloatingLines({
   mouseDamping = 0.05,
   parallax = true,
   parallaxStrength = 0.2,
-  mixBlendMode = 'screen'
+  mixBlendMode = 'screen',
+  maxDpr = 1.5
 }) {
   const containerRef = useRef(null);
   const targetMouseRef = useRef(new Vector2(-1000, -1000));
@@ -305,7 +306,7 @@ export default function FloatingLines({
       // The CSS background remains visible on devices without WebGL.
       return;
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     container.appendChild(renderer.domElement);
@@ -412,7 +413,11 @@ export default function FloatingLines({
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
       // ignore pointers outside the container's bounds
-      if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+      if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+        targetInfluenceRef.current = 0;
+        targetParallaxRef.current.set(0, 0);
+        return;
+      }
       const dpr = renderer.getPixelRatio();
 
       targetMouseRef.current.set(x * dpr, (rect.height - y) * dpr);
@@ -525,7 +530,8 @@ export default function FloatingLines({
     bendStrength,
     mouseDamping,
     parallax,
-    parallaxStrength
+    parallaxStrength,
+    maxDpr
   ]);
 
   return (

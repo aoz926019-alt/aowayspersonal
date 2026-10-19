@@ -23,7 +23,7 @@ function ProjectSummary({ project }) {
   );
 }
 
-export default function Projects({ previewRequest }) {
+export default function Projects() {
   const ref = useRef(null);
   const dialogRef = useRef(null);
   const carouselRef = useRef(null);
@@ -48,13 +48,6 @@ export default function Projects({ previewRequest }) {
     focusProject(visibleProjects.findIndex((item) => item.no === project.no));
     setSelected(project);
   };
-
-  useEffect(() => {
-    if (!previewRequest) return;
-    setCategory("all");
-    setActiveNo(previewRequest.project.no);
-    setSelected(previewRequest.project);
-  }, [previewRequest]);
 
   useEffect(() => {
     if (selected && dialogRef.current) {

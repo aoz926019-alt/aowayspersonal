@@ -51,7 +51,7 @@ export default function About() {
         <div className="section-rule">
           <span className="idx">
             <DecryptedText
-              text="04 — PROFILE / 关于"
+              text="01 — PROFILE / 关于"
               animateOn="view"
               sequential
               speed={38}

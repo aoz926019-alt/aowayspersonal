@@ -40,7 +40,7 @@ export default function Strengths() {
         <div className="section-rule">
           <span className="idx">
             <DecryptedText
-              text="06 — CAPABILITIES / 个人优势"
+              text="04 — CAPABILITIES / 个人优势"
               animateOn="view"
               sequential
               speed={34}

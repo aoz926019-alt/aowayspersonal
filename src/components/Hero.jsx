@@ -1,67 +1,48 @@
-import { useRef, useLayoutEffect, useState, lazy, Suspense } from "react";
+import { useRef, useLayoutEffect, lazy, Suspense } from "react";
 import { gsap, prefersReducedMotion } from "../hooks/gsap";
-import { profile, projects } from "../data/content.js";
+import { profile } from "../data/content.js";
+import Magnet from "../reactbits/Magnet.jsx";
 import "./Hero.css";
 
 const RippleGrid = lazy(() => import("../reactbits/RippleGrid.jsx"));
-const canAnimateBackground = !prefersReducedMotion && typeof window !== "undefined" &&
-  window.matchMedia("(min-width: 901px) and (hover: hover) and (pointer: fine)").matches;
-const featured = [
-  { label: "DATA", project: projects[1], caption: "从运输记录到供应链风险看板", metric: "113,097", unit: "条运输记录", tools: "Python / MySQL / Power BI" },
-  { label: "PRODUCT", project: projects[4], caption: "从用户需求到可测试 PWA", metric: "PWA", unit: "可体验的产品原型", tools: "PRD / AI Assistant / PWA" },
-  { label: "FINANCE", project: projects[0], caption: "从年报原页到现金流分析", metric: "09", unit: "份年报 · 三家港股车企", tools: "MySQL / Excel / Financial Analysis" },
-];
+const OrbitalSculpture = lazy(() => import("./OrbitalSculpture.jsx"));
 
-export default function Hero({ onPreview }) {
+export default function Hero() {
   const ref = useRef(null);
-  const [active, setActive] = useState(0);
-  const item = featured[active];
 
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
     const ctx = gsap.context(() => {
       gsap.timeline({ defaults: { ease: "power3.out" } })
-        .from(".studio-meta", { y: 10, opacity: 0, duration: .6 })
-        .from(".studio-copy > *", { y: 28, opacity: 0, stagger: .08, duration: .75 }, "-=.3")
-        .from(".build-preview", { y: 35, opacity: 0, rotate: 2, duration: 1 }, "-=.7")
-        .from(".studio-name .line", { yPercent: 110, duration: 1.1 }, "-=.7")
-        .from(".studio-bottom", { opacity: 0, duration: .6 }, "-=.4");
+        .from(".kinetic-meta", { opacity: 0, y: 12, duration: .65 })
+        .from(".kinetic-name .name-char", { yPercent: 115, rotateX: -80, rotateZ: 6, opacity: 0, stagger: .055, duration: 1.15 }, "-=.25")
+        .from(".hero-sculpture", { opacity: 0, scale: .76, rotate: -12, duration: 1.8 }, "-=1.1")
+        .from(".kinetic-intro > *, .kinetic-foot", { opacity: 0, y: 18, stagger: .12, duration: .8 }, "-=1.2");
+      gsap.to(".hero-sculpture-scroll", { yPercent: 18, rotate: 12, scale: 1.12, ease: "none",
+        scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: 1 } });
+      gsap.to(".kinetic-name", { yPercent: -12, letterSpacing: "-.025em", ease: "none",
+        scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: 1 } });
     }, ref);
     return () => ctx.revert();
   }, []);
 
   return (
-    <header className="hero hero--studio" id="top" ref={ref}>
-      <div className="hero-bg" aria-hidden="true">
-        {canAnimateBackground && <Suspense fallback={null}><RippleGrid color="#b8f58b"
-          cellSize={48} glow={0.4} rippleStrength={0.8} autoRipple="none" intro={false}
-          fade={0.35} opacity={0.85} dpr={1.5} /></Suspense>}
-      </div>
-      <div className="shell studio-shell">
-        <div className="studio-meta"><span><i /> BUSINESS ANALYTICS & AI PRODUCT</span><span>MACAU, CHINA <span className="meta-divider">/</span> PORTFOLIO 2026</span></div>
-        <div className="studio-composition">
-          <div className="studio-copy">
-            <p className="studio-intro">你好，我是张敖。<span>ANALYST. THINKER. BUILDER.</span></p>
-            <h2>读懂数据。<br /><span>让想法成为产品。</span></h2>
-            <p className="studio-description">香港大学商业分析硕士研0 · 澳门大学大四在读。<br />用代码连接数据、业务与用户，交付看板、研究和可用原型。</p>
-            <div className="studio-actions">
-              <a className="studio-primary" href="#work">探索我的项目 <span aria-hidden="true">↗</span></a>
-              <a className="studio-secondary" href="#lab">试试代码实验 <span aria-hidden="true">↓</span></a>
-            </div>
-            <div className="studio-stack"><span>Python</span><span>SQL</span><span>Power BI</span><span>AI / PWA</span></div>
+    <header className="hero hero--kinetic" id="top" ref={ref}>
+      <div className="hero-grid-bg" aria-hidden="true">{!prefersReducedMotion && <Suspense fallback={null}><RippleGrid color="#87b99c" cellSize={62} glow={0.4} rippleStrength={0.8} autoRipple="none" intro={false} fade={.6} opacity={.46} dpr={1.25} /></Suspense>}</div>
+      <div className="shell kinetic-shell">
+        <div className="kinetic-meta"><span><i /> AO ZHANG — PERSONAL PORTFOLIO</span><span>MACAU, CHINA <b>/</b> 2026</span></div>
+        <div className="kinetic-composition">
+          <div className="kinetic-identity">
+            <p className="kinetic-eyebrow">你好，我是张敖。<span>BUSINESS ANALYTICS & AI PRODUCT</span></p>
+            <h1 className="kinetic-name" aria-label="张敖 AO ZHANG">{profile.nameLines.map((line, index) => <span className={`name-row ${index ? "name-row-accent" : ""}`} key={line} aria-hidden="true">{Array.from(line).map((char, i) => <span className="name-char" key={i}>{char}</span>)}</span>)}</h1>
+            <div className="kinetic-intro"><h2>{profile.headline}</h2><p>{profile.tagline}</p><div className="kinetic-actions">
+              <Magnet padding={35} magnetStrength={8} disabled={prefersReducedMotion}><a className="kinetic-primary" href="#profile">认识我 <span aria-hidden="true">↓</span></a></Magnet>
+              <a className="kinetic-secondary" href="#contact">与我联系 <span aria-hidden="true">↗</span></a>
+            </div></div>
           </div>
-          <div className="build-preview">
-            <div className="build-preview-top"><span><b /> SELECTED BUILD</span><span>0{active + 1} / 03</span></div>
-            <div className="build-preview-tabs" role="group" aria-label="预览项目方向">
-              {featured.map((entry, index) => <button key={entry.label} type="button" aria-pressed={active === index} onClick={() => setActive(index)}>{entry.label}<span aria-hidden="true">↗</span></button>)}
-            </div>
-            <button className="build-image" type="button" onClick={() => onPreview(item.project)} aria-label={`查看 ${item.project.title} 项目详情`}><img key={item.label} src={item.project.image} alt={item.project.subtitle} width={item.project.w} height={item.project.h} fetchpriority="high" /></button>
-            <div className="build-preview-info" aria-live="polite" aria-atomic="true"><div><strong>{item.metric}</strong><span>{item.unit}</span></div><p>{item.caption}<small>{item.tools}</small></p></div>
-            <div className="build-preview-foot"><span>INPUT → ANALYSIS → IMPACT</span><button type="button" onClick={() => onPreview(item.project)} aria-label={`打开 ${item.project.title} 项目概览`}>查看项目 ↗</button></div>
-          </div>
+          <div className="hero-sculpture-scroll" aria-hidden="true"><div className="hero-sculpture"><div className="sculpture-glow" /><div className="sculpture-fallback" />{!prefersReducedMotion && <Suspense fallback={null}><OrbitalSculpture /></Suspense>}<span className="sculpture-label label-a">DATA</span><span className="sculpture-label label-b">PRODUCT</span><span className="sculpture-label label-c">AI</span><div className="sculpture-caption"><span>IDEAS IN MOTION</span><span>↗</span></div></div></div>
         </div>
-        <h1 className="studio-name" aria-label="张敖 AO ZHANG"><span className="mask"><span className="line">AO ZHANG<span className="name-period">.</span></span></span><span className="name-side" aria-hidden="true">张 敖<br />个人作品集</span></h1>
-        <div className="studio-bottom"><span>DATA-DRIVEN THINKING. HANDS-ON BUILDING.</span><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href="#work">向下探索 <span aria-hidden="true">↓</span></a></div>
+        <div className="kinetic-foot"><span>CURIOUS MIND. HANDS-ON BUILDER.</span><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href="#profile">向下认识我 <span aria-hidden="true">↓</span></a></div>
       </div>
     </header>
   );

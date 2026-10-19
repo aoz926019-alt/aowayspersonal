@@ -1,0 +1,33 @@
+.contact.contact--motion { isolation: isolate; min-height: 100svh; }
+.contact-motion { position: absolute; inset: -14% -5% -14% 12%; z-index: 0; pointer-events: none; opacity: .82; mask-image: linear-gradient(90deg, transparent, #000 35%, #000 90%, transparent); }
+.contact-motion .floating-lines-container { opacity: .8; }
+.contact-aurora { position: absolute; inset: 0; background: radial-gradient(ellipse at 68% 42%, #70d1a922, transparent 55%), radial-gradient(ellipse at 70% 70%, #7b9bd318, transparent 46%); animation: aurora-drift 13s ease-in-out infinite alternate; }
+@keyframes aurora-drift { from { transform: translate3d(-4%, 3%, 0) scale(.96); } to { transform: translate3d(5%, -4%, 0) scale(1.12); } }
+.contact-heading-layout { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+.contact-title, .contact-intro, .contact-mail, .contact-links { position: relative; z-index: 1; }
+.contact-title { text-shadow: 0 3px 45px #07171066; }
+.contact-orbit { margin-right: 11%; flex-shrink: 0; }
+.contact-orbit-link { position: relative; display: grid; place-items: center; width: 180px; height: 180px; border: 1px solid #bde9b744; border-radius: 50%; color: #d8f5c5; background: #0c20188c; backdrop-filter: blur(8px); transition: background .35s, color .35s, box-shadow .35s; }
+.contact-orbit-link > svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: contact-orbit-turn 24s linear infinite; }
+.contact-orbit-link text { fill: currentColor; font: 10px var(--mono); letter-spacing: .13em; }
+.contact-orbit-link > span { font: 400 65px/1 var(--display); transition: transform .4s var(--ease); }
+.contact-orbit-link:hover { background: #bdeba8; color: #173e28; box-shadow: 0 0 80px #9adca626; }
+.contact-orbit-link:hover > span { transform: rotate(45deg); }
+@keyframes contact-orbit-turn { to { transform: rotate(360deg); } }
+.contact-mail { text-shadow: 0 3px 24px #071710; white-space: nowrap; }
+.contact-mail > span { display: inline-block; }
+.contact-mail:hover > span { animation: contact-letter-wave .6s calc(var(--char-index) * 25ms) both; }
+@keyframes contact-letter-wave { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-8px); color: #c6f7b0; } }
+.contact .contact-links .item .v { text-shadow: 0 2px 10px #071710; }
+.contact-foot { position: relative; z-index: 1; }
+@media (max-width: 900px) { .contact-orbit { margin-right: 0; }.contact-orbit-link { width: 145px; height: 145px; }.contact-orbit-link > span { font-size: 52px; } }
+@media (max-width: 640px) {
+  .contact-motion { inset: -5% -65% -5% -35%; opacity: .42; mask-image: linear-gradient(90deg, transparent, #000 28%, #000 70%, transparent); }
+  .contact-heading-layout { gap: 12px; align-items: center; }.contact .contact-title { font-size: clamp(65px, 19vw, 105px); }
+  .contact-orbit-link { width: 105px; height: 105px; }.contact-orbit-link > span { font-size: 38px; }
+  .contact-orbit-link text { font-size: 10px; }
+  .contact .contact-mail { font-size: clamp(19px, 5.5vw, 35px); }
+  .contact-intro { max-width: 280px; line-height: 1.8; }
+}
+@media (prefers-reduced-motion: reduce) { .contact-motion { opacity: .6; } }
+@media (max-width: 360px) { .contact .contact-title { font-size: 60px; }.contact-orbit-link { width: 86px; height: 86px; }.contact-orbit-link > span { font-size: 32px; } }

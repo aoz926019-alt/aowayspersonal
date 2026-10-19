@@ -4,26 +4,6 @@ import { resolve } from "node:path";
 import { createServer } from "vite";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { sampleShipments, selectRows, summarize } from "../src/data/lab.js";
-
-// Check the same transforms used by the interactive lab, including empty output.
-const cleaned = selectRows(sampleShipments);
-assert.equal(sampleShipments.length, 12);
-assert.equal(cleaned.length, 10);
-assert.equal(summarize(cleaned).onTime, 0.6);
-assert.equal(summarize(cleaned).averageDays, 7.9);
-assert.equal(selectRows(sampleShipments, { clean: false }).length, 12);
-assert.equal(summarize(sampleShipments).validCount, 11);
-assert.equal(selectRows(sampleShipments, { route: "HK" }).length, 4);
-assert.equal(selectRows(sampleShipments, { lateOnly: true }).length, 4);
-assert.equal(selectRows(sampleShipments, { route: "SG", lateOnly: true }).length, 1);
-assert.equal(selectRows(sampleShipments, { route: "missing" }).length, 0);
-assert.equal(summarize([]).onTime, null);
-assert.equal(summarize([]).averageDays, null);
-assert.equal(selectRows([{ ...sampleShipments[0], actual: -1 }]).length, 0);
-assert.equal(selectRows([{ ...sampleShipments[0], promised: 0 }]).length, 0);
-assert.equal(selectRows([{ ...sampleShipments[0], actual: Infinity }]).length, 0);
-assert.equal(new Set(cleaned.map(row => row.id)).size, cleaned.length);
 
 // Verify content and asset contracts before a GitHub Pages deployment.
 const root = process.cwd();
@@ -68,7 +48,7 @@ try {
   }
   assert.ok(stats.every((stat) => Number.isFinite(stat.value) && stat.value > 0), "Profile statistics must be positive numbers.");
   assert.match(profile.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid contact email.");
-  const sections = ["work", "lab", "profile", "experience", "skills", "contact"];
+  const sections = ["profile", "work", "experience", "skills", "contact"];
   assert.deepEqual(nav.map((item) => item.href.slice(1)), sections, "Navigation must resolve to the page sections.");
   for (const item of experience) {
     const dates = item.period.match(/\d{4}\.\d{2}/g);
