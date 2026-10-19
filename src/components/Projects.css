@@ -6,7 +6,7 @@
   border: 0;
   background: transparent;
 }
-.project-carousel-stage .flex-carousel { height: calc(100% - 130px); }
+.project-carousel-stage .flex-carousel { height: calc(100% - 164px); }
 .project-rail {
   position: absolute;
   bottom: 10px;
@@ -17,12 +17,15 @@
   align-items: center;
   gap: 32px;
   width: min(calc(100% - var(--gutter) * 2), calc(var(--maxw) - var(--gutter) * 2));
-  min-height: 104px;
+  min-height: 138px;
   padding-top: 20px;
   border-top: 1px solid var(--hairline);
 }
 .project-rail-copy { min-width: 0; }
+.project-rail-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 22px; }
 .project-rail h3 { margin: 0; font: 600 clamp(19px, 2vw, 27px)/1.25 var(--display); letter-spacing: -.025em; }
+.project-skills { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; list-style: none; padding: 0; margin: 0; }
+.project-skill { padding: 4px 9px; border: 1px solid #1f5d442b; border-radius: 20px; background: #1f5d4407; color: var(--accent); font: 11px/1.5 var(--body); white-space: nowrap; }
 .project-rail p { margin: 7px 0 0; color: var(--slate); font-size: 12px; line-height: 1.8; }
 .project-demo-note { display: inline-block; margin-left: 12px; color: var(--accent); font-size: 10px; }
 .project-carousel-controls { display: flex; align-items: center; justify-content: center; gap: 15px; font: 11px var(--mono); color: var(--accent); }
@@ -38,14 +41,16 @@
 .flex-carousel__fallback img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 @media (max-width: 900px) { .project-rail { gap: 20px; } }
 @media (max-width: 640px) {
-  .project-carousel-stage { height: 520px; }
-  .project-carousel-stage .flex-carousel { height: calc(100% - 160px); }
-  .project-rail { grid-template-columns: 1fr auto; gap: 10px 20px; min-height: 144px; padding-top: 16px; bottom: 0; }
+  .project-carousel-stage { height: 600px; }
+  .project-carousel-stage .flex-carousel { height: calc(100% - 230px); }
+  .project-rail { grid-template-columns: 1fr auto; gap: 10px 20px; min-height: 214px; padding-top: 16px; bottom: 0; }
   .project-rail-copy { grid-column: 1 / -1; }
+  .project-rail-heading { gap: 10px; flex-direction: column; align-items: flex-start; }
   .project-rail h3 { font-size: 19px; }
+  .project-skill { font-size: 10px; }
   .project-rail p { font-size: 11px; margin-top: 4px; }
   .project-demo-note { display: block; margin-left: 0; }
   .project-carousel-controls { justify-content: flex-start; gap: 12px; }
   .project-open { gap: 16px; font-size: 11px; }
 }
-@media (max-width: 360px) { .project-carousel-stage { height: 470px; } }
+@media (max-width: 360px) { .project-carousel-stage { height: 560px; } .project-skill { font-size: 9px; padding: 4px 8px; } }

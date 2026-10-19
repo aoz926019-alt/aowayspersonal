@@ -9,8 +9,6 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "./gsap";
 let lenis = null;
 let rafHandler = null;
 
-const NAV_OFFSET = -90; // stop this far above an anchor so the fixed pill nav doesn't cover it
-
 export function startSmoothScroll() {
   if (prefersReducedMotion || lenis) return lenis;
 
@@ -19,7 +17,7 @@ export function startSmoothScroll() {
     // expo-out — matches the site's --ease feel; long, silky, no bounce
     easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
     smoothWheel: true,
-    anchors: { offset: NAV_OFFSET },
+    anchors: true, // CSS scroll-padding and scroll-margin define the shared anchor position.
   });
 
   lenis.on("scroll", ScrollTrigger.update);
@@ -47,6 +45,6 @@ export function stopSmoothScroll() {
 export function scrollToId(id) {
   const el = document.getElementById(id);
   if (!el) return;
-  if (lenis) lenis.scrollTo(el, { offset: NAV_OFFSET });
+  if (lenis) lenis.scrollTo(el);
   else el.scrollIntoView({ behavior: prefersReducedMotion ? "instant" : "smooth" });
 }

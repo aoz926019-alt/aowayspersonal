@@ -85,8 +85,9 @@ export default function Projects() {
   useLayoutEffect(() => {
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo(".project-rail-copy", { y: 10, autoAlpha: .35 },
-        { y: 0, autoAlpha: 1, duration: .4, ease: "power2.out" });
+      gsap.timeline({ defaults: { ease: "power2.out" } })
+        .fromTo(".project-rail-copy", { y: 8, autoAlpha: .6 }, { y: 0, autoAlpha: 1, duration: .4 })
+        .fromTo(".project-skill", { y: 6, opacity: 0 }, { y: 0, opacity: 1, duration: .3, stagger: .035 }, .06);
     }, ref);
     return () => media.revert();
   }, [category, activeNo]);
@@ -164,7 +165,12 @@ export default function Projects() {
             />
             <div className="project-rail">
               <div className="project-rail-copy">
-                <h3 id="active-project-title">{activeProject.title}</h3>
+                <div className="project-rail-heading">
+                  <h3 id="active-project-title">{activeProject.title}</h3>
+                  <ul className="project-skills" aria-label={`${activeProject.title} 关键技能`}>
+                    {activeProject.skills.map((skill) => <li className="project-skill" key={skill}>{skill}</li>)}
+                  </ul>
+                </div>
                 <p>{activeProject.subtitle}{activeProject.note && <span className="project-demo-note">含模拟数据演示</span>}</p>
               </div>
               <nav className="project-carousel-controls" aria-label="浏览项目">

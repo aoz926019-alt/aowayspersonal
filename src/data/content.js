@@ -54,6 +54,7 @@ export const experience = [
     company: "科锐国际 Career International",
     sub: "广州",
     role: "招聘数据分析实习生",
+    focus: "DATA ANALYTICS",
     desc: "开展招聘数据分析，校验、去重 1,399,592 条记录，保留 1,055,136 条招聘广告。用 MySQL 按平台、行业与岗位职能分组查询，结合文本规则识别数据及 AI 能力要求，对比技能需求与时期差异。交付交互式 HTML 报告、八页研究摘要及可查询证据，并通过每周 Word 报告与 PPT 展示分析结果。",
   },
   {
@@ -61,6 +62,7 @@ export const experience = [
     company: "炫图 AI 科技",
     sub: "远程",
     role: "海外运营实习生",
+    focus: "PRODUCT INSIGHTS",
     desc: "在飞书内搭建用户增长与内容表现运营看板，结合用户反馈开展数据分析，将复盘结论整理为内容优化与产品迭代建议。对比四款海外竞品的功能、导出流程及订阅机制，定位官网入口与权益说明问题；在市场分析中设计首次导出率、7 日再次导出率等四项验证指标。",
   },
   {
@@ -68,6 +70,7 @@ export const experience = [
     company: "道师堂企业管理咨询",
     sub: "",
     role: "数据分析实习生",
+    focus: "BUSINESS MODELLING",
     desc: "梳理行业与竞品数据，交付市场分析报告和营销方案。用 Excel 对照便利连锁、企业电商、本地批发三类渠道，明确客户定位与服务差异；搭建 12 个月财务分析模型，比较现款、30 天、60 天回款方案与订单敏感性，评估资金缺口及盈亏平衡，交付决策报告与 90 天试点建议。",
   },
   {
@@ -75,6 +78,7 @@ export const experience = [
     company: "中煤财险",
     sub: "销售管理部",
     role: "销售管理部实习生",
+    focus: "RISK RESEARCH",
     desc: "将安责险等产品责任与客户风险暴露对应，形成行业与客户风险分析报告及责任匹配表，明确核验资料和保障边界。测算含基准在内的四种客户经营假设情景，比较煤价、停产及成本变化对利润的影响，结合净承保与分保现金流识别赔付时点和短期资金压力。",
   },
 ];
@@ -98,6 +102,7 @@ export const projects = [
     desc: "整理比亚迪、吉利汽车、长城汽车 2023—2025 年共九份年报，用 MySQL 按公司、年度与科目查询汇总财务数据，统一单位及重述口径，建立原页索引。分析现金转化、营运资金和债务到期，设置资产负债与现金滚动勾稽检查，测算应收、库存及应付周转天数对资金占用的敏感性。交付企业、年份与现金流指标联动的交互看板，将结论关联至年报原页，形成流动性风险核查要点。",
     deliverable: "MySQL 财务汇总 · 交互看板 · 年报原页索引",
     tags: ["MySQL", "现金流", "财务勾稽", "敏感性分析"],
+    skills: ["MySQL", "财务分析", "敏感性分析"],
     image: cashflowImg, w: 1889, h: 1035,
   },
   {
@@ -111,6 +116,7 @@ export const projects = [
     desc: "用 Python、Excel 清洗校验 113,097 条运输记录，通过 MySQL 筛选并分组汇总国家、成本和交货周期数据，形成看板分析底表。用 Power BI 构建风险分布、相关性与国家优先级看板，结合 Python、DAX 计算供应链风险及供应商表现 KPI。通过 PPT 将分析转化为决策报告，对比成本、可靠性和假设情景，提出采购与风险缓释建议。",
     deliverable: "113,097 条记录 · MySQL 分组汇总 · Power BI 与决策报告",
     tags: ["Python / Excel", "MySQL", "Power BI / DAX", "113,097 records"],
+    skills: ["Python", "Excel", "MySQL", "Power BI", "PPT"],
     image: supplyChainImg, w: 1400, h: 809,
   },
   {
@@ -124,6 +130,7 @@ export const projects = [
     desc: "在六人学术团队中，用 SPSS 对 ESS11 八国 11,379 名受访者数据进行变量筛选、描述统计和回归分析，构建含七项预测变量的模型，检验经济与文化因素的关联。完成 White 异方差检验、VIF 及残差诊断，模型调整后 R² 为 0.183；将文化因素关联更强的发现转化为研究结论与政策沟通建议，撰写 Word 研究报告和展示 PPT。",
     deliverable: "八国 11,379 个样本 · SPSS 模型诊断 · 研究报告与 PPT",
     tags: ["SPSS", "Regression", "n = 11,379", "Adj. R² = .183"],
+    skills: ["SPSS", "回归分析", "Word", "PPT"],
     image: immigrationImg, w: 853, h: 503,
   },
   {
@@ -138,6 +145,7 @@ export const projects = [
     deliverable: "问卷框架 · Excel 分析表 · 用户洞察与产品改进案例",
     note: "问卷质量筛选、开放题编码与分组统计使用模拟数据演示；既有用户反馈单独整理。",
     tags: ["Excel", "问卷设计", "开放题编码", "模拟数据演示"],
+    skills: ["Excel", "问卷设计", "用户研究"],
     image: campusResearchImg, w: 961, h: 905,
   },
   {
@@ -153,6 +161,7 @@ export const projects = [
     source: "https://github.com/aoz926019-alt/MoodSpend",
     demo: "https://aoz926019-alt.github.io/MoodSpend/",
     tags: ["PWA", "AI Assistant", "PRD", "情绪与消费"],
+    skills: ["PRD", "PWA", "AI 集成", "Vibe Coding"],
     image: moodspendImg, w: 864, h: 987,
   },
   {
@@ -168,6 +177,7 @@ export const projects = [
     note: "20 名长者资料为模拟数据，用于项目演示。",
     source: "https://github.com/aoz926019-alt/ai-pingantong-plus",
     tags: ["QwenPaw", "Python / PWA", "Multi-Agent", "模拟数据演示"],
+    skills: ["Python", "PWA", "Multi-Agent", "提示词设计", "PPT"],
     image: aiPingAnTongImg, w: 1300, h: 824,
   },
   {
@@ -181,6 +191,7 @@ export const projects = [
     desc: "参与 CFA 研究挑战赛香港区澳门大学校内轮，围绕比亚迪财务报表开展分析，结合行业对标比较盈利能力、资本结构和偿债风险，汇总财务与市场数据，撰写校内轮研究报告及 PPT。",
     deliverable: "盈利与偿债分析 · 行业对标 · 研究报告与 PPT",
     tags: ["财务分析", "行业研究", "风险分析", "团队研究"],
+    skills: ["财务分析", "行业研究", "PPT"],
     image: bydImg, w: 1400, h: 789,
   },
 ];

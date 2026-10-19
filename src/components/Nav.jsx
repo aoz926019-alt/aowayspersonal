@@ -1,11 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { nav } from "../data/content.js";
+import { gsap } from "../hooks/gsap";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
   const ref = useRef(null);
   const toggle = useRef(null);
+
+  useLayoutEffect(() => {
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(".nav-progress", { scaleX: 0 }, { scaleX: 1, ease: "none",
+        scrollTrigger: { start: 0, end: "max", scrub: .2 },
+      });
+    }, ref);
+    return () => media.revert();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -40,6 +51,7 @@ export default function Nav() {
 
   return (
     <nav className="site-nav" aria-label="主导航" ref={ref}>
+      <span className="nav-progress" aria-hidden="true" />
       <a className="site-logo" href="#top" onClick={() => setOpen(false)} aria-label="张敖，返回首页">
         张敖<span>.</span><small>AO ZHANG</small>
       </a>

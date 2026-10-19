@@ -199,10 +199,11 @@
 }
 .pc-status {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
+  word-break: keep-all;
 }
 
 .pc-contact-btn {

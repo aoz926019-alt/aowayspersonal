@@ -23,6 +23,7 @@
   /* layout */
   --maxw: 1440px;
   --gutter: clamp(24px, 5.5vw, 80px);
+  --section-space: 112px;
 
   /* motion */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -91,8 +92,8 @@ body::after {
 
 .section {
   position: relative;
-  padding: 112px 0;
-  scroll-margin-top: 16px;
+  padding: var(--section-space) 0;
+  scroll-margin-top: calc(16px - var(--section-space));
 }
 
 /* eyebrow / mono label — the "instrument readout" device */
@@ -798,8 +799,7 @@ body::after {
   .cap-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
-  :root { --gutter: 22px; }
-  .section { padding: 72px 0; }
+  :root { --gutter: 22px; --section-space: 72px; }
   .hero-top { flex-direction: column; gap: 6px; }
   .contact-links { gap: 32px; }
 }
@@ -822,6 +822,8 @@ main:focus { outline: none; }
   border-radius: 40px; backdrop-filter: blur(18px); box-shadow: 0 8px 32px #00000012;
 }
 .site-logo { display: inline-flex; align-items: baseline; font-size: 21px; font-weight: 700; white-space: nowrap; }
+.nav-progress { position: absolute; left: 24px; right: 24px; bottom: -1px; height: 2px; background: linear-gradient(90deg, #1f5d4470, var(--accent)); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .nav-progress { display: none; } }
 .site-logo > span { color: var(--accent); }
 .site-logo small { margin-left: 12px; font: 10px var(--mono); letter-spacing: .08em; color: var(--slate); }
 .nav-links { display: flex; gap: 4px; list-style: none; padding: 0; margin: 0; }
