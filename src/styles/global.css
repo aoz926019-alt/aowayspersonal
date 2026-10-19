@@ -882,8 +882,8 @@ html:has(.project-dialog[open]) { overflow: hidden; }
 .contact-links a:hover, .contact-foot a:hover { color: #9cddb7; }
 
 .education-list { margin: 32px 0; border-top: 1px solid var(--hairline); }
-.education-list > h3, .leadership-section > h3 { font-size: 20px; margin: 24px 0; font-weight: 600; }
-.education-list > h3 > span, .leadership-section > h3 > span { display: block; margin-top: 5px; font: 10px/1.6 var(--mono); color: var(--slate); letter-spacing: .08em; }
+.education-list > h3 { font-size: 20px; margin: 24px 0; font-weight: 600; }
+.education-list > h3 > span { display: block; margin-top: 5px; font: 10px/1.6 var(--mono); color: var(--slate); letter-spacing: .08em; }
 .education-item { padding: 18px 0; border-top: 1px solid var(--hairline); }
 .education-item > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .education-item h4 { margin: 0; font-size: 17px; font-weight: 600; }
@@ -929,12 +929,6 @@ summary::-webkit-details-marker { display: none; }
 .project-dialog-image > .project-summary { max-width: 760px; min-height: auto; margin: auto; padding-bottom: 32px; }
 .dialog-demo { margin-right: 24px; margin-bottom: 12px; }
 .leadership-section { margin-top: 64px; }
-.leadership-item { border-top: 1px solid var(--hairline); }
-.leadership-item > summary { display: grid; grid-template-columns: 200px 1fr 28px; align-items: center; gap: 40px; padding: 24px 0; list-style: none; cursor: pointer; }
-.leadership-label { display: flex; flex-direction: column; gap: 6px; }
-.leadership-title { font-size: 17px; font-weight: 600; line-height: 1.6; }
-.leadership-label .exp-role { margin-top: 0; }
-.leadership-item > p { margin: 0 64px 24px 240px; max-width: 680px; font-size: 14px; color: var(--ink-2); line-height: 1.85; }
 @media (min-width: 1025px) {
   .about-portrait { position: sticky; top: 120px; }
 }
@@ -967,11 +961,6 @@ summary::-webkit-details-marker { display: none; }
   .work-info p { max-width: none; }
   .cap-grid { grid-template-columns: 1fr 1fr; }
   .cap-card { padding: 28px; }
-  .leadership-item > summary { grid-template-columns: 1fr 28px; gap: 12px; }
-  .leadership-item > summary > .exp-period { grid-column: 1; }
-  .leadership-item .leadership-label { grid-column: 1; }
-  .leadership-item .disclosure-icon { grid-column: 2; grid-row: 1 / span 2; }
-  .leadership-item > p { margin-left: 0; margin-right: 40px; }
 }
 @media (max-width: 640px) {
   .site-nav { width: calc(100% - 28px); top: 12px; padding: 6px 8px 6px 18px; min-height: 58px; }
@@ -1036,7 +1025,6 @@ summary::-webkit-details-marker { display: none; }
   .summary-steps > span { font-size: 13px; gap: 7px; }
   .summary-footer { font-size: 10px; }
   .leadership-section { margin-top: 48px; }
-  .leadership-title { font-size: 16px; }
   .work-browse { margin: -8px 0 40px; gap: 14px; }
   .project-filters { gap: 8px; }
   .project-filters button { padding: 10px 14px; font-size: 12px; gap: 10px; }
