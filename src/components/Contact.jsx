@@ -36,7 +36,7 @@ export default function Contact() {
       <div className="shell">
         <span className="eyebrow">
           <DecryptedText
-            text="05 — CONTACT / 联系"
+            text="07 — CONTACT / 联系"
             animateOn="view"
             sequential
             speed={34}
@@ -84,7 +84,7 @@ export default function Contact() {
       <div className="shell">
         <div className="contact-foot">
           <span>© {year} 张敖 · AO ZHANG</span>
-          <span>{profile.role}</span>
+          <a href="https://github.com/aoz926019-alt/aowayspersonal" target="_blank" rel="noreferrer">本页源码 · React / GSAP ↗</a>
           <a href="#top">返回顶部 ↑</a>
         </div>
       </div>

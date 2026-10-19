@@ -35,7 +35,7 @@ export default function Experience() {
         <div className="section-rule">
           <span className="idx">
             <DecryptedText
-              text="03 — EXPERIENCE / 实习经历"
+              text="05 — EXPERIENCE / 实习经历"
               animateOn="view"
               sequential
               speed={34}

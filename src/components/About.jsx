@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
-import { about, profile, education } from "../data/content.js";
+import { about, profile, education, stats } from "../data/content.js";
 import { scrollToId } from "../hooks/smoothScroll";
 import ProfileCard from "../reactbits/ProfileCard.jsx";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
@@ -51,7 +51,7 @@ export default function About() {
         <div className="section-rule">
           <span className="idx">
             <DecryptedText
-              text="01 — PROFILE / 关于"
+              text="04 — PROFILE / 关于"
               animateOn="view"
               sequential
               speed={38}
@@ -69,6 +69,7 @@ export default function About() {
           </span>
         </h2>
 
+        <div className="profile-stats">{stats.map(stat => <div key={stat.lab}><strong>{stat.value}{stat.suffix}</strong><span>{stat.lab}</span></div>)}</div>
         <div className="about-grid">
           <div className="about-portrait">
             <ProfileCard

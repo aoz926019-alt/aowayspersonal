@@ -202,8 +202,9 @@ export const capabilities = [
 ];
 
 export const nav = [
-  { label: "关于", href: "#profile" },
   { label: "精选项目", href: "#work" },
+  { label: "代码实验", href: "#lab" },
+  { label: "关于", href: "#profile" },
   { label: "经历", href: "#experience" },
   { label: "能力", href: "#skills" },
   { label: "联系", href: "#contact" },

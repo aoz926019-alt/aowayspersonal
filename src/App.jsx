@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ScrollTrigger, prefersReducedMotion } from "./hooks/gsap";
 import ClickSpark from "./reactbits/ClickSpark.jsx";
 import { startSmoothScroll, stopSmoothScroll } from "./hooks/smoothScroll";
@@ -9,8 +9,10 @@ import Projects from "./components/Projects.jsx";
 import Experience from "./components/Experience.jsx";
 import Strengths from "./components/Strengths.jsx";
 import Contact from "./components/Contact.jsx";
+import CodeLab from "./components/CodeLab.jsx";
 
 export default function App() {
+  const [previewRequest, setPreviewRequest] = useState(null);
   useEffect(() => {
     startSmoothScroll();
     // Font swaps can change line wrapping after the first layout.
@@ -30,9 +32,10 @@ export default function App() {
       <a className="skip-link" href="#main-content">跳到正文</a>
       <Nav />
       <main id="main-content" tabIndex={-1}>
-        <Hero />
+        <Hero onPreview={project => setPreviewRequest({ project })} />
+        <Projects previewRequest={previewRequest} />
+        <CodeLab />
         <About />
-        <Projects />
         <Experience />
         <Strengths />
         <Contact />
