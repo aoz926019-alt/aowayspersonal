@@ -1,0 +1,7 @@
+.skills-section { isolation: isolate; overflow: hidden; }
+.skills-field { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5; mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent); background-image: radial-gradient(#60827328 .7px, transparent .7px); background-size: 42px 42px; }
+.skills-shell { position: relative; z-index: 1; }
+.skills-section .cap-heading { display: block; }
+.skills-section .cap-card { background: #eceef0f0; }
+.skills-section .cap-head { margin-bottom: 48px; }
+@media (max-width: 640px) { .skills-field { opacity: .35; background-size: 32px 32px; }.skills-section .cap-head { margin-bottom: 36px; } }

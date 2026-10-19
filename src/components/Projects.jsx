@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect, useEffect, useMemo, useState } from "react";
-import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
+import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import DockTags from "../reactbits/DockTags.jsx";
 import FlexCarousel from "../reactbits/FlexCarousel.jsx";
@@ -30,6 +30,7 @@ export default function Projects() {
   const [selected, setSelected] = useState(null);
   const [category, setCategory] = useState("all");
   const [activeNo, setActiveNo] = useState(projects[0].no);
+  const [compact, setCompact] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 640px)").matches);
   const visibleProjects = useMemo(() => projects.filter((project) => category === "all" || project.category === category), [category]);
   const carouselItems = useMemo(() => visibleProjects.map((project) => ({
     src: project.image, alt: `${project.subtitle} — 项目界面`, title: project.title,
@@ -48,6 +49,13 @@ export default function Projects() {
     focusProject(visibleProjects.findIndex((item) => item.no === project.no));
     setSelected(project);
   };
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 640px)");
+    const update = () => setCompact(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     if (selected && dialogRef.current) {
@@ -74,8 +82,13 @@ export default function Projects() {
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    ScrollTrigger.refresh();
+  useLayoutEffect(() => {
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(".project-rail-copy", { y: 10, autoAlpha: .35 },
+        { y: 0, autoAlpha: 1, duration: .4, ease: "power2.out" });
+    }, ref);
+    return () => media.revert();
   }, [category, activeNo]);
 
   return (
@@ -126,11 +139,11 @@ export default function Projects() {
               items={carouselItems}
               preset="liquid"
               intro={prefersReducedMotion ? "none" : "rise"}
-              cardHeight={0.5}
+              cardHeight={compact ? .5 : .7}
               gap={12}
               squeeze={0.2}
               focusOnClick={false}
-              captions
+              captions={false}
               fit="natural"
               radius={0}
               lensWidth={0.74}
@@ -149,40 +162,19 @@ export default function Projects() {
               onChange={(_, item) => item && setActiveNo(item.projectNo)}
               onSelect={(_, item) => openProject(visibleProjects.find((project) => project.no === item.projectNo))}
             />
-          </div>
-          <nav className="project-carousel-controls" aria-label="浏览项目">
-            <button type="button" onClick={() => focusProject(activeIndex - 1)} aria-label="展示上一个项目">←</button>
-            <span>{String(activeIndex + 1).padStart(2, "0")} <span>/ {String(visibleProjects.length).padStart(2, "0")}</span></span>
-            <button type="button" onClick={() => focusProject(activeIndex + 1)} aria-label="展示下一个项目">→</button>
-          </nav>
-          <div className="project-index" role="group" aria-label="选择项目">
-            {visibleProjects.map((project, index) => (
-              <button key={project.no} type="button" aria-pressed={project.no === activeProject.no}
-                aria-controls="active-project-title" onClick={() => focusProject(index)} aria-label={`展示 ${project.title}`}>
-                <span>{project.no}</span>{project.title}
-              </button>
-            ))}
-          </div>
-          <article className="project-spotlight" id={`project-${activeProject.no}`} aria-labelledby="active-project-title">
-            <div className="work-info">
-              <div className="num">{activeProject.no} / {String(projects.length).padStart(2, "0")}</div>
-              <h3 id="active-project-title">{activeProject.title}</h3>
-              <div className="work-subtitle">{activeProject.subtitle}</div>
-              <div className="role">{activeProject.role}</div>
-              <div className="work-context">{activeProject.context}</div>
-            </div>
-            <div className="work-info project-spotlight-copy">
-              <p>{activeProject.teaser}</p>
-              {activeProject.note && <p className="work-note">{activeProject.note}</p>}
-              <div className="work-deliverable"><span>项目内容</span>{activeProject.deliverable}</div>
-              <DockTags tags={activeProject.tags} />
-              <div className="work-actions">
-                <button type="button" className="text-link" onClick={() => openProject(activeProject)} aria-label={`查看 ${activeProject.title} 项目概览`}>项目概览 <span aria-hidden="true">↗</span></button>
-                {activeProject.demo && <a className="text-link" href={activeProject.demo} target="_blank" rel="noreferrer">体验原型 <span aria-hidden="true">↗</span></a>}
-                {activeProject.source && <a className="text-link muted" href={activeProject.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
+            <div className="project-rail">
+              <div className="project-rail-copy" aria-live="polite" aria-atomic="true">
+                <h3 id="active-project-title">{activeProject.title}</h3>
+                <p>{activeProject.subtitle}{activeProject.note && <span className="project-demo-note">含模拟数据演示</span>}</p>
               </div>
+              <nav className="project-carousel-controls" aria-label="浏览项目">
+                <button type="button" onClick={() => focusProject(activeIndex - 1)} aria-label="展示上一个项目">←</button>
+                <span>{String(activeIndex + 1).padStart(2, "0")} <span>/ {String(visibleProjects.length).padStart(2, "0")}</span></span>
+                <button type="button" onClick={() => focusProject(activeIndex + 1)} aria-label="展示下一个项目">→</button>
+              </nav>
+              <button type="button" className="project-open" onClick={() => openProject(activeProject)} aria-label={`查看 ${activeProject.title} 项目概览`}>项目概览 <span aria-hidden="true">↗</span></button>
             </div>
-          </article>
+          </div>
         </div>
       </div>
       <dialog className="project-dialog" ref={dialogRef} aria-labelledby="project-dialog-title" data-lenis-prevent

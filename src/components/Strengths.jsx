@@ -1,15 +1,23 @@
-import { useRef, useLayoutEffect, lazy, Suspense } from "react";
+import { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { capabilities } from "../data/content.js";
 import SpotlightCard from "../reactbits/SpotlightCard.jsx";
+import "./Strengths.css";
 
 const MagnetLines = lazy(() => import("../reactbits/MagnetLines.jsx"));
-const canAnimateField = !prefersReducedMotion && typeof window !== "undefined" &&
-  window.matchMedia("(min-width: 901px) and (hover: hover) and (pointer: fine)").matches;
 
 export default function Strengths() {
   const ref = useRef(null);
+  const [animateField, setAnimateField] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 901px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    const update = () => setAnimateField(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
@@ -35,8 +43,13 @@ export default function Strengths() {
   }, []);
 
   return (
-    <section className="section" id="skills" ref={ref}>
-      <div className="shell">
+    <section className="section skills-section" id="skills" ref={ref}>
+      <div className="skills-field" aria-hidden="true">{animateField && <Suspense fallback={null}>
+        <MagnetLines lineColor="#7c9687" accentColor="#47785d" spacing={42} lineHeight={14}
+          lineWidth={1} mode="attract" radius={220} edgeFade={.15} fade={.65}
+          intro={false} maxDevicePixelRatio={1.25} />
+      </Suspense>}</div>
+      <div className="shell skills-shell">
         <div className="section-rule">
           <span className="idx">
             <DecryptedText
@@ -58,11 +71,6 @@ export default function Strengths() {
             <span className="line">bring.</span>
           </span>
         </h2>
-        {canAnimateField && <div className="cap-magnetic-field" aria-hidden="true"><Suspense fallback={null}>
-          <MagnetLines lineColor="#426e58" accentColor="#1f5d44" spacing={30} lineHeight={17}
-            lineWidth={1.5} mode="attract" radius={160} edgeFade={0.45} fade={0.4}
-            intro={false} maxDevicePixelRatio={1.5} />
-        </Suspense></div>}
         </div>
 
         <div className="cap-grid">

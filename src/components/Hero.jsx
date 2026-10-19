@@ -20,7 +20,7 @@ export default function Hero() {
         .from(".kinetic-intro > *, .kinetic-foot", { opacity: 0, y: 18, stagger: .12, duration: .8 }, "-=1.2");
       gsap.to(".hero-sculpture-scroll", { yPercent: 18, rotate: 12, scale: 1.12, ease: "none",
         scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: 1 } });
-      gsap.to(".kinetic-name", { yPercent: -12, letterSpacing: "-.025em", ease: "none",
+      gsap.to(".kinetic-name", { yPercent: -12, rotation: -1.5, transformOrigin: "left center", ease: "none",
         scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: 1 } });
     }, ref);
     return () => ctx.revert();

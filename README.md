@@ -31,7 +31,7 @@ npm run preview
 - `public/favicon.svg`：站点图标。
 - `index.html`：页面标题、搜索摘要与社交分享元信息。
 
-项目按数据分析、财务研究、用户与产品分类筛选，使用 React Bits 官方 FlexCarousel 的 liquid 预设展示现有项目图片，支持拖动、滚轮、方向键、按钮索引及点击任意卡片打开详情。轮播铺满屏幕宽度、无外侧边框；全屏详情将完整原比例图片与角色、背景、说明、数据备注、项目内容、标签和链接并列展示，可在当前分类内连续切换。减少动效或 WebGL 不可用时显示静态图片，仍可用按钮浏览全部项目。证书荣誉和竞赛详情支持展开查看。
+项目按数据分析、财务研究、用户与产品分类筛选，使用 React Bits 官方 FlexCarousel 的 liquid 预设展示现有项目图片，支持拖动、滚轮、方向键及点击任意卡片打开详情。轮播图片、当前项目名称、计数、切换按钮与概览入口放在同一个展示区，移除与画面脱离的独立说明区。全屏详情保留完整原比例图片、角色、背景、说明、数据备注、项目内容、标签和项目链接，可在当前分类内连续切换。减少动效或 WebGL 不可用时显示静态图片，仍可用按钮浏览全部项目。证书荣誉和竞赛详情支持展开查看。能力区磁力线覆盖整个区域，放在内容和卡片之后，并按设备宽度及减少动效偏好切换。
 
 `src/reactbits/FlexCarousel.jsx` 与 CSS 基于 [React Bits](https://github.com/DavidHDev/react-bits/tree/e12c22192ac7b4b452c5e2feb9b586d74765d696/src/content/Components/FlexCarousel) 修订 e12c221，使用已有 `ogl`，未新增依赖；保留引擎，补充本地素材、导航接口和静态回退。完整 MIT + Commons Clause 许可随站点发布于 `public/licenses/React-Bits-FlexCarousel.txt`。
 

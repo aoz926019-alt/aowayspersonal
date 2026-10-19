@@ -875,7 +875,6 @@ html:has(.project-dialog[open]) { overflow: hidden; }
 .project-dialog-info .work-actions { margin-top: 24px; }
 .dialog-deliverable { font-size: 14px; color: var(--accent); }
 .cap-heading { display: flex; align-items: center; justify-content: space-between; gap: 48px; }
-.cap-magnetic-field { flex: 0 1 44%; height: 260px; margin-bottom: 48px; }
 .contact-intro { color: #b6c8bc; font-size: 16px; margin: 0 0 24px; }
 .contact .contact-links .item .k, .contact .eyebrow, .contact-foot { color: #a6b8ad; }
 .contact-links a:hover, .contact-foot a:hover { color: #9cddb7; }
@@ -946,7 +945,6 @@ summary::-webkit-details-marker { display: none; }
 @media (max-width: 900px) {
   .project-dialog-layout { grid-template-columns: 1fr; gap: 36px; min-height: 0; }
   .project-dialog-image img { max-height: 60svh; }
-  .cap-magnetic-field { display: none; }
   .site-nav { width: calc(100% - 40px); top: 16px; min-height: 60px; }
   .site-logo small { display: none; }
   .nav-links a { padding: 10px 15px; }
