@@ -1,11 +1,12 @@
 import { useRef, useState, useLayoutEffect } from "react";
 import { gsap, ScrollTrigger } from "../hooks/gsap";
-import { leadership } from "../data/content.js";
+import { leadership as leadershipData } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 import "./Leadership.css";
 
 const number = (index) => String(index + 1).padStart(2, "0");
-const nodes = leadership.map((_, index) => {
-  const angle = -Math.PI / 2 + index * Math.PI * 2 / leadership.length;
+const nodes = leadershipData.map((_, index) => {
+  const angle = -Math.PI / 2 + index * Math.PI * 2 / leadershipData.length;
   const dx = Math.cos(angle) * 100, dy = Math.sin(angle) * 100;
   return {
     x: 160 + dx, y: 146 + dy,
@@ -15,6 +16,7 @@ const nodes = leadership.map((_, index) => {
 });
 
 export default function Leadership() {
+  const { t, content: { leadership } } = useLanguage();
   const ref = useRef(null);
   const [openIndex, setOpenIndex] = useState(0);
   const [previewIndex, setPreviewIndex] = useState(null);
@@ -61,11 +63,11 @@ export default function Leadership() {
   return (
     <section className="leadership-section" id="leadership" aria-labelledby="leadership-title" ref={ref}>
       <div className="leadership-header">
-        <h3 id="leadership-title">竞赛与领导经历<span>COMPETITIONS & LEADERSHIP</span></h3>
+        <h3 id="leadership-title">{t("leadershipTitle")}<span>{t("leadershipCaption")}</span></h3>
         <span className="leadership-total">{String(leadership.length).padStart(2, "0")} <span>ENTRIES</span></span>
       </div>
       <div className="leadership-layout">
-        <aside className="leadership-archive" aria-label="经历索引">
+        <aside className="leadership-archive" aria-label={t("experienceIndex")}>
           <div className="archive-topline"><span>EXPERIENCE INDEX</span><span>2023 — 2026</span></div>
           <svg className="archive-map" viewBox="0 0 320 292" fill="none" aria-hidden="true">
             <circle className="archive-orbit" cx="160" cy="146" r="100" />
@@ -88,17 +90,17 @@ export default function Leadership() {
             <h4>{active.category}</h4>
             <span className="archive-preview-period">{active.period}</span>
           </div>
-          <div className="archive-footer"><span className="archive-status-dot" />探索 · 实践 · 协作</div>
+          <div className="archive-footer"><span className="archive-status-dot" />{t("archiveFooter")}</div>
         </aside>
         <div className="leadership-list" onPointerLeave={() => setPreviewIndex(null)}
           onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPreviewIndex(null); }}>
           {leadership.map((item, index) => {
             const open = openIndex === index;
-            return <article className="leadership-entry" key={item.title} data-preview={activeIndex === index}>
+            return <article className="leadership-entry" key={index} data-preview={activeIndex === index}>
               <h4 className="leadership-entry-heading">
                 <button type="button" className="leadership-trigger" id={`leadership-trigger-${index}`}
                   aria-expanded={open} aria-controls={`leadership-panel-${index}`}
-                  aria-label={`${item.title}，${open ? "收起" : "展开"}详情`}
+                  aria-label={t(open ? "collapseEntry" : "expandEntry", { title: item.title })}
                   onPointerEnter={() => setPreviewIndex(index)} onFocus={() => setPreviewIndex(index)}
                   onKeyDown={(event) => navigate(event, index)}
                   onClick={() => { setOpenIndex(open ? null : index); setPreviewIndex(index); }}>
@@ -118,7 +120,7 @@ export default function Leadership() {
                 }}>
                 <div className="leadership-panel-inner"><div className="leadership-panel-content">
                   <p>{item.desc}</p>
-                  <ul className="leadership-skills" aria-label="关键技能">{item.skills.map(skill => <li key={skill}>{skill}</li>)}</ul>
+                  <ul className="leadership-skills" aria-label={t("keySkills")}>{item.skills.map(skill => <li key={skill}>{skill}</li>)}</ul>
                 </div></div>
               </div>
             </article>;

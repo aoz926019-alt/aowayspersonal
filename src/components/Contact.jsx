@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import { profile } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 import Magnet from "../reactbits/Magnet.jsx";
 import "./Contact.css";
 
@@ -15,6 +15,7 @@ const middleWave = { x: .7, y: -.25, rotate: .65 };
 const bottomWave = { x: 1.8, y: -.7, rotate: -.8 };
 
 export default function Contact() {
+  const { language, t, content: { profile } } = useLanguage();
   const ref = useRef(null);
   const year = new Date().getFullYear();
   const [nearby, setNearby] = useState(false);
@@ -68,7 +69,7 @@ export default function Contact() {
       <div className="shell">
         <span className="eyebrow">
           <DecryptedText
-            text="05 — CONTACT / 联系"
+            key={language} text={t("contactLabel")}
             animateOn="view"
             sequential
             speed={34}
@@ -83,12 +84,12 @@ export default function Contact() {
             <span className="line">talk.</span>
           </span>
         </h2><div className="contact-orbit"><Magnet padding={50} magnetStrength={7} disabled={prefersReducedMotion}>
-          <a className="contact-orbit-link" href={`mailto:${profile.email}`} aria-label={`发送邮件至 ${profile.email}`}>
+          <a className="contact-orbit-link" href={`mailto:${profile.email}`} aria-label={t("sendMail", { email: profile.email })}>
             <svg viewBox="0 0 180 180" aria-hidden="true"><defs><path id="contact-text-circle" d="M 90,90 m -72,0 a 72,72 0 1,1 144,0 a 72,72 0 1,1 -144,0" /></defs><text><textPath href="#contact-text-circle" textLength="452">LET'S TALK · SAY HELLO · LET'S TALK · SAY HELLO · </textPath></text></svg>
             <span aria-hidden="true">↗</span>
           </a>
         </Magnet></div></div>
-        <p className="contact-intro">欢迎交流商业分析、AI 产品与项目合作。</p>
+        <p className="contact-intro">{t("contactIntro")}</p>
 
         <a className="contact-mail" href={`mailto:${profile.email}`} aria-label={profile.email}>
           {Array.from(profile.email).map((char, index) => <span aria-hidden="true" key={index} style={{ "--char-index": index }}>{char}</span>)}
@@ -106,7 +107,7 @@ export default function Contact() {
           <div className="item">
             <span className="k">Explore</span>
             <a className="v" href="#work">
-              精选项目 ↗
+              {t("explore")} ↗
             </a>
           </div>
           <div className="item">
@@ -120,8 +121,8 @@ export default function Contact() {
 
       <div className="shell">
         <div className="contact-foot">
-          <span>© {year} 张敖 · AO ZHANG</span>
-          <a href="#top">返回顶部 ↑</a>
+          <span>© {year} {t("copyright")}</span>
+          <a href="#top">{t("backTop")} ↑</a>
         </div>
       </div>
     </section>

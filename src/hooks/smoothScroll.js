@@ -2,6 +2,11 @@ import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "./gsap";
 
+export function scrollToPosition(top) {
+  if (lenis) lenis.scrollTo(top, { immediate: true });
+  else window.scrollTo({ top, behavior: "instant" });
+}
+
 // Single Lenis instance for the whole page. Driven off GSAP's ticker so
 // smooth scrolling and every ScrollTrigger stay on the same clock (no
 // double-rAF drift, no jitter between the parallax and the scroll).

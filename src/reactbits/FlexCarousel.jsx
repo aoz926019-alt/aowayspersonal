@@ -247,6 +247,11 @@ const FlexCarousel = forwardRef(({
   interval = 4,
   captions = true,
   captureWheel = true,
+  labels = {
+    region: "Project gallery",
+    open: title => `View ${title} project overview`,
+    status: (title, index, count) => `${title}, project ${index} of ${count}`,
+  },
   onChange,
   onSelect,
   className = '',
@@ -1258,7 +1263,7 @@ const FlexCarousel = forwardRef(({
       style={{ ...style, '--flex-carousel-half': `${Math.min(Math.max(cardHeight, 0.05), 1) * 50}%` }}
       role="region"
       aria-roledescription="carousel"
-      aria-label="项目图片轮播"
+      aria-label={labels.region}
       aria-describedby="project-carousel-help"
       tabIndex={0}
       onKeyDown={event => {
@@ -1276,7 +1281,7 @@ const FlexCarousel = forwardRef(({
         }
       }}
     >
-      {unavailable && <div className="flex-carousel__fallback"><button type="button" aria-label={`查看 ${label} 项目概览`} onClick={() => callbacksRef.current.onSelect?.(active, current)}><img src={current.src} alt={current.alt} /></button></div>}
+      {unavailable && <div className="flex-carousel__fallback"><button type="button" aria-label={labels.open(label)} onClick={() => callbacksRef.current.onSelect?.(active, current)}><img src={current.src} alt={current.alt} /></button></div>}
       {captions && current && (revealed || unavailable) && (
         <div className="flex-carousel__caption" aria-hidden="true">
           <span key={active} className="flex-carousel__title">
@@ -1291,7 +1296,7 @@ const FlexCarousel = forwardRef(({
         </div>
       )}
       <div className="flex-carousel__live" aria-live="polite" aria-atomic="true">
-        {`${label}，第 ${active + 1} 个，共 ${list.length} 个项目`}
+        {labels.status(label, active + 1, list.length)}
       </div>
     </div>
   );

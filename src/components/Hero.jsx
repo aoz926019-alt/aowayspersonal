@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect, lazy, Suspense } from "react";
 import { gsap, prefersReducedMotion } from "../hooks/gsap";
-import { profile } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 import Magnet from "../reactbits/Magnet.jsx";
 import "./Hero.css";
 
@@ -8,6 +8,7 @@ const RippleGrid = lazy(() => import("../reactbits/RippleGrid.jsx"));
 const OrbitalSculpture = lazy(() => import("./OrbitalSculpture.jsx"));
 
 export default function Hero() {
+  const { t, content: { profile } } = useLanguage();
   const ref = useRef(null);
 
   useLayoutEffect(() => {
@@ -33,16 +34,16 @@ export default function Hero() {
         <div className="kinetic-meta"><span><i /> AO ZHANG — PERSONAL PORTFOLIO</span><span>MACAU, CHINA <b>/</b> 2026</span></div>
         <div className="kinetic-composition">
           <div className="kinetic-identity">
-            <p className="kinetic-eyebrow">你好，我是张敖。<span>BUSINESS ANALYTICS & AI PRODUCT</span></p>
-            <h1 className="kinetic-name" aria-label="张敖 AO ZHANG">{profile.nameLines.map((line, index) => <span className={`name-row ${index ? "name-row-accent" : ""}`} key={line} aria-hidden="true">{Array.from(line).map((char, i) => <span className="name-char" key={i}>{char}</span>)}</span>)}</h1>
+            <p className="kinetic-eyebrow">{t("hello")}<span>BUSINESS ANALYTICS & AI PRODUCT</span></p>
+            <h1 className="kinetic-name" aria-label={t("fullName")}>{profile.nameLines.map((line, index) => <span className={`name-row ${index ? "name-row-accent" : ""}`} key={line} aria-hidden="true">{Array.from(line).map((char, i) => <span className="name-char" key={i}>{char}</span>)}</span>)}</h1>
             <div className="kinetic-intro"><h2>{profile.headline}</h2><p>{profile.tagline}</p><div className="kinetic-actions">
-              <Magnet padding={35} magnetStrength={8} disabled={prefersReducedMotion}><a className="kinetic-primary" href="#profile">认识我 <span aria-hidden="true">↓</span></a></Magnet>
-              <a className="kinetic-secondary" href="#contact">与我联系 <span aria-hidden="true">↗</span></a>
+              <Magnet padding={35} magnetStrength={8} disabled={prefersReducedMotion}><a className="kinetic-primary" href="#profile">{t("meet")} <span aria-hidden="true">↓</span></a></Magnet>
+              <a className="kinetic-secondary" href="#contact">{t("contactMe")} <span aria-hidden="true">↗</span></a>
             </div></div>
           </div>
           <div className="hero-sculpture-scroll" aria-hidden="true"><div className="hero-sculpture"><div className="sculpture-glow" /><div className="sculpture-fallback" />{!prefersReducedMotion && <Suspense fallback={null}><OrbitalSculpture /></Suspense>}<span className="sculpture-label label-a">DATA</span><span className="sculpture-label label-b">PRODUCT</span><span className="sculpture-label label-c">AI</span><div className="sculpture-caption"><span>IDEAS IN MOTION</span><span>↗</span></div></div></div>
         </div>
-        <div className="kinetic-foot"><span>CURIOUS MIND. HANDS-ON BUILDER.</span><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href="#profile">向下认识我 <span aria-hidden="true">↓</span></a></div>
+        <div className="kinetic-foot"><span>CURIOUS MIND. HANDS-ON BUILDER.</span><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href="#profile">{t("scrollMeet")} <span aria-hidden="true">↓</span></a></div>
       </div>
     </header>
   );

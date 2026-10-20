@@ -4,13 +4,14 @@ import DecryptedText from "../reactbits/DecryptedText.jsx";
 import DockTags from "../reactbits/DockTags.jsx";
 import FlexCarousel from "../reactbits/FlexCarousel.jsx";
 import "./Projects.css";
-import { projects, projectCategories } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 
 function ProjectSummary({ project }) {
+  const { t } = useLanguage();
   const summary = project.summary;
   return (
     <span className="project-summary">
-      <span className="summary-label">{summary.label} <span>研究概览 / {project.no}</span></span>
+      <span className="summary-label">{summary.label} <span>{t("summary")} / {project.no}</span></span>
       <span className="summary-title">{summary.title}</span>
       {summary.metrics && <span className="summary-metrics">{summary.metrics.map((metric) => (
         <span key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></span>
@@ -24,6 +25,7 @@ function ProjectSummary({ project }) {
 }
 
 export default function Projects() {
+  const { language, t, content: { projects, projectCategories } } = useLanguage();
   const ref = useRef(null);
   const dialogRef = useRef(null);
   const carouselRef = useRef(null);
@@ -31,9 +33,9 @@ export default function Projects() {
   const [category, setCategory] = useState("all");
   const [activeNo, setActiveNo] = useState(projects[0].no);
   const [compact, setCompact] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 640px)").matches);
-  const visibleProjects = useMemo(() => projects.filter((project) => category === "all" || project.category === category), [category]);
+  const visibleProjects = useMemo(() => projects.filter((project) => category === "all" || project.category === category), [category, projects]);
   const carouselItems = useMemo(() => visibleProjects.map((project) => ({
-    src: project.image, alt: `${project.subtitle} — 项目界面`, title: project.title,
+    src: project.image, alt: t("projectImage", { title: project.subtitle }), title: project.title,
     subtitle: project.subtitle, projectNo: project.no,
   })), [visibleProjects]);
   const activeIndex = Math.max(0, visibleProjects.findIndex((project) => project.no === activeNo));
@@ -99,7 +101,7 @@ export default function Projects() {
           <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
-              text="02 — SELECTED WORK / 精选项目"
+              key={language} text={t("workLabel")}
               animateOn="view"
               sequential
               speed={32}
@@ -116,10 +118,10 @@ export default function Projects() {
             <span className="line">Work</span>
           </span>
         </h2>
-        <p className="section-intro" id="project-carousel-help">从企业现金流、供应链风险到用户研究与 AI 产品。滚轮滑动、左右拖动或方向键浏览，点击项目图片查看完整画面与详情。</p>
+        <p className="section-intro" id="project-carousel-help">{t("workIntro")}</p>
 
         <div className="work-browse">
-          <div className="project-filters" role="group" aria-label="按项目方向筛选">
+          <div className="project-filters" role="group" aria-label={t("filterProjects")}>
             {projectCategories.map((item) => (
               <button key={item.id} type="button" aria-pressed={category === item.id}
                 aria-controls="project-list" onClick={() => {
@@ -130,7 +132,7 @@ export default function Projects() {
               </button>
             ))}
           </div>
-          <output className="project-count" aria-live="polite" aria-atomic="true">显示 {visibleProjects.length} 个项目</output>
+          <output className="project-count" aria-live="polite" aria-atomic="true">{t("projectCount", { count: visibleProjects.length })}</output>
         </div>
 
         <div className="project-showcase" id="project-list">
@@ -139,6 +141,7 @@ export default function Projects() {
               ref={carouselRef}
               key={category}
               items={carouselItems}
+              labels={{ region: t("carouselLabel"), open: title => t("openOverview", { title }), status: (title, index, count) => t("carouselStatus", { title, index, count }) }}
               preset="liquid"
               intro={prefersReducedMotion ? "none" : "rise"}
               cardHeight={compact ? .5 : .7}
@@ -168,18 +171,18 @@ export default function Projects() {
               <div className="project-rail-copy">
                 <div className="project-rail-heading">
                   <h3 id="active-project-title">{activeProject.title}</h3>
-                  <ul className="project-skills" aria-label={`${activeProject.title} 关键技能`}>
+                  <ul className="project-skills" aria-label={t("projectSkills", { title: activeProject.title })}>
                     {activeProject.skills.map((skill) => <li className="project-skill" key={skill}>{skill}</li>)}
                   </ul>
                 </div>
-                <p>{activeProject.subtitle}{activeProject.note && <span className="project-demo-note">含模拟数据演示</span>}</p>
+                <p>{activeProject.subtitle}{activeProject.note && <span className="project-demo-note">{t("demoNote")}</span>}</p>
               </div>
-              <nav className="project-carousel-controls" aria-label="浏览项目">
-                <button type="button" onClick={() => focusProject(activeIndex - 1)} aria-label="展示上一个项目">←</button>
+              <nav className="project-carousel-controls" aria-label={t("browse")}>
+                <button type="button" onClick={() => focusProject(activeIndex - 1)} aria-label={t("previous")}>←</button>
                 <span>{String(activeIndex + 1).padStart(2, "0")} <span>/ {String(visibleProjects.length).padStart(2, "0")}</span></span>
-                <button type="button" onClick={() => focusProject(activeIndex + 1)} aria-label="展示下一个项目">→</button>
+                <button type="button" onClick={() => focusProject(activeIndex + 1)} aria-label={t("next")}>→</button>
               </nav>
-              <button type="button" className="project-open" onClick={() => openProject(activeProject)} aria-label={`查看 ${activeProject.title} 项目概览`}>项目概览 <span aria-hidden="true">↗</span></button>
+              <button type="button" className="project-open" onClick={() => openProject(activeProject)} aria-label={t("openOverview", { title: activeProject.title })}>{t("overview")} <span aria-hidden="true">↗</span></button>
             </div>
           </div>
         </div>
@@ -189,12 +192,12 @@ export default function Projects() {
         {selected && <div className="project-dialog-content">
           <div className="project-dialog-head">
             <span className="eyebrow">PROJECT {selected.no} / {String(projects.length).padStart(2, "0")} — {selected.title}</span>
-            <button className="dialog-close" type="button" aria-label="关闭项目概览" onClick={() => dialogRef.current.close()} autoFocus>×</button>
+            <button className="dialog-close" type="button" aria-label={t("closeOverview")} onClick={() => dialogRef.current.close()} autoFocus>×</button>
           </div>
           <div className="project-dialog-layout">
             <div className="project-dialog-image">{selected.image ? <>
-              <a href={selected.image} target="_blank" rel="noreferrer" aria-label={`查看 ${selected.title} 原尺寸图片`}><img src={selected.image} alt={`${selected.subtitle} — 完整项目截图`} width={selected.w} height={selected.h} /></a>
-              <span className="project-image-hint">完整项目画面 · 点击查看原图 ↗</span>
+              <a href={selected.image} target="_blank" rel="noreferrer" aria-label={t("fullImage", { title: selected.title })}><img src={selected.image} alt={t("imageAlt", { title: selected.subtitle })} width={selected.w} height={selected.h} /></a>
+              <span className="project-image-hint">{t("imageHint")}</span>
             </> : <ProjectSummary project={selected} />}</div>
             <div className="project-dialog-info work-info">
               <div className="num">{selected.no} / {String(projects.length).padStart(2, "0")}</div>
@@ -204,18 +207,19 @@ export default function Projects() {
               <div className="work-context">{selected.context}</div>
               <p>{selected.desc}</p>
               {selected.note && <p className="work-note">{selected.note}</p>}
-              <div className="work-deliverable"><span>项目内容</span>{selected.deliverable}</div>
+              <div className="work-deliverable"><span>{t("deliverables")}</span>{selected.deliverable}</div>
               <DockTags tags={selected.tags} />
               <div className="work-actions">
-                {selected.demo && <a className="text-link" href={selected.demo} target="_blank" rel="noreferrer">体验原型 <span aria-hidden="true">↗</span></a>}
+                {selected.demo && <a className="text-link" href={selected.demo} target="_blank" rel="noreferrer">{t("tryDemo")} <span aria-hidden="true">↗</span></a>}
+                {selected.originalImage && <a className="text-link" href={selected.originalImage} target="_blank" rel="noreferrer">{t("originalImage")} <span aria-hidden="true">↗</span></a>}
                 {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
               </div>
             </div>
           </div>
-          <nav className="project-pager" aria-label="项目切换">
-            <button type="button" disabled={selectedIndex <= 0} onClick={() => openProject(visibleProjects[selectedIndex - 1])}>← 上一个项目</button>
+          <nav className="project-pager" aria-label={t("projectSwitch")}>
+            <button type="button" disabled={selectedIndex <= 0} onClick={() => openProject(visibleProjects[selectedIndex - 1])}>← {t("previousProject")}</button>
             <span>{selectedIndex + 1} / {visibleProjects.length}</span>
-            <button type="button" disabled={selectedIndex >= visibleProjects.length - 1} onClick={() => openProject(visibleProjects[selectedIndex + 1])}>下一个项目 →</button>
+            <button type="button" disabled={selectedIndex >= visibleProjects.length - 1} onClick={() => openProject(visibleProjects[selectedIndex + 1])}>{t("nextProject")} →</button>
           </nav>
         </div>}
       </dialog>

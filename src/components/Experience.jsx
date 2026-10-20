@@ -1,11 +1,12 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, ScrollTrigger, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import { experience } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 import Leadership from "./Leadership.jsx";
 import "./Experience.css";
 
 export default function Experience() {
+  const { language, t, content: { experience } } = useLanguage();
   const ref = useRef(null);
 
   useLayoutEffect(() => {
@@ -46,7 +47,7 @@ export default function Experience() {
           <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
-              text="03 — EXPERIENCE / 实习经历"
+              key={language} text={t("experienceLabel")}
               animateOn="view"
               sequential
               speed={34}
@@ -64,7 +65,7 @@ export default function Experience() {
             <span className="line">worked.</span>
           </span>
         </h2>
-          <div className="experience-overview" aria-label={`${experience.length} 段实习，2024 至 2026 年`}>
+          <div className="experience-overview" aria-label={t("experienceCount", { count: experience.length })}>
             <div className="exp-orbit-wrap" aria-hidden="true">
               <svg className="exp-orbit" viewBox="0 0 180 180" fill="none">
                 <path className="exp-orbit-path" pathLength="1" d="M 24 90 A 66 66 0 1 1 156 90" />
@@ -73,14 +74,14 @@ export default function Experience() {
               </svg>
               <span className="exp-total">{String(experience.length).padStart(2, "0")}</span>
             </div>
-            <span className="exp-overview-label">段实习经历<span>2024 — 2026</span></span>
+            <span className="exp-overview-label">{t("internships")}<span>2024 — 2026</span></span>
           </div>
         </div>
 
         <div className="exp-list">
           <div className="exp-spine" aria-hidden="true"><span className="exp-spine-fill" /></div>
           {experience.map((e, index) => (
-            <article className="exp-item" key={e.company}>
+            <article className="exp-item" key={e.period}>
               <span className="exp-point" aria-hidden="true" />
               <div className="exp-period">
                 <span className="exp-sequence" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>

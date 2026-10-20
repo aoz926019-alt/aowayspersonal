@@ -9,8 +9,10 @@ import Projects from "./components/Projects.jsx";
 import Experience from "./components/Experience.jsx";
 import Strengths from "./components/Strengths.jsx";
 import Contact from "./components/Contact.jsx";
+import { useLanguage } from "./hooks/useLanguage.js";
 
 export default function App() {
+  const { t } = useLanguage();
   const mainRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -42,7 +44,7 @@ export default function App() {
   return (
     <ClickSpark sparkColor={["#2c7a5b", "#86d6ac"]} sparkSize={9} sparkRadius={26}
       sparkCount={7} duration={420} disabled={prefersReducedMotion} className="site-interaction">
-      <a className="skip-link" href="#main-content">跳到正文</a>
+      <a className="skip-link" href="#main-content">{t("skip")}</a>
       <Nav />
       <main id="main-content" tabIndex={-1} ref={mainRef}>
         <Hero />

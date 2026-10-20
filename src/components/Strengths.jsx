@@ -1,12 +1,13 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import { capabilities } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 import SpotlightCard from "../reactbits/SpotlightCard.jsx";
 import CapabilityGlyph from "./CapabilityGlyph.jsx";
 import "./Strengths.css";
 
 export default function Strengths() {
+  const { language, t, content: { capabilities } } = useLanguage();
   const ref = useRef(null);
 
   useLayoutEffect(() => {
@@ -95,7 +96,7 @@ export default function Strengths() {
           <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
-              text="04 — CAPABILITIES / 个人优势"
+              key={language} text={t("skillsLabel")}
               animateOn="view"
               sequential
               speed={34}

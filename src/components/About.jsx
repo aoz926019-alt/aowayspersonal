@@ -1,12 +1,13 @@
 import { useRef, useLayoutEffect } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
-import { about, profile, education, stats } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 import { scrollToId } from "../hooks/smoothScroll";
 import ProfileCard from "../reactbits/ProfileCard.jsx";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import ParticleSignature from "./ParticleSignature.jsx";
 
 export default function About() {
+  const { language, t, content: { about, profile, education, stats } } = useLanguage();
   const ref = useRef(null);
 
   useLayoutEffect(() => {
@@ -49,7 +50,7 @@ export default function About() {
           <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
-              text="01 — PROFILE / 关于"
+              key={language} text={t("profileLabel")}
               animateOn="view"
               sequential
               speed={38}
@@ -72,11 +73,11 @@ export default function About() {
           <div className="about-portrait">
             <ProfileCard
               avatarUrl={profile.portrait}
-              name="张敖"
+              name={t("name")}
               title={profile.role}
               handle="aoz926019-alt"
               status={profile.available}
-              contactText="联系我"
+              contactText={t("portraitContact")}
               onContactClick={scrollToContact}
               enableTilt={!prefersReducedMotion}
             />
@@ -88,9 +89,9 @@ export default function About() {
             ))}
 
             <div className="education-list" aria-labelledby="education-title">
-              <h3 id="education-title">教育背景 <span>EDUCATION</span></h3>
-              {education.map((item) => (
-                <div className="education-item" key={item.school}>
+              <h3 id="education-title">{t("education")} <span>{t("educationCaption")}</span></h3>
+              {education.map((item, index) => (
+                <div className="education-item" key={index}>
                   <div><h4>{item.school}</h4><span className="education-period">{item.period}</span></div>
                   <p>{item.program}</p><span className="education-location">{item.location}</span>
                 </div>
@@ -98,7 +99,7 @@ export default function About() {
             </div>
 
             <details className="profile-credentials" onToggle={() => ScrollTrigger.refresh()}>
-              <summary>证书与荣誉 <span className="disclosure-count">{about.meta.length} 项</span><span className="disclosure-icon" aria-hidden="true">+</span></summary>
+              <summary>{t("credentials")} <span className="disclosure-count">{t("itemCount", { count: about.meta.length })}</span><span className="disclosure-icon" aria-hidden="true">+</span></summary>
               <div className="about-meta">
               {about.meta.map((m) => (
                 <div className="row" key={m.k}>

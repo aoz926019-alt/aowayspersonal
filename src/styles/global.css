@@ -1058,6 +1058,34 @@ summary::-webkit-details-marker { display: none; }
   .profile-stats span { font-size: 10px; }
 }
 
+/* Language selection stays available outside the mobile menu. */
+.nav-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.site-nav > .nav-links { margin-left: auto; }
+.language-switch { position: relative; display: inline-flex; padding: 3px; border: 1px solid #1f5d4430; border-radius: 6px; background: #1f5d4405; isolation: isolate; flex-shrink: 0; }
+.language-switch::before { content: ""; position: absolute; z-index: -1; inset: 3px auto 3px 3px; width: 36px; border-radius: 3px; background: var(--accent); transition: transform .35s var(--ease); }
+.language-switch[data-language="en"]::before { transform: translateX(36px); }
+.language-switch button { width: 36px; min-height: 34px; padding: 0; border: 0; border-radius: 3px; background: transparent; color: var(--slate); font: 11px var(--mono); cursor: pointer; transition: color .25s; }
+.language-switch button[aria-pressed="true"] { color: white; }
+html[lang="en"] .pc-status { font-size: 9px; letter-spacing: 0; }
+html[lang="en"] .education-item > div { align-items: flex-start; }
+@media (max-width: 1000px) {
+  .site-nav { gap: 14px; }
+  .nav-toggle { display: block; }
+  .site-nav > .nav-links { display: none; position: absolute; top: 70px; left: 0; right: 0; margin-left: 0; flex-direction: column; padding: 12px; border: 1px solid var(--hairline); border-radius: 7px; background: #eff2ef; box-shadow: 0 20px 48px #0002; }
+  .site-nav > .nav-links.is-open { display: flex; }
+  .site-nav > .nav-links a { padding: 13px 18px; border-radius: 4px; font-size: 15px; }
+  .nav-actions { margin-left: auto; }
+}
+@media (max-width: 640px) {
+  .nav-actions { gap: 8px; }
+  html[lang="en"] .project-carousel-stage { height: 620px; }
+  html[lang="en"] .project-carousel-stage .flex-carousel { height: calc(100% - 250px); }
+  html[lang="en"] .project-rail { min-height: 234px; }
+  html[lang="en"] .project-skill { font-size: 9px; }
+  html[lang="en"] .leadership-header { align-items: flex-start; }
+}
+@media (max-width: 400px) { html[lang="en"] .site-logo { font-size: 17px; } }
+
 /* reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }

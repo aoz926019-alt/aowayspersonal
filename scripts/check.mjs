@@ -17,13 +17,43 @@ for (const [, asset] of html.matchAll(/(?:src|href)="(\.\/[^"#]+)"/g)) {
 const server = await createServer({ logLevel: "silent", server: { middlewareMode: true } });
 try {
   const { projects, projectCategories, stats, nav, experience, profile, education, leadership } = await server.ssrLoadModule("/src/data/content.js");
+  const english = await server.ssrLoadModule("/src/data/content.en.js");
+  const { messages, formatMessage } = await server.ssrLoadModule("/src/data/messages.js");
+  assert.deepEqual(Object.keys(messages.en).sort(), Object.keys(messages.zh).sort(), "Both languages need every interface message.");
+  const noChinese = (value, path = "English") => {
+    if (typeof value === "string") assert.doesNotMatch(value, /\p{Script=Han}/u, `Untranslated text in ${path}`);
+    else if (value && typeof value === "object") Object.entries(value).forEach(([key, child]) => noChinese(child, `${path}.${key}`));
+  };
+  noChinese(english);
+  noChinese(messages.en);
+  assert.deepEqual(english.projects.map(item => item.no), projects.map(item => item.no), "Translations must preserve project IDs and order.");
+  assert.deepEqual(english.stats.map(item => item.value), stats.map(item => item.value), "Translations must preserve profile statistics.");
+  assert.equal(english.experience.length, experience.length);
+  assert.equal(english.leadership.length, leadership.length);
+  for (const [key, value] of Object.entries(messages.en)) {
+    assert.deepEqual([...value.matchAll(/\{(\w+)\}/g)].map(match => match[1]).sort(),
+      [...messages.zh[key].matchAll(/\{(\w+)\}/g)].map(match => match[1]).sort(), `Mismatched placeholders in ${key}`);
+  }
+  for (const project of english.projects) {
+    const image = readFileSync(resolve(root, project.image.replace(/^\//, "")), "utf8");
+    assert.doesNotMatch(image, /\p{Script=Han}/u, `English project cover contains Chinese: ${project.no}`);
+    assert.match(image, /English project overview/);
+    assert.ok(project.originalImage, "English covers must retain an original-image link.");
+  }
   const { default: FlexCarousel } = await server.ssrLoadModule("/src/reactbits/FlexCarousel.jsx");
   const carouselMarkup = renderToStaticMarkup(createElement(FlexCarousel, {
     items: projects.map((project) => ({ src: project.image, alt: project.subtitle, title: project.title })),
+    labels: { region: messages.zh.carouselLabel, open: title => formatMessage("zh", "openOverview", { title }),
+      status: (title, index, count) => formatMessage("zh", "carouselStatus", { title, index, count }) },
   }));
   assert.match(carouselMarkup, /aria-roledescription="carousel"/, "The project carousel needs an accessible region.");
   assert.ok(carouselMarkup.includes(projects[0].title) && carouselMarkup.includes(`共 ${projects.length} 个项目`), "The carousel must announce the current project and total.");
   assert.equal(renderToStaticMarkup(createElement(FlexCarousel, { items: [] })), "", "An empty carousel must not substitute stock images.");
+  const englishCarousel = renderToStaticMarkup(createElement(FlexCarousel, {
+    items: english.projects.map(project => ({ src: project.image, alt: project.subtitle, title: project.title })),
+  }));
+  assert.doesNotMatch(englishCarousel, /\p{Script=Han}/u, "English carousel accessibility labels must also be translated.");
+  assert.ok(englishCarousel.includes(`project 1 of ${projects.length}`));
   assert.ok(existsSync(resolve(root, "dist/licenses/React-Bits-FlexCarousel.txt")), "The carousel license must ship with the website.");
   assert.ok(existsSync(resolve(root, "dist/licenses/React-Bits.txt")), "The decorative effects license must ship with the website.");
   assert.equal(new Set(projects.map((p) => p.no)).size, projects.length, "Project IDs must be unique.");
@@ -56,7 +86,7 @@ try {
   }
   assert.ok(education.every((item) => item.school && item.program && item.period), "Incomplete education record.");
   assert.ok(leadership.every((item) => item.title && item.role && item.period && item.desc), "Incomplete leadership record.");
-  console.log(`Verified ${projects.length} projects, ${stats.length} statistics, ${nav.length} navigation targets and built asset references.`);
+  console.log(`Verified ${projects.length} projects, ${stats.length} statistics, ${nav.length} navigation targets, complete English copy and project covers.`);
 } finally {
   await server.close();
 }

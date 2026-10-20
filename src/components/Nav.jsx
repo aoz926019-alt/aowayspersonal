@@ -1,8 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { nav } from "../data/content.js";
+import { useLanguage } from "../hooks/useLanguage.js";
 import { gsap } from "../hooks/gsap";
 
 export default function Nav() {
+  const { language, selectLanguage, t, content: { nav } } = useLanguage();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
   const ref = useRef(null);
@@ -50,15 +51,11 @@ export default function Nav() {
   }, [open]);
 
   return (
-    <nav className="site-nav" aria-label="主导航" ref={ref}>
+    <nav className="site-nav" aria-label={t("mainNav")} ref={ref}>
       <span className="nav-progress" aria-hidden="true" />
-      <a className="site-logo" href="#top" onClick={() => setOpen(false)} aria-label="张敖，返回首页">
-        张敖<span>.</span><small>AO ZHANG</small>
+      <a className="site-logo" href="#top" onClick={() => setOpen(false)} aria-label={t("home")}>
+        {t("logo")}<span>.</span>{language === "zh" && <small>AO ZHANG</small>}
       </a>
-      <button className="nav-toggle" ref={toggle} type="button" aria-expanded={open}
-        aria-controls="nav-links" aria-label={open ? "关闭导航" : "打开导航"} onClick={() => setOpen(!open)}>
-        <span aria-hidden="true">{open ? "×" : "☰"}</span>
-      </button>
       <ul className={`nav-links ${open ? "is-open" : ""}`} id="nav-links">
         {nav.map((item) => (
           <li key={item.href}>
@@ -67,6 +64,16 @@ export default function Nav() {
           </li>
         ))}
       </ul>
+      <div className="nav-actions">
+        <div className="language-switch" role="group" aria-label={t("language")} data-language={language}>
+          <button type="button" aria-pressed={language === "zh"} aria-label={t("selectChinese")} onClick={() => { setOpen(false); selectLanguage("zh"); }}>CN</button>
+          <button type="button" aria-pressed={language === "en"} aria-label={t("selectEnglish")} onClick={() => { setOpen(false); selectLanguage("en"); }}>EN</button>
+        </div>
+        <button className="nav-toggle" ref={toggle} type="button" aria-expanded={open}
+          aria-controls="nav-links" aria-label={t(open ? "closeNav" : "openNav")} onClick={() => setOpen(!open)}>
+          <span aria-hidden="true">{open ? "×" : "☰"}</span>
+        </button>
+      </div>
     </nav>
   );
 }
