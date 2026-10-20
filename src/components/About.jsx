@@ -4,7 +4,7 @@ import { about, profile, education, stats } from "../data/content.js";
 import { scrollToId } from "../hooks/smoothScroll";
 import ProfileCard from "../reactbits/ProfileCard.jsx";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
-import SignalWeave from "./SignalWeave.jsx";
+import ParticleSignature from "./ParticleSignature.jsx";
 
 export default function About() {
   const ref = useRef(null);
@@ -65,7 +65,7 @@ export default function About() {
           <span className="mask">
             <span className="line">Then build.</span>
           </span>
-        </h2><SignalWeave /></div>
+        </h2><ParticleSignature /></div>
 
         <div className="profile-stats">{stats.map(stat => <div key={stat.lab}><strong>{stat.value}{stat.suffix}</strong><span>{stat.lab}</span></div>)}</div>
         <div className="about-grid">

@@ -1,0 +1,15 @@
+.profile-heading { display: flex; align-items: center; justify-content: space-between; gap: 48px; margin-bottom: 36px; }
+.profile-heading .about-title { margin: 0; flex-shrink: 0; }
+.particle-signature { position: relative; width: clamp(230px, 28vw, 370px); height: 140px; flex-shrink: 0; margin-right: 4%; }
+.particle-signature canvas, .signature-fallback { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+.signature-fallback text { fill: var(--accent); font: 600 156px var(--display); }
+.particle-signature[data-ready="true"] .signature-fallback { display: none; }
+@media (max-width: 1024px) { .particle-signature { margin-right: 0; width: 250px; } .profile-heading { gap: 24px; } }
+@media (max-width: 760px) { .profile-heading { gap: 16px; }.particle-signature { width: 185px; } }
+@media (max-width: 640px) {
+  .profile-heading { gap: 12px; margin-bottom: 28px; }
+  .profile-heading .about-title { font-size: clamp(30px, 8.9vw, 54px); }
+  .particle-signature { width: 92px; height: 92px; }
+  .particle-signature canvas { display: none; }
+  .particle-signature[data-ready="true"] .signature-fallback { display: block; opacity: .5; }
+}
