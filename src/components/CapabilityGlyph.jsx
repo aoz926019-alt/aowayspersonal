@@ -26,5 +26,11 @@ export default function CapabilityGlyph({ index }) {
       <path className="glyph-guide" d="M47 35V59M69 42V59M99 13V59" />
       <circle className="glyph-dot" cx="47" cy="35" r="2.5" /><circle className="glyph-dot" cx="69" cy="42" r="2.5" /><circle className="glyph-dot" cx="99" cy="13" r="3" />
     </>}
+    {index === 4 && <>
+      <path className="glyph-guide" d="M12 36H100M56 4V68" />
+      <path className="glyph-fan" d="M56 8L82 18V37Q82 53 56 65Q30 53 30 37V18Z" />
+      <path className="glyph-trace" pathLength="1" d="M56 8L82 18V37Q82 53 56 65Q30 53 30 37V18Z" />
+      <path className="glyph-trace" pathLength="1" d="M43 35L52 44L69 26" /><circle className="glyph-dot" cx="82" cy="18" r="3" />
+    </>}
   </svg>;
 }

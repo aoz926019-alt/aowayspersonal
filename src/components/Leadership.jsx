@@ -2,6 +2,7 @@ import { useRef, useState, useLayoutEffect } from "react";
 import { gsap, ScrollTrigger } from "../hooks/gsap";
 import { leadership as leadershipData } from "../data/content.js";
 import { useLanguage } from "../hooks/useLanguage.js";
+import { scrollToId } from "../hooks/smoothScroll";
 import "./Leadership.css";
 
 const number = (index) => String(index + 1).padStart(2, "0");
@@ -18,6 +19,7 @@ const nodes = leadershipData.map((_, index) => {
 export default function Leadership() {
   const { t, content: { leadership } } = useLanguage();
   const ref = useRef(null);
+  const pendingMapTarget = useRef(null);
   const [openIndex, setOpenIndex] = useState(0);
   const [previewIndex, setPreviewIndex] = useState(null);
   const activeIndex = previewIndex ?? openIndex ?? 0;
@@ -59,6 +61,17 @@ export default function Leadership() {
     event.preventDefault();
     ref.current.querySelectorAll(".leadership-trigger")[targets[event.key]].focus();
   };
+  const selectFromMap = (event, index) => {
+    event.preventDefault();
+    setOpenIndex(index);
+    setPreviewIndex(index);
+    const id = `leadership-trigger-${index}`;
+    document.getElementById(id)?.focus({ preventScroll: true });
+    if (openIndex === index || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      pendingMapTarget.current = null;
+      requestAnimationFrame(() => scrollToId(id));
+    } else pendingMapTarget.current = index;
+  };
 
   return (
     <section className="leadership-section" id="leadership" aria-labelledby="leadership-title" ref={ref}>
@@ -69,7 +82,8 @@ export default function Leadership() {
       <div className="leadership-layout">
         <aside className="leadership-archive" aria-label={t("experienceIndex")}>
           <div className="archive-topline"><span>EXPERIENCE INDEX</span><span>2023 — 2026</span></div>
-          <svg className="archive-map" viewBox="0 0 320 292" fill="none" aria-hidden="true">
+          <svg className="archive-map" viewBox="0 0 320 292" fill="none" role="group" aria-label={t("activityMap")}>
+            <g aria-hidden="true">
             <circle className="archive-orbit" cx="160" cy="146" r="100" />
             <ellipse className="archive-orbit archive-orbit--tilted" cx="160" cy="146" rx="128" ry="76" transform="rotate(-25 160 146)" />
             {nodes.map((node, index) => <g key={index}>
@@ -84,6 +98,14 @@ export default function Leadership() {
             <circle className="archive-hub" cx="160" cy="146" r="36" />
             <text className="archive-center-code" x="160" y="146">{number(activeIndex)}</text>
             <text className="archive-center-total" x="160" y="164">/ {String(leadership.length).padStart(2, "0")}</text>
+            </g>
+            {nodes.map((node, index) => <a className="archive-node-link" href={`#leadership-trigger-${index}`} key={index}
+              aria-label={t("jumpToActivity", { title: leadership[index].title })}
+              onFocus={() => setPreviewIndex(index)} onPointerEnter={() => setPreviewIndex(index)}
+              onPointerLeave={() => setPreviewIndex(null)} onBlur={() => setPreviewIndex(null)}
+              onClick={(event) => selectFromMap(event, index)}>
+              <circle cx={node.x} cy={node.y} r="17" />
+            </a>)}
           </svg>
           <div className="archive-preview-copy">
             <span className="archive-preview-type">{active.type}</span>
@@ -103,7 +125,7 @@ export default function Leadership() {
                   aria-label={t(open ? "collapseEntry" : "expandEntry", { title: item.title })}
                   onPointerEnter={() => setPreviewIndex(index)} onFocus={() => setPreviewIndex(index)}
                   onKeyDown={(event) => navigate(event, index)}
-                  onClick={() => { setOpenIndex(open ? null : index); setPreviewIndex(index); }}>
+                  onClick={() => { pendingMapTarget.current = null; setOpenIndex(open ? null : index); setPreviewIndex(index); }}>
                   <span className="leadership-entry-number" aria-hidden="true">{number(index)}</span>
                   <span className="leadership-entry-label">
                     <span className="leadership-entry-meta"><span>{item.period}</span><span>{item.type}</span></span>
@@ -116,7 +138,13 @@ export default function Leadership() {
               <div className="leadership-panel" id={`leadership-panel-${index}`} role="region"
                 aria-labelledby={`leadership-trigger-${index}`} aria-hidden={!open}
                 onTransitionEnd={(event) => {
-                  if (event.target === event.currentTarget && event.propertyName === "grid-template-rows") ScrollTrigger.refresh();
+                  if (event.target === event.currentTarget && event.propertyName === "grid-template-rows") {
+                    ScrollTrigger.refresh();
+                    if (pendingMapTarget.current === index) {
+                      pendingMapTarget.current = null;
+                      scrollToId(`leadership-trigger-${index}`);
+                    }
+                  }
                 }}>
                 <div className="leadership-panel-inner"><div className="leadership-panel-content">
                   <p>{item.desc}</p>

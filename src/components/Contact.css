@@ -31,3 +31,15 @@
 }
 @media (prefers-reduced-motion: reduce) { .contact-motion { opacity: .6; } }
 @media (max-width: 360px) { .contact .contact-title { font-size: 60px; }.contact-orbit-link { width: 86px; height: 86px; }.contact-orbit-link > span { font-size: 32px; } }
+.contact.contact--motion .contact-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.contact-links .item { position: relative; min-width: 0; padding: 20px 0 16px; border-top: 1px solid #b1d5bb3b; }
+.contact-links .item::before { content: ""; position: absolute; top: -1px; left: 0; width: 28px; height: 1px; background: #aaddb1; transform-origin: left; transition: transform .4s; }
+.contact .contact-links .item .k { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; font-size: 11px; }
+.contact-tile-icon { width: 19px; height: 19px; stroke: #98c2a5; stroke-width: 1; stroke-linejoin: round; stroke-linecap: round; }
+.contact .contact-links .item .v { display: inline-block; font-size: clamp(12px, 1.35vw, 18px); line-height: 1.8; overflow-wrap: anywhere; }
+.contact-links .item:has(a):hover::before, .contact-links .item:focus-within::before { transform: scaleX(2.2); }
+.contact-links a { text-decoration-color: transparent; text-underline-offset: 5px; transition: color .3s, text-decoration-color .3s; }
+.contact-links a:hover, .contact-links a:focus-visible { text-decoration: underline; text-decoration-color: currentColor; }
+.contact-foot a { display: inline-flex; gap: 8px; padding-block: 8px; }
+.contact:not(.contact-visible) .contact-aurora, .contact:not(.contact-visible) .contact-orbit-link > svg { animation-play-state: paused; }
+@media (max-width: 760px) { .contact.contact--motion .contact-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; }.contact .contact-links .item .v { font-size: 14px; } }

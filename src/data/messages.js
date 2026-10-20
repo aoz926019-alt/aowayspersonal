@@ -1,5 +1,6 @@
 export const messages = {
   zh: {
+    jumpToProject: "展示项目：{title}", activityMap: "经历关系图，可选择节点浏览", jumpToActivity: "跳转至经历：{title}",
     title: "张敖 AO ZHANG — 商业分析与 AI 产品作品集", description: "香港大学商业分析硕士研0，澳门大学工商管理学士大四在读。探索数据分析、财务研究、用户研究与 AI 产品作品。",
     skip: "跳到正文", mainNav: "主导航", home: "张敖，返回首页", logo: "张敖", language: "网站语言", selectChinese: "切换到中文", selectEnglish: "Switch to English", closeNav: "关闭导航", openNav: "打开导航",
     hello: "你好，我是张敖。", fullName: "张敖 AO ZHANG", name: "张敖", meet: "认识我", contactMe: "与我联系", scrollMeet: "向下认识我",
@@ -11,6 +12,7 @@ export const messages = {
     skillsLabel: "04 — CAPABILITIES / 个人优势", contactLabel: "05 — CONTACT / 联系", sendMail: "发送邮件至 {email}", contactIntro: "欢迎交流商业分析、AI 产品与项目合作。", explore: "精选项目", copyright: "张敖 · AO ZHANG", backTop: "返回顶部",
   },
   en: {
+    jumpToProject: "Show project: {title}", activityMap: "Activity map, select a node to explore", jumpToActivity: "Go to activity: {title}",
     title: "Ao Zhang — Business Analytics & AI Product Portfolio", description: "HKU MSc Business Analytics pre-enrolment student and final-year BBA student at the University of Macau. Explore data analytics, financial research, user research and AI product work.",
     skip: "Skip to content", mainNav: "Main navigation", home: "Ao Zhang, back to home", logo: "AO ZHANG", language: "Website language", selectChinese: "Switch to Chinese", selectEnglish: "Switch to English", closeNav: "Close navigation", openNav: "Open navigation",
     hello: "Hello, I'm Ao Zhang.", fullName: "Ao Zhang", name: "Ao Zhang", meet: "About me", contactMe: "Get in touch", scrollMeet: "Discover more",

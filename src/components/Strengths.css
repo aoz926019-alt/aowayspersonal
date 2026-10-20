@@ -8,6 +8,10 @@
 .skills-shell { position: relative; z-index: 1; }
 .skills-section .cap-heading { display: block; }
 .skills-section .cap-card { background: #eceef0dc; }
+.skills-section .cap-inner { transform-style: preserve-3d; }
+.skills-section .cap-card .stack { padding-top: 17px; border-top: 1px solid #1f5d441a; }
+.skills-section .cap-card .stack > span { transition: background .3s, border-color .3s; }
+.skills-section .cap-card:hover .stack > span { background: #1f5d4408; border-color: #1f5d4433; }
 .skills-section .cap-head { margin-bottom: 32px; }
 .cap-card-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 54px; }
 .cap-glyph { width: 100px; height: 64px; margin: -10px -4px -10px 0; flex-shrink: 0; color: var(--accent); stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }

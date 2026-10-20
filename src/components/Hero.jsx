@@ -23,6 +23,8 @@ export default function Hero() {
         scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: 1 } });
       gsap.to(".kinetic-name", { yPercent: -12, rotation: -1.5, transformOrigin: "left center", ease: "none",
         scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: 1 } });
+      gsap.fromTo(".hero-scroll-progress", { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: "none",
+        scrollTrigger: { trigger: ref.current, start: "top top", end: "bottom top", scrub: .4 } });
     }, ref);
     return () => ctx.revert();
   }, []);
@@ -43,7 +45,7 @@ export default function Hero() {
           </div>
           <div className="hero-sculpture-scroll" aria-hidden="true"><div className="hero-sculpture"><div className="sculpture-glow" /><div className="sculpture-fallback" />{!prefersReducedMotion && <Suspense fallback={null}><OrbitalSculpture /></Suspense>}<span className="sculpture-label label-a">DATA</span><span className="sculpture-label label-b">PRODUCT</span><span className="sculpture-label label-c">AI</span><div className="sculpture-caption"><span>IDEAS IN MOTION</span><span>↗</span></div></div></div>
         </div>
-        <div className="kinetic-foot"><span>CURIOUS MIND. HANDS-ON BUILDER.</span><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href="#profile">{t("scrollMeet")} <span aria-hidden="true">↓</span></a></div>
+        <div className="kinetic-foot"><span>CURIOUS MIND. HANDS-ON BUILDER.</span><a href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a className="hero-scroll-link" href="#profile">{t("scrollMeet")}<svg viewBox="0 0 30 30" fill="none" aria-hidden="true"><circle className="hero-scroll-track" cx="15" cy="15" r="13" /><circle className="hero-scroll-progress" cx="15" cy="15" r="13" pathLength="1" /><path d="M15 9V21M10 16L15 21L20 16" /></svg></a></div>
       </div>
     </header>
   );

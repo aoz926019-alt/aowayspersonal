@@ -32,6 +32,7 @@ export default function Strengths() {
       document.addEventListener("visibilitychange", update);
 
       let move, reset;
+      const cardCleanups = [];
       if (conditions.pointer) {
         const field = section.querySelector(".skills-lightfield");
         const xTo = gsap.quickTo(field, "x", { duration: 1.6, ease: "power3.out" });
@@ -44,9 +45,25 @@ export default function Strengths() {
         reset = () => { xTo(0); yTo(0); };
         section.addEventListener("pointermove", move);
         section.addEventListener("pointerleave", reset);
+        section.querySelectorAll(".cap-card").forEach(card => {
+          const inner = card.querySelector(".cap-inner");
+          gsap.set(inner, { transformPerspective: 900 });
+          const rotateX = gsap.quickTo(inner, "rotationX", { duration: .7, ease: "power3.out" });
+          const rotateY = gsap.quickTo(inner, "rotationY", { duration: .7, ease: "power3.out" });
+          const tilt = event => {
+            const bounds = card.getBoundingClientRect();
+            rotateX((.5 - (event.clientY - bounds.top) / bounds.height) * 5);
+            rotateY(((event.clientX - bounds.left) / bounds.width - .5) * 5);
+          };
+          const untilt = () => { rotateX(0); rotateY(0); };
+          card.addEventListener("pointermove", tilt);
+          card.addEventListener("pointerleave", untilt);
+          cardCleanups.push(() => { card.removeEventListener("pointermove", tilt); card.removeEventListener("pointerleave", untilt); });
+        });
       }
       return () => {
         observer.disconnect();
+        cardCleanups.forEach(cleanup => cleanup());
         document.removeEventListener("visibilitychange", update);
         if (move) {
           section.removeEventListener("pointermove", move);

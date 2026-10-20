@@ -177,11 +177,15 @@ export default function Projects() {
                 </div>
                 <p>{activeProject.subtitle}{activeProject.note && <span className="project-demo-note">{t("demoNote")}</span>}</p>
               </div>
-              <nav className="project-carousel-controls" aria-label={t("browse")}>
+              <div className="project-control-panel"><nav className="project-carousel-controls" aria-label={t("browse")}>
                 <button type="button" onClick={() => focusProject(activeIndex - 1)} aria-label={t("previous")}>←</button>
                 <span>{String(activeIndex + 1).padStart(2, "0")} <span>/ {String(visibleProjects.length).padStart(2, "0")}</span></span>
                 <button type="button" onClick={() => focusProject(activeIndex + 1)} aria-label={t("next")}>→</button>
-              </nav>
+              </nav><div className="project-pips" role="group" aria-label={t("projectSwitch")}>
+                {visibleProjects.map((project, index) => <button type="button" key={project.no}
+                  aria-label={t("jumpToProject", { title: project.title })} aria-pressed={index === activeIndex}
+                  onClick={() => focusProject(index)}><span /></button>)}
+              </div></div>
               <button type="button" className="project-open" onClick={() => openProject(activeProject)} aria-label={t("openOverview", { title: activeProject.title })}>{t("overview")} <span aria-hidden="true">↗</span></button>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect, useEffect, useState, lazy, Suspense } from "react";
-import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
+import { gsap, ScrollTrigger, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { useLanguage } from "../hooks/useLanguage.js";
 import Magnet from "../reactbits/Magnet.jsx";
@@ -13,6 +13,15 @@ const lineDistances = [8, 6, 9];
 const topWave = { x: 1.5, y: .3, rotate: -.6 };
 const middleWave = { x: .7, y: -.25, rotate: .65 };
 const bottomWave = { x: 1.8, y: -.7, rotate: -.8 };
+
+function ContactIcon({ type }) {
+  return <svg className="contact-tile-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    {type === "phone" && <path d="M7 3H4v4c0 7 6 13 13 13h4v-4l-5-2-2 3c-3-1-5-3-6-6l3-2Z" />}
+    {type === "location" && <><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2.5" /></>}
+    {type === "work" && <><rect x="3" y="5" width="18" height="15" rx="1" /><path d="M3 10h18M8 5V3h8v2M8 14h8" /></>}
+    {type === "code" && <path d="M8 6L2 12L8 18M16 6L22 12L16 18M14 3L10 21" />}
+  </svg>;
+}
 
 export default function Contact() {
   const { language, t, content: { profile } } = useLanguage();
@@ -32,6 +41,8 @@ export default function Contact() {
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
     const ctx = gsap.context(() => {
+      ScrollTrigger.create({ trigger: ref.current, start: "top bottom", end: "bottom top",
+        toggleClass: { targets: ref.current, className: "contact-visible" } });
       gsap.from(".contact-title .line", {
         yPercent: 115,
         duration: 1.4,
@@ -97,21 +108,21 @@ export default function Contact() {
 
         <div className="contact-links">
           <div className="item">
-            <span className="k">Phone</span>
+            <span className="k"><ContactIcon type="phone" />Phone</span>
             <a className="v" href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
           </div>
           <div className="item">
-            <span className="k">Location</span>
+            <span className="k"><ContactIcon type="location" />Location</span>
             <span className="v">{profile.location}</span>
           </div>
           <div className="item">
-            <span className="k">Explore</span>
+            <span className="k"><ContactIcon type="work" />Explore</span>
             <a className="v" href="#work">
               {t("explore")} ↗
             </a>
           </div>
           <div className="item">
-            <span className="k">GitHub</span>
+            <span className="k"><ContactIcon type="code" />GitHub</span>
             <a className="v" href={profile.github} target="_blank" rel="noreferrer">
               @aoz926019-alt ↗
             </a>

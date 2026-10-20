@@ -3,6 +3,7 @@ import { gsap, ScrollTrigger, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { useLanguage } from "../hooks/useLanguage.js";
 import Leadership from "./Leadership.jsx";
+import CapabilityGlyph from "./CapabilityGlyph.jsx";
 import "./Experience.css";
 
 export default function Experience() {
@@ -29,6 +30,8 @@ export default function Experience() {
         scrollTrigger: { trigger: ".experience-heading", start: "top bottom", end: "bottom top", scrub: 1 } });
 
       gsap.utils.toArray(".exp-item").forEach((item) => {
+        gsap.from(item.querySelectorAll(".glyph-trace"), { strokeDashoffset: 1, duration: 1.2,
+          ease: "power2.inOut", scrollTrigger: { trigger: item, start: "top 85%", once: true } });
         gsap.from(item.querySelectorAll(".exp-period, .exp-body"), {
           y: 16, opacity: 0, duration: .75, ease: "power3.out", stagger: .04,
           scrollTrigger: { trigger: item, start: "top 92%", once: true },
@@ -84,7 +87,7 @@ export default function Experience() {
             <article className="exp-item" key={e.period}>
               <span className="exp-point" aria-hidden="true" />
               <div className="exp-period">
-                <span className="exp-sequence" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <div className="exp-date-top"><span className="exp-sequence" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><CapabilityGlyph index={[0, 1, 3, 4][index]} /></div>
                 <span>{e.period}</span>
                 <span className="exp-focus">{e.focus}</span>
                 {e.tag && <span className="exp-tag">{e.tag}</span>}

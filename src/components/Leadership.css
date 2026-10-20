@@ -62,6 +62,7 @@
   .leadership-panel-content { padding-left: 52px; padding-right: 40px; }
 }
 @media (max-width: 760px) {
+  .archive-node-link circle { r: 32; }
   .leadership-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .leadership-archive { position: relative; top: auto; display: grid; grid-template-columns: 128px minmax(0, 1fr); column-gap: 18px; align-items: center; padding: 10px 18px; }
   .archive-topline { grid-column: 2; align-self: end; margin-top: 12px; font-size: 7px; }
@@ -94,3 +95,7 @@
   .archive-cursor, .archive-node-label, .leadership-entry::before, .leadership-entry::after,
   .leadership-entry-number, .leadership-trigger .disclosure-icon, .leadership-panel, .leadership-panel-content { transition: none; }
 }
+.archive-node-link circle { fill: transparent; stroke: transparent; stroke-width: 1; transition: fill .25s, stroke .25s; }
+.archive-node-link:hover circle, .archive-node-link:focus circle { fill: #1f5d4409; stroke: #1f5d444d; }
+.archive-node-link:focus { outline: none; }
+.leadership-trigger { scroll-margin-top: 16px; }
