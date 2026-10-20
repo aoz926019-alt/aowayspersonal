@@ -408,7 +408,9 @@ export default function FloatingLines({
 
     if (ro) ro.observe(container);
 
+    let onScreen = false;
     const handlePointerMove = event => {
+      if (!onScreen || document.hidden) return;
       const rect = container.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -444,23 +446,27 @@ export default function FloatingLines({
 
     let raf = 0;
     let running = false;
-    let onScreen = false;
+    let previousFrame = 0;
 
-    const renderLoop = () => {
+    const renderLoop = now => {
       if (!active || !running) return;
 
-      uniforms.iTime.value = (performance.now() - startedAt) / 1000;
+      const dt = previousFrame ? Math.min((now - previousFrame) / 1000, .05) : 1 / 60;
+      previousFrame = now;
+      // Preserve the same response speed on 60 Hz and high-refresh displays.
+      const damping = 1 - Math.pow(1 - Math.min(1, Math.max(0, mouseDamping)), dt * 60);
+      uniforms.iTime.value = (now - startedAt) / 1000;
 
       if (interactive) {
-        currentMouseRef.current.lerp(targetMouseRef.current, mouseDamping);
+        currentMouseRef.current.lerp(targetMouseRef.current, damping);
         uniforms.iMouse.value.copy(currentMouseRef.current);
 
-        currentInfluenceRef.current += (targetInfluenceRef.current - currentInfluenceRef.current) * mouseDamping;
+        currentInfluenceRef.current += (targetInfluenceRef.current - currentInfluenceRef.current) * damping;
         uniforms.bendInfluence.value = currentInfluenceRef.current;
       }
 
       if (parallax) {
-        currentParallaxRef.current.lerp(targetParallaxRef.current, mouseDamping);
+        currentParallaxRef.current.lerp(targetParallaxRef.current, damping);
         uniforms.parallaxOffset.value.copy(currentParallaxRef.current);
       }
 
@@ -471,10 +477,12 @@ export default function FloatingLines({
     const start = () => {
       if (running || !active) return;
       running = true;
+      previousFrame = 0;
       raf = requestAnimationFrame(renderLoop);
     };
     const stop = () => {
       running = false;
+      previousFrame = 0;
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
     };

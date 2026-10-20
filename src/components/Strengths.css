@@ -8,10 +8,10 @@
 .skills-shell { position: relative; z-index: 1; }
 .skills-section .cap-heading { display: block; }
 .skills-section .cap-card { background: #eceef0dc; }
-.skills-section .cap-head { margin-bottom: 48px; }
+.skills-section .cap-head { margin-bottom: 32px; }
 @media (max-width: 640px) {
   .skills-atmosphere { opacity: .8; }
   .skills-glow--sage { width: 150%; height: 45%; right: -65%; }
   .skills-glow--blue { width: 130%; left: -70%; }
-  .skills-section .cap-head { margin-bottom: 36px; }
+  .skills-section .cap-head { margin-bottom: 28px; }
 }

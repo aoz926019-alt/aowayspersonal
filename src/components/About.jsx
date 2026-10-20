@@ -11,33 +11,29 @@ export default function About() {
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
     const ctx = gsap.context(() => {
-      // big english title reveals first, dramatically
       gsap.from(".about-title .line", {
         yPercent: 115,
-        duration: 1.3,
+        duration: 1,
         ease: EASE,
-        stagger: 0.1,
-        scrollTrigger: { trigger: ".about-title", start: "top 82%" },
+        stagger: 0.07,
+        scrollTrigger: { trigger: ".about-title", start: "top 90%", once: true },
       });
 
       // the portrait card handles its own entrance/tilt animation (ProfileCard) —
       // just fade the wrapper in on scroll so it doesn't pop
       gsap.from(".pc-card-wrapper", {
         opacity: 0,
-        y: 24,
-        duration: 1,
+        y: 16,
+        duration: .8,
         ease: "power3.out",
-        scrollTrigger: { trigger: ".about-portrait", start: "top 85%" },
+        scrollTrigger: { trigger: ".about-portrait", start: "top 90%", once: true },
       });
 
-      // body paragraphs + meta rows stagger in
-      gsap.from(".about-body p, .about-meta .row", {
-        y: 28,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.08,
-        scrollTrigger: { trigger: ".about-body", start: "top 80%" },
+      gsap.utils.toArray(".about-body > p, .education-item").forEach((item) => {
+        gsap.from(item, {
+          y: 16, opacity: 0, duration: .7, ease: "power3.out",
+          scrollTrigger: { trigger: item, start: "top 92%", once: true },
+        });
       });
     }, ref);
     return () => ctx.revert();
@@ -49,6 +45,7 @@ export default function About() {
     <section className="section" id="profile" ref={ref}>
       <div className="shell">
         <div className="section-rule">
+          <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
               text="01 — PROFILE / 关于"

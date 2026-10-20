@@ -1,4 +1,4 @@
-.experience-heading { display: flex; justify-content: space-between; align-items: center; gap: 48px; margin-bottom: 56px; }
+.experience-heading { display: flex; justify-content: space-between; align-items: center; gap: 48px; margin-bottom: 36px; }
 .experience-heading .exp-head-title { margin-bottom: 0; }
 .experience-overview { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 200px; margin-right: 4%; }
 .exp-orbit-wrap { position: relative; width: 172px; height: 172px; display: grid; place-items: center; }
@@ -33,7 +33,7 @@
   .experience-section .exp-head h3 { font-size: 24px; }
 }
 @media (max-width: 640px) {
-  .experience-heading { margin-bottom: 36px; }
+  .experience-heading { margin-bottom: 28px; }
   .experience-overview { display: none; }
   .experience-section .exp-list { padding-left: 24px; }
   .experience-section .exp-item { grid-template-columns: minmax(0, 1fr); gap: 20px; }

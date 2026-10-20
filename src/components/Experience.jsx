@@ -13,10 +13,10 @@ export default function Experience() {
     media.add("(prefers-reduced-motion: no-preference)", () => {
       gsap.from(".exp-head-title .line", {
         yPercent: 115,
-        duration: 1.3,
+        duration: 1,
         ease: EASE,
-        stagger: 0.1,
-        scrollTrigger: { trigger: ".exp-head-title", start: "top 82%" },
+        stagger: 0.07,
+        scrollTrigger: { trigger: ".exp-head-title", start: "top 90%", once: true },
       });
 
       gsap.fromTo(".exp-spine-fill", { scaleY: 0 }, { scaleY: 1, ease: "none",
@@ -29,8 +29,8 @@ export default function Experience() {
 
       gsap.utils.toArray(".exp-item").forEach((item) => {
         gsap.from(item.querySelectorAll(".exp-period, .exp-body"), {
-          y: 24, opacity: 0, duration: .9, ease: "power3.out", stagger: .08,
-          scrollTrigger: { trigger: item, start: "top 88%" },
+          y: 16, opacity: 0, duration: .75, ease: "power3.out", stagger: .04,
+          scrollTrigger: { trigger: item, start: "top 92%", once: true },
         });
         ScrollTrigger.create({ trigger: item, start: "top 58%", end: "bottom 58%",
           toggleClass: { targets: item, className: "is-current" } });
@@ -43,6 +43,7 @@ export default function Experience() {
     <section className="section experience-section" id="experience" ref={ref}>
       <div className="shell">
         <div className="section-rule">
+          <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
               text="03 — EXPERIENCE / 实习经历"

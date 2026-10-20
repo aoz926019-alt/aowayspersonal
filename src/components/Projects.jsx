@@ -72,10 +72,10 @@ export default function Projects() {
       // section title
       gsap.from(".work-title .line", {
         yPercent: 115,
-        duration: 1.3,
+        duration: 1,
         ease: EASE,
-        stagger: 0.1,
-        scrollTrigger: { trigger: ".work-title", start: "top 82%" },
+        stagger: 0.07,
+        scrollTrigger: { trigger: ".work-title", start: "top 90%", once: true },
       });
 
     }, ref);
@@ -96,6 +96,7 @@ export default function Projects() {
     <section className="section" id="work" ref={ref}>
       <div className="shell">
         <div className="section-rule">
+          <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
               text="02 — SELECTED WORK / 精选项目"

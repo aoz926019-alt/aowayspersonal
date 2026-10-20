@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { ScrollTrigger, prefersReducedMotion } from "./hooks/gsap";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { gsap, ScrollTrigger, prefersReducedMotion } from "./hooks/gsap";
 import ClickSpark from "./reactbits/ClickSpark.jsx";
 import { startSmoothScroll, stopSmoothScroll } from "./hooks/smoothScroll";
 import Nav from "./components/Nav.jsx";
@@ -11,6 +11,21 @@ import Strengths from "./components/Strengths.jsx";
 import Contact from "./components/Contact.jsx";
 
 export default function App() {
+  const mainRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.utils.toArray(".section-rule").forEach((rule) => {
+        gsap.from(rule.querySelector(".section-rule-track"), {
+          scaleX: 0, duration: .9, ease: "power3.out",
+          scrollTrigger: { trigger: rule, start: "top 92%", once: true },
+        });
+      });
+    }, mainRef);
+    return () => media.revert();
+  }, []);
+
   useEffect(() => {
     startSmoothScroll();
     // Font swaps can change line wrapping after the first layout.
@@ -29,7 +44,7 @@ export default function App() {
       sparkCount={7} duration={420} disabled={prefersReducedMotion} className="site-interaction">
       <a className="skip-link" href="#main-content">跳到正文</a>
       <Nav />
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" tabIndex={-1} ref={mainRef}>
         <Hero />
         <About />
         <Projects />

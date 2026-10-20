@@ -77,7 +77,9 @@ export default function OrbitalSculpture() {
     scene.add(rings);
 
     const pointer = { x: 0, y: 0, currentX: 0, currentY: 0 };
+    let visible = false;
     const onPointer = event => {
+      if (!visible || document.hidden) return;
       const rect = container.getBoundingClientRect();
       pointer.x = Math.max(-1, Math.min(1, (event.clientX - rect.left) / rect.width * 2 - 1));
       pointer.y = Math.max(-1, Math.min(1, (event.clientY - rect.top) / rect.height * 2 - 1));
@@ -98,7 +100,7 @@ export default function OrbitalSculpture() {
     observer.observe(container);
     resize();
 
-    let raf = 0, visible = false, previous = 0, time = 0;
+    let raf = 0, previous = 0, time = 0;
     const frame = now => {
       raf = 0;
       if (!visible || document.hidden) { previous = 0; return; }

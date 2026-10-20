@@ -394,6 +394,7 @@ export const RippleGrid = ({
     };
 
     const onPointerMove = event => {
+      if (!visible || document.hidden) return;
       const rect = container.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -421,7 +422,7 @@ export const RippleGrid = ({
 
     const onPointerDown = event => {
       const s = settingsRef.current;
-      if (!s.clickRipple || reduce) return;
+      if (!visible || document.hidden || !s.clickRipple || reduce) return;
       const rect = container.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;

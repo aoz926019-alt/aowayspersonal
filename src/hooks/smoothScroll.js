@@ -13,7 +13,7 @@ export function startSmoothScroll() {
   if (prefersReducedMotion || lenis) return lenis;
 
   lenis = new Lenis({
-    duration: 1.1,
+    duration: .95,
     // expo-out — matches the site's --ease feel; long, silky, no bounce
     easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
     smoothWheel: true,

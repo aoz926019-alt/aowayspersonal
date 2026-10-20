@@ -60,19 +60,17 @@ export default function Strengths() {
     const ctx = gsap.context(() => {
       gsap.from(".cap-head .line", {
         yPercent: 115,
-        duration: 1.3,
+        duration: 1,
         ease: EASE,
-        stagger: 0.1,
-        scrollTrigger: { trigger: ".cap-head", start: "top 82%" },
+        stagger: 0.07,
+        scrollTrigger: { trigger: ".cap-head", start: "top 90%", once: true },
       });
 
-      gsap.from(".cap-card", {
-        y: 50,
-        opacity: 0,
-        duration: 1.1,
-        ease: "power3.out",
-        stagger: 0.12,
-        scrollTrigger: { trigger: ".cap-grid", start: "top 78%" },
+      gsap.utils.toArray(".cap-card").forEach((card) => {
+        gsap.from(card, {
+          y: 24, opacity: 0, duration: .75, ease: "power3.out",
+          scrollTrigger: { trigger: card, start: "top 92%", once: true },
+        });
       });
     }, ref);
     return () => ctx.revert();
@@ -89,6 +87,7 @@ export default function Strengths() {
       </div>
       <div className="shell skills-shell">
         <div className="section-rule">
+          <span className="section-rule-track" aria-hidden="true" />
           <span className="idx">
             <DecryptedText
               text="04 — CAPABILITIES / 个人优势"
