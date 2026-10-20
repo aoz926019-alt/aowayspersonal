@@ -34,12 +34,8 @@ try {
     assert.deepEqual([...value.matchAll(/\{(\w+)\}/g)].map(match => match[1]).sort(),
       [...messages.zh[key].matchAll(/\{(\w+)\}/g)].map(match => match[1]).sort(), `Mismatched placeholders in ${key}`);
   }
-  for (const project of english.projects) {
-    const image = readFileSync(resolve(root, project.image.replace(/^\//, "")), "utf8");
-    assert.doesNotMatch(image, /\p{Script=Han}/u, `English project cover contains Chinese: ${project.no}`);
-    assert.match(image, /English project overview/);
-    assert.ok(project.originalImage, "English covers must retain an original-image link.");
-  }
+  assert.deepEqual(english.projects.map(project => [project.image, project.w, project.h]),
+    projects.map(project => [project.image, project.w, project.h]), "Both languages must use the same original project images and dimensions.");
   const { default: FlexCarousel } = await server.ssrLoadModule("/src/reactbits/FlexCarousel.jsx");
   const carouselMarkup = renderToStaticMarkup(createElement(FlexCarousel, {
     items: projects.map((project) => ({ src: project.image, alt: project.subtitle, title: project.title })),
@@ -86,7 +82,7 @@ try {
   }
   assert.ok(education.every((item) => item.school && item.program && item.period), "Incomplete education record.");
   assert.ok(leadership.every((item) => item.title && item.role && item.period && item.desc), "Incomplete leadership record.");
-  console.log(`Verified ${projects.length} projects, ${stats.length} statistics, ${nav.length} navigation targets, complete English copy and project covers.`);
+  console.log(`Verified ${projects.length} projects, ${stats.length} statistics, ${nav.length} navigation targets, complete English copy and matching original images.`);
 } finally {
   await server.close();
 }

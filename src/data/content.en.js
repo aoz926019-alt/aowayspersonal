@@ -1,11 +1,4 @@
 import * as zh from "./content.js";
-import cashflowCover from "../assets/projects/en/01.svg";
-import supplyCover from "../assets/projects/en/02.svg";
-import immigrationCover from "../assets/projects/en/03.svg";
-import campusCover from "../assets/projects/en/04.svg";
-import moodCover from "../assets/projects/en/05.svg";
-import careCover from "../assets/projects/en/06.svg";
-import bydCover from "../assets/projects/en/07.svg";
 
 export const profile = {
   ...zh.profile,
@@ -41,7 +34,6 @@ export const projectCategories = [
   { id: "all", label: "All projects" }, { id: "data", label: "Data analytics" },
   { id: "finance", label: "Financial research" }, { id: "product", label: "Users & products" },
 ];
-const covers = [cashflowCover, supplyCover, immigrationCover, campusCover, moodCover, careCover, bydCover];
 const projectCopy = [
   {
     teaser: "Aggregate nine annual reports in MySQL to study cash conversion and liquidity risk across three Hong Kong-listed automakers.",
@@ -95,7 +87,7 @@ const projectCopy = [
     tags: ["Financial analysis", "Industry research", "Risk analysis", "Team research"], skills: ["Financial analysis", "Industry research", "PowerPoint"],
   },
 ];
-export const projects = zh.projects.map((project, index) => ({ ...project, ...projectCopy[index], originalImage: project.image, image: covers[index], w: 1200, h: 760 }));
+export const projects = zh.projects.map((project, index) => ({ ...project, ...projectCopy[index] }));
 export const leadership = zh.leadership.map((item, index) => ({ ...item, ...[
   { title: "Qianmo Bailian AI Agent Innovation Challenge", role: "Preliminary-round team member · Agent development", category: "AI / Product Development", skills: ["QwenPaw", "PWA", "Prompt design"], desc: "Defined elderly-care scenarios and developed QwenPaw prompts, interaction scripts, PWA visualisations and a project report. Used 20 simulated older-adult profiles to demonstrate risk tiers and care information." },
   { title: "15th National Games: Macau Press Centre", role: "Reserve Support Team Leader · Volunteer coordination", category: "Organisation / Operations", skills: ["Excel", "Staff scheduling", "Team coordination"], desc: "Used Excel to organise staffing needs, shift gaps and peak workloads. Led a 20-person reserve team across 12 competition days, analysed staffing and operations, and coordinated volunteer scheduling and on-site press-centre support." },

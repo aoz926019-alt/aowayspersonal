@@ -211,7 +211,6 @@ export default function Projects() {
               <DockTags tags={selected.tags} />
               <div className="work-actions">
                 {selected.demo && <a className="text-link" href={selected.demo} target="_blank" rel="noreferrer">{t("tryDemo")} <span aria-hidden="true">↗</span></a>}
-                {selected.originalImage && <a className="text-link" href={selected.originalImage} target="_blank" rel="noreferrer">{t("originalImage")} <span aria-hidden="true">↗</span></a>}
                 {selected.source && <a className="text-link" href={selected.source} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>}
               </div>
             </div>
