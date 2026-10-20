@@ -9,6 +9,25 @@
 .skills-section .cap-heading { display: block; }
 .skills-section .cap-card { background: #eceef0dc; }
 .skills-section .cap-head { margin-bottom: 32px; }
+.cap-card-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 54px; }
+.cap-glyph { width: 100px; height: 64px; margin: -10px -4px -10px 0; flex-shrink: 0; color: var(--accent); stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.glyph-guide { opacity: .18; }
+.glyph-trace { stroke-dasharray: 1; opacity: .8; }
+.glyph-dot { fill: var(--paper); stroke-width: 1.2; transition: fill .4s; }
+.glyph-bar { stroke-width: 5; opacity: .15; transform-origin: center 58px; transform-box: view-box; transition: transform .65s var(--ease), opacity .4s; transition-delay: var(--glyph-delay); }
+.glyph-layer, .glyph-dialog { transform-box: view-box; transform-origin: center; transition: transform .7s var(--ease); }
+.glyph-layer--back { opacity: .2; }.glyph-layer--middle { opacity: .4; }.glyph-layer--front { fill: #eceef0; }
+.glyph-dialog { fill: #eceef0; }.glyph-dialog--b { opacity: .7; }
+.glyph-fan { fill: #1f5d440c; stroke: none; transition: fill .5s; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cap-card:hover .glyph-bar { transform: scaleY(.72); opacity: .3; }
+  .cap-card:hover .glyph-layer--front { transform: translateY(-4px); }
+  .cap-card:hover .glyph-layer--back { transform: translateY(4px); }
+  .cap-card:hover .glyph-dialog--a { transform: translate(-3px, -2px); }
+  .cap-card:hover .glyph-dialog--b { transform: translate(3px, 2px); }
+  .cap-card:hover .glyph-dot { fill: #8bbd9c; }
+  .cap-card:hover .glyph-fan { fill: #1f5d4426; }
+}
 @media (max-width: 640px) {
   .skills-atmosphere { opacity: .8; }
   .skills-glow--sage { width: 150%; height: 45%; right: -65%; }

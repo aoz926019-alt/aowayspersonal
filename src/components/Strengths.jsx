@@ -3,6 +3,7 @@ import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { capabilities } from "../data/content.js";
 import SpotlightCard from "../reactbits/SpotlightCard.jsx";
+import CapabilityGlyph from "./CapabilityGlyph.jsx";
 import "./Strengths.css";
 
 export default function Strengths() {
@@ -71,6 +72,10 @@ export default function Strengths() {
           y: 24, opacity: 0, duration: .75, ease: "power3.out",
           scrollTrigger: { trigger: card, start: "top 92%", once: true },
         });
+        gsap.from(card.querySelectorAll(".glyph-trace"), {
+          strokeDashoffset: 1, duration: 1.1, stagger: .1, ease: "power2.inOut",
+          scrollTrigger: { trigger: card, start: "top 88%", once: true },
+        });
       });
     }, ref);
     return () => ctx.revert();
@@ -111,14 +116,14 @@ export default function Strengths() {
         </div>
 
         <div className="cap-grid">
-          {capabilities.map((c) => (
+          {capabilities.map((c, index) => (
             <SpotlightCard
               key={c.no}
               className="cap-card"
               spotlightColor="rgba(31, 93, 68, 0.20)"
             >
               <div className="cap-inner">
-                <div className="no">{c.no}</div>
+                <div className="cap-card-top"><div className="no">{c.no}</div><CapabilityGlyph index={index} /></div>
                 <h3>{c.title}</h3>
                 <div className="h-cn">{c.cn}</div>
                 <p>{c.desc}</p>
