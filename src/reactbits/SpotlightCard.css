@@ -3,27 +3,31 @@
 .card-spotlight {
   position: relative;
   overflow: hidden;
-  --mouse-x: 50%;
-  --mouse-y: 50%;
+  --mouse-x: 0px;
+  --mouse-y: 0px;
   --spotlight-color: rgba(31, 93, 68, 0.18);
 }
 
 .card-spotlight::before {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 50%;
+  width: 500px;
+  height: 500px;
   background: radial-gradient(
-    circle at var(--mouse-x) var(--mouse-y),
+    circle at center,
     var(--spotlight-color),
     transparent 70%
   );
+  transform: translate3d(calc(-50% + var(--mouse-x)), calc(-50% + var(--mouse-y)), 0);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
   z-index: 1;
 }
 
-.card-spotlight:hover::before,
-.card-spotlight:focus-within::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .card-spotlight:hover::before,
+  .card-spotlight:focus-within::before { opacity: 1; will-change: transform, opacity; }
 }

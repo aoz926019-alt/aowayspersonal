@@ -247,6 +247,7 @@ const FlexCarousel = forwardRef(({
   interval = 4,
   captions = true,
   captureWheel = true,
+  paused = false,
   labels = {
     region: "Project gallery",
     open: title => `View ${title} project overview`,
@@ -308,7 +309,8 @@ const FlexCarousel = forwardRef(({
       focusOnClick,
       autoplay,
       interval,
-      captureWheel
+      captureWheel,
+      paused
     };
     engineRef.current?.wake();
   });
@@ -605,6 +607,7 @@ const FlexCarousel = forwardRef(({
       const i = ((index % m.centers.length) + m.centers.length) % m.centers.length;
       goal = goal + wrap(m.centers[i] - goal, m.loop);
       mode = 'spring';
+      if (settingsRef.current.paused) { pos = goal; vel = 0; }
       dirty = true;
       start();
     };
@@ -696,7 +699,8 @@ const FlexCarousel = forwardRef(({
     const resize = () => {
       width = Math.max(1, container.clientWidth);
       height = Math.max(1, container.clientHeight);
-      renderer.dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(PIXEL_BUDGET / (width * height)));
+      const dprCap = window.matchMedia('(pointer: coarse), (max-width: 760px)').matches ? 1.25 : 2;
+      renderer.dpr = Math.min(window.devicePixelRatio || 1, dprCap, Math.sqrt(PIXEL_BUDGET / (width * height)));
       renderer.setSize(width, height);
       target.setSize(Math.max(2, Math.round(width * renderer.dpr)), Math.max(2, Math.round(height * renderer.dpr)));
       lensUniforms.tScene.value = target.texture;
@@ -706,7 +710,7 @@ const FlexCarousel = forwardRef(({
 
     const frame = now => {
       raf = 0;
-      if (!alive) return;
+      if (!alive || !visible || document.hidden || settingsRef.current?.paused) return;
       const s = settingsRef.current;
       const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000));
       last = now;
@@ -985,7 +989,7 @@ const FlexCarousel = forwardRef(({
     };
 
     const start = () => {
-      if (raf || !visible || !alive) return;
+      if (raf || !visible || !alive || document.hidden || settingsRef.current?.paused) return;
       last = performance.now();
       raf = requestAnimationFrame(frame);
     };
@@ -1185,7 +1189,8 @@ const FlexCarousel = forwardRef(({
       hasFocus = false;
     };
     const onVisibility = () => {
-      if (!document.hidden) start();
+      if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
+      else start();
     };
 
     container.addEventListener('pointerdown', onPointerDown);
@@ -1203,7 +1208,8 @@ const FlexCarousel = forwardRef(({
     resizeObserver.observe(container);
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      start();
+      if (visible) start();
+      else { cancelAnimationFrame(raf); raf = 0; }
     });
     intersectionObserver.observe(container);
 
@@ -1265,6 +1271,7 @@ const FlexCarousel = forwardRef(({
       aria-roledescription="carousel"
       aria-label={labels.region}
       aria-describedby="project-carousel-help"
+      data-lenis-prevent-wheel={captureWheel && !unavailable ? '' : undefined}
       tabIndex={0}
       onKeyDown={event => {
         if (!unavailable) return;

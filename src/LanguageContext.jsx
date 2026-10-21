@@ -39,16 +39,15 @@ export function LanguageProvider({ children }) {
     url.searchParams.set("lang", language);
     window.history.replaceState(window.history.state, "", url);
     let active = true;
-    const frame = requestAnimationFrame(() => {
-      if (anchor.current) {
-        const section = document.getElementById(anchor.current.id);
-        if (section) scrollToPosition(window.scrollY + section.getBoundingClientRect().top - anchor.current.top);
-        anchor.current = null;
-      }
-      ScrollTrigger.refresh();
-    });
+    // Restore before paint so a later navigation cannot be overwritten by a queued frame.
+    if (anchor.current) {
+      const section = document.getElementById(anchor.current.id);
+      if (section) scrollToPosition(window.scrollY + section.getBoundingClientRect().top - anchor.current.top);
+      anchor.current = null;
+    }
+    ScrollTrigger.refresh();
     document.fonts.ready.then(() => { if (active) ScrollTrigger.refresh(); });
-    return () => { active = false; cancelAnimationFrame(frame); };
+    return () => { active = false; };
   }, [language]);
 
   return <LanguageContext.Provider value={{ language, selectLanguage, t, content: language === "en" ? english : chinese }}>{children}</LanguageContext.Provider>;

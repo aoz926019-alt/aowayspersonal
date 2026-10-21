@@ -92,7 +92,7 @@ export default function Projects() {
         .fromTo(".project-skill", { y: 6, opacity: 0 }, { y: 0, opacity: 1, duration: .3, stagger: .035 }, .06);
     }, ref);
     return () => media.revert();
-  }, [category, activeNo]);
+  }, [category]);
 
   return (
     <section className="section" id="work" ref={ref}>
@@ -136,7 +136,7 @@ export default function Projects() {
         </div>
 
         <div className="project-showcase" id="project-list">
-          <div className="project-carousel-stage" data-lenis-prevent-wheel>
+          <div className="project-carousel-stage">
             <FlexCarousel
               ref={carouselRef}
               key={category}
@@ -164,6 +164,7 @@ export default function Projects() {
               autoplay={false}
               interval={4}
               captureWheel
+              paused={selected !== null}
               onChange={(_, item) => item && setActiveNo(item.projectNo)}
               onSelect={(_, item) => openProject(visibleProjects.find((project) => project.no === item.projectNo))}
             />

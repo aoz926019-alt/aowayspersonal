@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "./hooks/gsap";
+import { gsap, prefersReducedMotion } from "./hooks/gsap";
 import ClickSpark from "./reactbits/ClickSpark.jsx";
 import { startSmoothScroll, stopSmoothScroll } from "./hooks/smoothScroll";
 import Nav from "./components/Nav.jsx";
@@ -30,15 +30,7 @@ export default function App() {
 
   useEffect(() => {
     startSmoothScroll();
-    // Font swaps can change line wrapping after the first layout.
-    let active = true;
-    document.fonts.ready.then(() => {
-      if (active) ScrollTrigger.refresh();
-    });
-    return () => {
-      active = false;
-      stopSmoothScroll();
-    };
+    return stopSmoothScroll;
   }, []);
 
   return (

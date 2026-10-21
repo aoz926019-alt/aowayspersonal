@@ -14,6 +14,27 @@ export function scrollToPosition(top) {
 let lenis = null;
 let rafHandler = null;
 
+function syncNativeAnchor() {
+  lenis?.reset(); // Native history may already have moved the viewport; discard the old animated position.
+  const target = document.getElementById(window.location.hash.slice(1));
+  lenis?.scrollTo(target || window.scrollY, { immediate: true });
+}
+
+function onAnchorClick(event) {
+  if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+  if (!link || link.hasAttribute("download") || (link.getAttribute("target") && link.getAttribute("target") !== "_self")) return;
+  const url = new URL(link.getAttribute("href"), window.location.href);
+  if (url.origin !== window.location.origin || url.pathname !== window.location.pathname || url.search !== window.location.search) return;
+  const target = document.getElementById(url.hash.slice(1));
+  if (!target) return;
+  event.preventDefault();
+  if (url.hash !== window.location.hash) window.history.pushState(window.history.state, "", url);
+  lenis.scrollTo(target, { onComplete: () => {
+    if (target.hasAttribute("tabindex")) target.focus({ preventScroll: true });
+  } });
+}
+
 export function startSmoothScroll() {
   if (prefersReducedMotion || lenis) return lenis;
 
@@ -22,7 +43,7 @@ export function startSmoothScroll() {
     // expo-out — matches the site's --ease feel; long, silky, no bounce
     easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
     smoothWheel: true,
-    anchors: true, // CSS scroll-padding and scroll-margin define the shared anchor position.
+    anchors: false, // One delegated handler owns anchor scrolling and respects prevented clicks.
   });
 
   lenis.on("scroll", ScrollTrigger.update);
@@ -32,11 +53,17 @@ export function startSmoothScroll() {
   };
   gsap.ticker.add(rafHandler);
   gsap.ticker.lagSmoothing(0);
+  // Native fragment navigation must replace any previous smooth-scroll destination.
+  window.addEventListener("hashchange", syncNativeAnchor);
+  window.addEventListener("click", onAnchorClick);
+  if (window.location.hash) syncNativeAnchor();
 
   return lenis;
 }
 
 export function stopSmoothScroll() {
+  window.removeEventListener("hashchange", syncNativeAnchor);
+  window.removeEventListener("click", onAnchorClick);
   if (rafHandler) {
     gsap.ticker.remove(rafHandler);
     rafHandler = null;

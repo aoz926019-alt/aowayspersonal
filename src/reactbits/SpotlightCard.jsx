@@ -5,7 +5,7 @@
  * global.css so the card matches the editorial palette — only the spotlight
  * mechanics live in SpotlightCard.css.
  */
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import './SpotlightCard.css';
 
 const SpotlightCard = ({
@@ -14,16 +14,28 @@ const SpotlightCard = ({
   spotlightColor = 'rgba(31, 93, 68, 0.18)',
 }) => {
   const divRef = useRef(null);
+  const frameRef = useRef(0);
+  const pointerRef = useRef({ x: 0, y: 0 });
+  const cancelFrame = () => { cancelAnimationFrame(frameRef.current); frameRef.current = 0; };
+  useEffect(() => cancelFrame, []);
 
-  const handleMouseMove = (e) => {
-    const rect = divRef.current.getBoundingClientRect();
-    divRef.current.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-    divRef.current.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-    divRef.current.style.setProperty('--spotlight-color', spotlightColor);
+  const handlePointerMove = (e) => {
+    if (e.pointerType === 'touch' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    pointerRef.current = { x: e.clientX, y: e.clientY };
+    if (frameRef.current) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = 0;
+      const card = divRef.current;
+      const rect = card.getBoundingClientRect();
+      const { x, y } = pointerRef.current;
+      card.style.setProperty('--mouse-x', `${x - rect.left - rect.width / 2}px`);
+      card.style.setProperty('--mouse-y', `${y - rect.top - rect.height / 2}px`);
+    });
   };
 
   return (
-    <div ref={divRef} onMouseMove={handleMouseMove} className={`card-spotlight ${className}`}>
+    <div ref={divRef} onPointerMove={handlePointerMove} onPointerLeave={cancelFrame}
+      style={{ '--spotlight-color': spotlightColor }} className={`card-spotlight ${className}`}>
       {children}
     </div>
   );
