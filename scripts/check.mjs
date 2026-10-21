@@ -29,6 +29,10 @@ try {
   assert.deepEqual(english.projects.map(item => item.no), projects.map(item => item.no), "Translations must preserve project IDs and order.");
   assert.deepEqual(english.stats.map(item => item.value), stats.map(item => item.value), "Translations must preserve profile statistics.");
   assert.equal(english.experience.length, experience.length);
+  for (const [index, item] of experience.entries()) {
+    assert.ok(item.workflow?.length === 3 && item.workflow.every(step => typeof step === "string" && step.trim()), `Incomplete workflow: ${item.company}`);
+    assert.equal(english.experience[index].workflow.length, item.workflow.length, "Translated workflows must preserve the steps.");
+  }
   assert.equal(english.leadership.length, leadership.length);
   for (const [key, value] of Object.entries(messages.en)) {
     assert.deepEqual([...value.matchAll(/\{(\w+)\}/g)].map(match => match[1]).sort(),

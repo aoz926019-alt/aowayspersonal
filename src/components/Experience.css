@@ -28,6 +28,12 @@
 .exp-item.is-current .exp-point { border-color: var(--accent); box-shadow: 0 0 0 5px #1f5d440d; }
 .exp-item.is-current .exp-point::after { opacity: 1; transform: scale(1); }
 .exp-item.is-current .exp-sequence { color: #1f5d4466; }
+.exp-process { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 26px; margin: 22px 0 0; padding: 0; list-style: none; }
+.exp-process li { position: relative; display: flex; align-items: center; gap: 8px; color: var(--accent); font: 10px/1.8 var(--body); }
+.exp-process li:not(:last-child)::after { content: ""; position: absolute; right: -18px; top: calc(50% - 2px); width: 4px; height: 4px; border-top: 1px solid #1f5d444d; border-right: 1px solid #1f5d444d; transform: rotate(45deg); }
+.process-node { width: 5px; height: 5px; border: 1px solid #1f5d4466; border-radius: 50%; transition: background .4s, box-shadow .4s; }
+.exp-item.is-current .process-node, .exp-item:hover .process-node { background: var(--accent); box-shadow: 0 0 0 3px #1f5d4409; }
+@media (max-width: 640px) { .exp-process { gap: 8px 22px; margin-top: 18px; }.exp-process li { font-size: 9px; gap: 6px; }.exp-process li:not(:last-child)::after { right: -15px; } }
 @media (max-width: 1024px) {
   .experience-heading { gap: 28px; }
   .experience-overview { width: 160px; margin-right: 0; }

@@ -6,7 +6,23 @@
 .skills-glow--blue { width: 75%; height: 64%; top: 20%; left: -24%; background: radial-gradient(ellipse, #a2bac366 8%, #b3c9ce88 32%, transparent 67%); transform: rotate(24deg); }
 .skills-glow--pearl { width: 66%; height: 42%; right: -8%; bottom: 9%; background: radial-gradient(ellipse, #f8f4ddaa 6%, #d0ddbe88 36%, transparent 69%); }
 .skills-shell { position: relative; z-index: 1; }
-.skills-section .cap-heading { display: block; }
+.skills-section .cap-heading { display: flex; justify-content: space-between; align-items: center; gap: 36px; margin-bottom: 28px; }
+.skills-section .cap-heading .cap-head { margin-bottom: 0; }
+.cap-atlas { width: min(43%, 420px); flex-shrink: 0; overflow: visible; color: var(--accent); }
+.atlas-orbit { stroke: currentColor; stroke-width: .7; opacity: .1; }
+.atlas-thread { stroke: currentColor; stroke-width: .8; stroke-dasharray: 1; opacity: .22; transition: opacity .3s; }
+.atlas-thread.is-active { opacity: .85; }
+.atlas-hub { fill: #eceef080; stroke: #1f5d442b; }
+.atlas-sign { text-anchor: middle; font: 500 11px var(--mono); fill: currentColor; }
+.cap-atlas a > rect { fill: #edf0efb8; stroke: #1f5d442b; transition: fill .3s, stroke .3s; }
+.atlas-code { font: 8px var(--mono); fill: var(--slate); letter-spacing: .06em; }
+.atlas-label { font: 500 11px var(--body); fill: var(--accent); }
+.atlas-arrow { stroke: currentColor; stroke-width: .8; opacity: .35; }
+.cap-atlas a:hover > rect, .cap-atlas a:focus > rect { fill: #d9e5dd; stroke: #1f5d4480; }
+.cap-atlas a:focus { outline: none; }
+.cap-card.is-indexed, .cap-card:focus-within { border-color: #1f5d4473; }
+.cap-inner { scroll-margin-top: 24px; }
+.cap-inner:focus { outline: none; }
 .skills-section .cap-card { background: #eceef0dc; }
 .skills-section .cap-inner { transform-style: preserve-3d; }
 .skills-section .cap-card .stack { padding-top: 17px; border-top: 1px solid #1f5d441a; }
@@ -33,6 +49,8 @@
   .cap-card:hover .glyph-fan { fill: #1f5d4426; }
 }
 @media (max-width: 640px) {
+  .skills-section .cap-heading { display: block; margin-bottom: 24px; }
+  .cap-atlas { display: block; width: min(100%, 390px); margin: 12px auto 0; }
   .skills-atmosphere { opacity: .8; }
   .skills-glow--sage { width: 150%; height: 45%; right: -65%; }
   .skills-glow--blue { width: 130%; left: -70%; }

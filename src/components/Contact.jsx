@@ -60,6 +60,8 @@ export default function Contact() {
       });
       gsap.from(".contact-orbit", { scale: .6, opacity: 0, rotate: -45, duration: 1.5, ease: EASE,
         scrollTrigger: { trigger: ref.current, start: "top 65%" } });
+      gsap.from(".send-fold", { strokeDashoffset: 1, duration: 1.4, ease: "power2.inOut",
+        scrollTrigger: { trigger: ".contact-orbit", start: "top 82%", once: true } });
       gsap.fromTo(".contact-motion", { yPercent: 8 }, { yPercent: -8, ease: "none",
         scrollTrigger: { trigger: ref.current, start: "top bottom", end: "bottom top", scrub: 1.5 } });
     }, ref);
@@ -97,7 +99,7 @@ export default function Contact() {
         </h2><div className="contact-orbit"><Magnet padding={50} magnetStrength={7} disabled={prefersReducedMotion}>
           <a className="contact-orbit-link" href={`mailto:${profile.email}`} aria-label={t("sendMail", { email: profile.email })}>
             <svg viewBox="0 0 180 180" aria-hidden="true"><defs><path id="contact-text-circle" d="M 90,90 m -72,0 a 72,72 0 1,1 144,0 a 72,72 0 1,1 -144,0" /></defs><text><textPath href="#contact-text-circle" textLength="452">LET'S TALK · SAY HELLO · LET'S TALK · SAY HELLO · </textPath></text></svg>
-            <span aria-hidden="true">↗</span>
+            <span aria-hidden="true"><svg className="contact-send-mark" viewBox="0 0 64 64" fill="none"><path d="M9 29L55 9L35 55L27 36Z" /><path className="send-fold" pathLength="1" d="M27 36L55 9" /></svg></span>
           </a>
         </Magnet></div></div>
         <p className="contact-intro">{t("contactIntro")}</p>
@@ -108,21 +110,21 @@ export default function Contact() {
 
         <div className="contact-links">
           <div className="item">
-            <span className="k"><ContactIcon type="phone" />Phone</span>
+            <span className="k"><ContactIcon type="phone" />Phone<small aria-hidden="true">01</small></span>
             <a className="v" href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
           </div>
           <div className="item">
-            <span className="k"><ContactIcon type="location" />Location</span>
+            <span className="k"><ContactIcon type="location" />Location<small aria-hidden="true">02</small></span>
             <span className="v">{profile.location}</span>
           </div>
           <div className="item">
-            <span className="k"><ContactIcon type="work" />Explore</span>
+            <span className="k"><ContactIcon type="work" />Explore<small aria-hidden="true">03</small></span>
             <a className="v" href="#work">
               {t("explore")} ↗
             </a>
           </div>
           <div className="item">
-            <span className="k"><ContactIcon type="code" />GitHub</span>
+            <span className="k"><ContactIcon type="code" />GitHub<small aria-hidden="true">04</small></span>
             <a className="v" href={profile.github} target="_blank" rel="noreferrer">
               @aoz926019-alt ↗
             </a>
@@ -133,7 +135,7 @@ export default function Contact() {
       <div className="shell">
         <div className="contact-foot">
           <span>© {year} {t("copyright")}</span>
-          <a href="#top">{t("backTop")} ↑</a>
+          <a href="#top">{t("backTop")}<svg className="contact-top-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true"><circle cx="14" cy="14" r="12" /><path d="M14 20V8M9 13L14 8L19 13" /></svg></a>
         </div>
       </div>
     </section>

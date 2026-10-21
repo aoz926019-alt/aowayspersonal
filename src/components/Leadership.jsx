@@ -112,6 +112,8 @@ export default function Leadership() {
             <h4>{active.category}</h4>
             <span className="archive-preview-period">{active.period}</span>
           </div>
+          <button className="archive-open" type="button" onClick={event => selectFromMap(event, activeIndex)}
+            aria-label={t("jumpToActivity", { title: active.title })}>{t("viewEntry")}<span aria-hidden="true">↗</span></button>
           <div className="archive-footer"><span className="archive-status-dot" />{t("archiveFooter")}</div>
         </aside>
         <div className="leadership-list" onPointerLeave={() => setPreviewIndex(null)}

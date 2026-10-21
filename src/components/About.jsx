@@ -93,7 +93,7 @@ export default function About() {
 
           <div className="about-body">
             {about.body.map((p, i) => (
-              <p key={i}>{p}</p>
+              <p className={i === 0 ? "about-lead" : "about-practice"} key={i}>{p}</p>
             ))}
 
             <div className="education-list" aria-labelledby="education-title">

@@ -30,6 +30,8 @@ export default function Experience() {
         scrollTrigger: { trigger: ".experience-heading", start: "top bottom", end: "bottom top", scrub: 1 } });
 
       gsap.utils.toArray(".exp-item").forEach((item) => {
+        gsap.from(item.querySelectorAll(".exp-process li"), { y: 6, opacity: 0, stagger: .09, duration: .55,
+          ease: "power2.out", scrollTrigger: { trigger: item, start: "top 80%", once: true } });
         gsap.from(item.querySelectorAll(".glyph-trace"), { strokeDashoffset: 1, duration: 1.2,
           ease: "power2.inOut", scrollTrigger: { trigger: item, start: "top 85%", once: true } });
         gsap.from(item.querySelectorAll(".exp-period, .exp-body"), {
@@ -99,6 +101,9 @@ export default function Experience() {
                 </div>
                 <div className="exp-role">{e.role}</div>
                 <p>{e.desc}</p>
+                <ol className="exp-process" aria-label={t("workflow", { company: e.company })}>
+                  {e.workflow.map((step, stepIndex) => <li key={stepIndex}><span className="process-node" aria-hidden="true" />{step}</li>)}
+                </ol>
               </div>
             </article>
           ))}

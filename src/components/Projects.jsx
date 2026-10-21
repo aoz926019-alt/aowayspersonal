@@ -4,6 +4,7 @@ import DecryptedText from "../reactbits/DecryptedText.jsx";
 import DockTags from "../reactbits/DockTags.jsx";
 import FlexCarousel from "../reactbits/FlexCarousel.jsx";
 import "./Projects.css";
+import CapabilityGlyph from "./CapabilityGlyph.jsx";
 import { useLanguage } from "../hooks/useLanguage.js";
 
 function ProjectSummary({ project }) {
@@ -170,6 +171,9 @@ export default function Projects() {
             />
             <div className="project-rail">
               <div className="project-rail-copy">
+                <div className="project-rail-kicker"><CapabilityGlyph index={{ data: 0, finance: 3, product: 1 }[activeProject.category]} />
+                  <span>{projectCategories.find(item => item.id === activeProject.category).label}</span><i aria-hidden="true" /><span>{activeProject.no}</span>
+                </div>
                 <div className="project-rail-heading">
                   <h3 id="active-project-title">{activeProject.title}</h3>
                   <ul className="project-skills" aria-label={t("projectSkills", { title: activeProject.title })}>
@@ -185,7 +189,7 @@ export default function Projects() {
               </nav><div className="project-pips" role="group" aria-label={t("projectSwitch")}>
                 {visibleProjects.map((project, index) => <button type="button" key={project.no}
                   aria-label={t("jumpToProject", { title: project.title })} aria-pressed={index === activeIndex}
-                  onClick={() => focusProject(index)}><span /></button>)}
+                  onClick={() => focusProject(index)}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span></button>)}
               </div></div>
               <button type="button" className="project-open" onClick={() => openProject(activeProject)} aria-label={t("openOverview", { title: activeProject.title })}>{t("overview")} <span aria-hidden="true">↗</span></button>
             </div>

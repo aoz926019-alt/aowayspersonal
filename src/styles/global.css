@@ -1080,7 +1080,7 @@ html[lang="en"] .education-item > div { align-items: flex-start; }
 @media (max-width: 640px) {
   .nav-actions { gap: 8px; }
   html[lang="en"] .project-carousel-stage { height: 620px; }
-  html[lang="en"] .project-carousel-stage .flex-carousel { height: calc(100% - 250px); }
+  html[lang="en"] .project-carousel-stage .flex-carousel { height: calc(100% - 270px); }
   html[lang="en"] .project-rail { min-height: 234px; }
   html[lang="en"] .project-skill { font-size: 9px; }
   html[lang="en"] .leadership-header { align-items: flex-start; }

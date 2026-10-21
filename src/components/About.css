@@ -1,5 +1,16 @@
 #profile .profile-stats { gap: 0; padding: 0; }
 #profile .about-body { min-width: 0; }
+#profile .about-body > .about-lead { font-size: clamp(18px, 1.6vw, 23px); line-height: 1.8; color: var(--ink); letter-spacing: -.018em; margin-top: 0; }
+#profile .about-practice { padding-left: 18px; border-left: 1px solid #1f5d4440; }
+.education-item { position: relative; }
+.education-item::after { content: ""; position: absolute; bottom: -1px; left: 70px; width: 32px; height: 1px; background: var(--accent); opacity: .4; transition: transform .4s var(--ease), opacity .4s; transform-origin: left; }
+.education-item:hover::after { transform: scaleX(2); opacity: .8; }
+.education-seal { overflow: hidden; transition: background .4s, border-color .4s; }
+.education-seal::after { content: ""; position: absolute; top: -12px; right: -12px; width: 28px; height: 28px; transform: rotate(45deg); border-bottom: 1px solid #1f5d4426; background: #1f5d4406; }
+.education-item:hover .education-seal { background: #d8e5dd; border-color: #1f5d4455; }
+.profile-credentials[open] .row { animation: credential-enter .4s var(--ease) both; }
+.profile-credentials[open] .row:nth-child(2) { animation-delay: .04s; }.profile-credentials[open] .row:nth-child(3) { animation-delay: .08s; }.profile-credentials[open] .row:nth-child(4) { animation-delay: .12s; }
+@keyframes credential-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 .profile-stats .profile-stat { position: relative; padding: 23px 24px 23px 0; gap: 11px; }
 .profile-stat + .profile-stat { padding-left: 26px; border-left: 1px solid var(--hairline); }
 .profile-stats .stat-index { position: absolute; top: 12px; right: 16px; font: 9px var(--mono); color: #8e9994; }
@@ -43,6 +54,7 @@
   .education-seal { width: 42px; height: 50px; }.education-seal > span { font-size: 11px; }
   .education-copy > p { font-size: 13px; }
   .education-period { font-size: 10px; }
+  .education-item::after { left: 55px; }
 }
 @media (max-width: 400px) {
   #profile .profile-credentials > summary { gap: 8px; font-size: 14px; }

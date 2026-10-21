@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
 import { gsap, prefersReducedMotion, EASE } from "../hooks/gsap";
 import DecryptedText from "../reactbits/DecryptedText.jsx";
 import { useLanguage } from "../hooks/useLanguage.js";
@@ -6,9 +6,33 @@ import SpotlightCard from "../reactbits/SpotlightCard.jsx";
 import CapabilityGlyph from "./CapabilityGlyph.jsx";
 import "./Strengths.css";
 
+const atlasNodes = [
+  { x: 20, y: 18, key: "atlasData" }, { x: 278, y: 18, key: "atlasProduct" },
+  { x: 20, y: 142, key: "atlasCommunication" }, { x: 278, y: 142, key: "atlasResearch" },
+];
+
+function CapabilityAtlas({ capabilities, t, active, select }) {
+  return <svg className="cap-atlas" viewBox="0 0 420 220" fill="none" role="group" aria-label={t("capabilityIndex")}>
+    <g aria-hidden="true"><ellipse className="atlas-orbit" cx="210" cy="110" rx="152" ry="75" />
+      {atlasNodes.map((node, index) => <path key={index} className={`atlas-thread ${active === index ? "is-active" : ""}`} pathLength="1"
+        d={`M210 110C${node.x < 100 ? 150 : 270} 110 ${node.x + 61} 110 ${node.x + 61} ${node.y + 30}`} />)}
+      <circle className="atlas-hub" cx="210" cy="110" r="20" /><text className="atlas-sign" x="210" y="114">AO</text>
+    </g>
+    {atlasNodes.map((node, index) => <a key={index} href={`#capability-${capabilities[index].no}`}
+      aria-label={t("jumpToCapability", { title: capabilities[index].title })}
+      onPointerEnter={() => select(index)} onPointerLeave={() => select(null)} onFocus={() => select(index)} onBlur={() => select(null)}>
+      <rect x={node.x} y={node.y} width="122" height="60" rx="4" />
+      <g aria-hidden="true"><text className="atlas-code" x={node.x + 12} y={node.y + 19}>{capabilities[index].no}</text>
+        <text className="atlas-label" x={node.x + 12} y={node.y + 43}>{t(node.key)}</text>
+        <path className="atlas-arrow" d={`M${node.x + 99} ${node.y + 18}h9v9m0-9-9 9`} /></g>
+    </a>)}
+  </svg>;
+}
+
 export default function Strengths() {
   const { language, t, content: { capabilities } } = useLanguage();
   const ref = useRef(null);
+  const [activeCap, setActiveCap] = useState(null);
 
   useLayoutEffect(() => {
     const media = gsap.matchMedia();
@@ -84,6 +108,8 @@ export default function Strengths() {
         stagger: 0.07,
         scrollTrigger: { trigger: ".cap-head", start: "top 90%", once: true },
       });
+      gsap.from(".atlas-thread", { strokeDashoffset: 1, duration: 1.4, stagger: .09, ease: "power2.inOut",
+        scrollTrigger: { trigger: ".cap-heading", start: "top 85%", once: true } });
 
       gsap.utils.toArray(".cap-card").forEach((card) => {
         gsap.from(card, {
@@ -131,16 +157,17 @@ export default function Strengths() {
             <span className="line">bring.</span>
           </span>
         </h2>
+        <CapabilityAtlas capabilities={capabilities} t={t} active={activeCap} select={setActiveCap} />
         </div>
 
         <div className="cap-grid">
           {capabilities.map((c, index) => (
             <SpotlightCard
               key={c.no}
-              className="cap-card"
+              className={`cap-card ${activeCap === index ? "is-indexed" : ""}`}
               spotlightColor="rgba(31, 93, 68, 0.20)"
             >
-              <div className="cap-inner">
+              <div className="cap-inner" id={`capability-${c.no}`} tabIndex={-1}>
                 <div className="cap-card-top"><div className="no">{c.no}</div><CapabilityGlyph index={index} /></div>
                 <h3>{c.title}</h3>
                 <div className="h-cn">{c.cn}</div>

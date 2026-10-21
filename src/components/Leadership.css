@@ -99,3 +99,10 @@
 .archive-node-link:hover circle, .archive-node-link:focus circle { fill: #1f5d4409; stroke: #1f5d444d; }
 .archive-node-link:focus { outline: none; }
 .leadership-trigger { scroll-margin-top: 16px; }
+.leadership-archive { background: linear-gradient(150deg, #e0e7e16b, #eceef033 65%); }
+.archive-open { display: inline-flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid #1f5d4455; background: transparent; color: var(--accent); font: 11px var(--body); cursor: pointer; }
+.archive-open > span { transition: transform .3s var(--ease); }
+.archive-open:hover > span { transform: translate(2px, -2px); }
+.leadership-trigger[aria-expanded="true"] .disclosure-icon { background: #1f5d44; border-color: #1f5d44; color: #e7f0e9; }
+.leadership-entry-number { font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .archive-open { grid-column: 2; justify-self: start; align-self: start; margin-bottom: 8px; font-size: 10px; min-height: 36px; }.leadership-archive .archive-map { grid-row: 1 / span 4; } }

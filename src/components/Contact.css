@@ -43,3 +43,13 @@
 .contact-foot a { display: inline-flex; gap: 8px; padding-block: 8px; }
 .contact:not(.contact-visible) .contact-aurora, .contact:not(.contact-visible) .contact-orbit-link > svg { animation-play-state: paused; }
 @media (max-width: 760px) { .contact.contact--motion .contact-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; }.contact .contact-links .item .v { font-size: 14px; } }
+.contact-send-mark { display: block; width: 62px; height: 62px; stroke: currentColor; stroke-width: 1.2; stroke-linejoin: round; transition: transform .45s var(--ease); }
+.send-fold { stroke-dasharray: 1; }
+.contact-orbit-link:hover > span .contact-send-mark { transform: translate(3px, -3px); }
+.contact .contact-orbit-link:hover > span { transform: none; }
+.contact-links .k > small { margin-left: auto; font: 8px var(--mono); opacity: .4; }
+.contact-foot a { align-items: center; }
+.contact-top-icon { width: 28px; height: 28px; stroke: currentColor; stroke-width: .8; transition: transform .3s; }
+.contact-foot a:hover .contact-top-icon { transform: translateY(-3px); }
+@media (max-width: 900px) { .contact-send-mark { width: 52px; height: 52px; } }
+@media (max-width: 640px) { .contact-send-mark { width: 36px; height: 36px; } }
